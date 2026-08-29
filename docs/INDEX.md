@@ -30,6 +30,7 @@
   - User interviews (TBD)
 
 - [User Journeys](research/user-journeys.md) — сквозные сценарии как тесты декомпозиции (+ дефекты F1-F9)
+- [Decomposition Adversarial Review](research/decomposition-adversarial.md) — 12 атак на границы модулей, вердикты, пересмотренная декомпозиция (OQ-11..OQ-17)
 
 ## Non-Functional Requirements
 

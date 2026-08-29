@@ -80,6 +80,13 @@
 дрейф документации, аудит) каждый проводится сквозь модули; прорехи
 зафиксированы в сводке F1-F9 в конце файла.
 
+**Adversarial Review декомпозиции** — [`decomposition-adversarial.md`](decomposition-adversarial.md) (готово, статус: выводы команды, не финал)
+
+Продолжение проверки из user-journeys: 12 атак на границы и сами модули.
+Итоги — вердикты `hold/weak/broken` по каждой атаке и пересмотренный
+вариант декомпозиции. Новые открытые вопросы ушли в
+`../architecture/open-questions.md` как OQ-11..OQ-17.
+
 **Target Segments** — `/docs/research/user-segments.md` (TBD)
 - Архитекторы
 - Tech Leads
@@ -103,12 +110,9 @@
 
 ### 4. Use Cases & Scenarios
 
-**Critical User Journeys** — `/docs/research/user-journeys.md` (TBD)
-- Onboarding нового инженера
-- Impact analysis перед релизом
-- Incident response (быстрый поиск зависимостей)
-- Архитектурный аудит для CISO
-- Рефакторинг legacy системы
+**Critical User Journeys** — перенесено в [`user-journeys.md`](user-journeys.md)
+(см. раздел 3): онбординг, impact analysis, incident response, релизный гейт,
+дрейф документации, аудит для CISO.
 
 ### 5. Market & Business Model
 
