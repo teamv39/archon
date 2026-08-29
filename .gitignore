@@ -1,0 +1,49 @@
+# IDEs
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Build artifacts
+target/
+build/
+dist/
+*.jar
+*.war
+*.ear
+
+# Dependencies
+node_modules/
+vendor/
+
+# Logs
+*.log
+logs/
+
+# Env files
+.env
+.env.local
+*.key
+*.pem
+
+# Temporary files
+tmp/
+temp/
+*.tmp
+
+# Database
+*.db
+*.sqlite
+
+# Testing
+coverage/
+.pytest_cache/
+.coverage
+
+# Documentation build
+docs/_build/

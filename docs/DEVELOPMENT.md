@@ -1,0 +1,136 @@
+# Development Workflow
+
+Процессы разработки, code review, CI/CD, git workflow.
+
+## Git Workflow
+
+### Branching Strategy
+
+**Main branches:**
+- `main` — production-ready код
+- `develop` — integration branch для feature branches
+
+**Feature branches:**
+- Формат: `feature/ARCH-123-short-description`
+- Создаются от `develop`
+- Мержатся обратно в `develop` через PR
+
+**Hotfix branches:**
+- Формат: `hotfix/ARCH-456-short-description`
+- Создаются от `main`
+- Мержатся в `main` и `develop`
+
+### Commit Messages
+
+Формат: `ARCH-123: Brief description`
+
+Примеры:
+```
+ARCH-42: Add AST parser for Java
+ARCH-43: Implement Service entity in graph model
+ARCH-44: Fix query performance for impact analysis
+```
+
+**Правила:**
+- Первая строка — краткое описание (max 72 символа)
+- Тело коммита — детали если нужны
+- Один коммит = одно логическое изменение
+
+### Pull Requests
+
+**Название PR:**
+- Формат: `[ARCH-123] Feature description`
+- Пример: `[ARCH-42] Add Java AST parser with Tree-sitter`
+
+**Описание PR:**
+```markdown
+## Что сделано
+- Список изменений
+
+## Зачем
+Контекст и мотивация
+
+## Как проверить
+Шаги для проверки
+
+## Чеклист
+- [ ] Тесты добавлены/обновлены
+- [ ] Документация обновлена
+- [ ] ADR создан (если нужен)
+- [ ] Performance протестирован (если актуально)
+```
+
+**Code Review:**
+- Minimum 1 approval от team member
+- Все комментарии resolved перед мержем
+- CI/CD checks passed
+
+## Documentation Updates
+
+**Правило:** Изменения в коде = изменения в документации в том же PR.
+
+**Что обновлять:**
+- README если меняется способ использования
+- Architecture docs если меняется структура
+- ADR для архитектурных решений
+- API specs если меняются контракты
+
+## Testing Strategy
+
+**Unit tests:**
+- Coverage target: 80%+
+- Обязательны для core logic
+
+**Integration tests:**
+- Для критичных integration points
+- Database, external APIs
+
+**Performance tests:**
+- Для компонентов с NFR требованиями
+- Регрессионное тестирование latency
+
+## CI/CD Pipeline
+
+**На каждый PR:**
+- Lint
+- Unit tests
+- Integration tests
+- Security scan
+- Documentation build
+
+**На merge в develop:**
+- Full test suite
+- Build artifacts
+- Deploy to staging
+
+**На merge в main:**
+- Deploy to production (когда появится)
+
+## Code Style
+
+**Общие правила:**
+- Используем language-specific best practices
+- Линтеры настроены в репозитории
+- Автоформатирование перед коммитом
+
+**Specifics:**
+- TBD по мере выбора основных языков
+
+## Issue Tracking
+
+**Labels:**
+- `research` — исследовательские задачи
+- `feature` — новая функциональность
+- `bug` — исправление багов
+- `documentation` — работа с документацией
+- `tech-debt` — технический долг
+
+**Lifecycle:**
+1. Issue создается в GitHub Projects
+2. Добавляется в соответствующий Epic
+3. Назначается исполнитель
+4. Status: `Todo` → `In Progress` → `In Review` → `Done`
+
+## Release Process
+
+TBD когда начнется разработка.

@@ -48,8 +48,23 @@
 
 ---
 
-## Текущий фокус разработки
+## Документация
 
-- [ ] Реализация Smart Diff модуля для оптимизации повторных проверок в CI/CD.
-- [ ] Базовый движок поиска топологических аномалий (Shared DB, Circular Dependencies).
-- [ ] Прототип интерфейса Паспорта Сервиса на базе LikeC4.
+Вся техническая документация находится в `/docs`:
+- [`/docs/adr/`](docs/adr/) — Architecture Decision Records
+- [`/docs/architecture/`](docs/architecture/) — архитектура системы, модель данных
+- [`/docs/research/`](docs/research/) — результаты исследований
+- [`/docs/nfr/`](docs/nfr/) — Non-Functional Requirements
+- [`/docs/api/`](docs/api/) — API спецификации
+- [`ROADMAP.md`](docs/ROADMAP.md) — план развития проекта
+- [`DEVELOPMENT.md`](docs/DEVELOPMENT.md) — процессы разработки
+
+## Текущий фокус
+
+**Phase 1: Research & Foundation** (недели 1-6)
+- Competitive analysis
+- User interviews
+- Technology research и выбор стека
+- Прототипирование критичных компонентов
+
+Подробности в [ROADMAP.md](docs/ROADMAP.md)
