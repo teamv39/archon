@@ -87,6 +87,12 @@
 вариант декомпозиции. Новые открытые вопросы ушли в
 `../architecture/open-questions.md` как OQ-11..OQ-17.
 
+**Revalidation ревизии** — [`decomposition-revalidation.md`](decomposition-revalidation.md) (готово, статус: выводы прогона)
+
+Повторный прогон тех же шести сценариев по принятой ревизии (ADR-0004):
+что подтвердилось, что осталось открытым осознанно (модель данных, не
+декомпозиция) и новые находки F10-F12 — все про контракты между модулями.
+
 **Target Segments** — `/docs/research/user-segments.md` (TBD)
 - Архитекторы
 - Tech Leads
