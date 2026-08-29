@@ -18,6 +18,9 @@
 
 - [Architecture Overview](architecture/README.md) — высокоуровневая архитектура
 - [Data Model](architecture/data-model.md) — модель данных Knowledge Graph
+- [Modules Registry](architecture/modules/README.md) — реестр модулей (коды, статусы, ссылки)
+- [Open Questions](architecture/open-questions.md) — открытые проектные вопросы (кандидаты в ADR)
+- [Prototypes: archmap](architecture/prototypes/archmap.md) — прототип пайплайна генерации C4 (включая разбор его роли в Archon)
 
 ## Research & Analysis
 
@@ -25,6 +28,8 @@
   - Competitive analysis (TBD)
   - Technology research (TBD)
   - User interviews (TBD)
+
+- [User Journeys](research/user-journeys.md) — сквозные сценарии как тесты декомпозиции (+ дефекты F1-F9)
 
 ## Non-Functional Requirements
 
