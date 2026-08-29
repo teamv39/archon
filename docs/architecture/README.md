@@ -6,34 +6,57 @@
 
 ## Высокоуровневая архитектура
 
-```
-                      ┌──────────────────────────────────────┐
-                      │              runtime                 │
-                      │  планирование, ретраи, бюджеты LLM   │
-                      └──────────────┬───────────────────────┘
-                                     │
- registry ──────► sources ──► extract ──┐
- (конфигурация)   (транспорт)           ├─► reconcile ──► model ──► resolve
-                                  interpret ┘    (граф)    (склейка по корпусу)
-                                       │
-                          ┌────────────┴───────────┐
-                          ▼                        ▼
-                      policies                  drift
-                          │                        │
-                          └────────► assurance ◄───┘
-                              (находки, ревью, доверие)
-                                     │
-              ┌──────────┬───────────┼───────────┐
-              ▼          ▼           ▼           ▼
-           portal      pr-bot     chat-bot    export
+```mermaid
+flowchart TB
+    subgraph FLOW ["поток данных"]
+        direction LR
 
- platform — SSO, RBAC, audit, tenancy — обслуживает все модули
+        registry["registry<br/>что анализировать:<br/>репо, привязки, словарь"]
+        sources["sources<br/>транспорт:<br/>Git, Jira, Confluence"]
+        extract["extract<br/>AST, манифесты:<br/>точно, дешево"]
+        interpret["interpret<br/>LLM-семантика:<br/>смысл, дорого"]
+        reconcile["reconcile<br/>конфликты,<br/>provenance, confidence"]
+        model["model<br/>Knowledge Graph:<br/>единая версия правды"]
+        resolve["resolve<br/>склейка между репо,<br/>landscape"]
+        policies["policies<br/>структурные аномалии:<br/>циклы, shared DB"]
+        drift["drift<br/>документы против кода:<br/>где доки врут"]
+        assurance["assurance<br/>находки, ревью,<br/>принятие риска"]
+        portal["portal"]
+        prbot["pr-bot"]
+        chatbot["chat-bot"]
+        export["export"]
+
+        registry --> sources
+        sources --> extract
+        sources --> interpret
+        extract --> reconcile
+        interpret --> reconcile
+        reconcile --> model
+        model --> resolve
+        model --> policies
+        model --> drift
+        policies --> assurance
+        drift --> assurance
+        assurance --> portal
+        assurance --> prbot
+        assurance --> chatbot
+        assurance --> export
+    end
+
+    runtime["runtime<br/>планирует и оплачивает прогон:<br/>очереди, ретраи, бюджеты LLM"]
+    platform["platform<br/>SSO, RBAC, audit, tenancy,<br/>секреты"]
+
+    runtime -. управляет прогонами .-> FLOW
+    platform -. охраняет доступ и аудит .-> FLOW
+
+    classDef horiz fill:#f5f5f5,stroke:#888,stroke-dasharray:5 5;
+    class runtime,platform horiz;
 ```
 
-Читается как поток данных слева направо: корпус (`registry`, `sources`) ->
-извлечение (`extract`, `interpret`, `reconcile`) -> граф (`model`, `resolve`)
--> аналитика (`policies`, `drift`) -> человеческий контур (`assurance`) ->
-доставка (четыре канала). `runtime` и `platform` — горизонтальные слои.
+Смысл: `runtime` и `platform` — горизонтальные слои, они не ступеньки
+конвейера, а обслуживание всего потока (пунктир). Основной поток читается
+слева направо: корпус -> извлечение -> граф -> аналитика -> человеческий
+контур -> четыре канала доставки.
 
 ## Слои
 

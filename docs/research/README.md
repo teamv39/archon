@@ -5,22 +5,21 @@
 ## Текущие research направления
 
 ### 1. Competitive Analysis
-`/docs/research/competitive-analysis.md` (TBD)
+[`competitive-analysis.md`](competitive-analysis.md) — готово (черновик 2026-08-29;
+цены/лицензии не верифицированы — поиск был недоступен, срез знаний май 2026)
 
-Анализ существующих решений:
-- Backstage (Spotify)
-- Structurizr
-- IcePanel
-- OpsLevel
-- Port
-- Compass (Atlassian)
+Продукты: Backstage (Spotify), Structurizr, IcePanel, OpsLevel, Port,
+Compass (Atlassian), плюс Cortex, Swimm, LeanIX кратко.
 
-Что изучаем:
-- Функциональность и ограничения
-- Технологический стек
-- Бизнес-модель и pricing
-- Сильные и слабые стороны
-- Наше уникальное преимущество
+Что изучено:
+- функциональность и ограничения
+- покрытие сценариев археон-архитектуры (дрейф, PR-гейт, on-prem)
+- наше уникальное преимущество (связка модель → аномалии → дрейф → каналы)
+
+Что осталось на ручную проверку:
+- цены и лицензии (первоисточники)
+- свежие релиз-ноуты 2025-2026 (не появились ли у них LLM-дрейф фичи)
+- hands-on тест: их scorecards против нашего `policies`
 
 ### 2. Technology Research
 

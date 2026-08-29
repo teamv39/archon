@@ -43,26 +43,45 @@ Archon держит документацию в синхронизации с к
 
 ## Декомпозиция
 
-```
-                 ┌─ runtime ─ планирование, бюджеты LLM ─┐
-                 │                                        │
-registry → sources → extract ─┐                           │
-                            ├─→ reconcile → model → resolve
-                   interpret ┘         │                  │
-                            ┌──────────┴──────┐           │
-                            ↓                 ↓           ↓
-                        policies            drift ──── assurance
-                            │                 │           │
-                            └────────┬────────┴───────────┘
-                                     ↓
-                    portal · pr-bot · chat-bot · export
+Пять шагов работают на этом потоке:
 
-platform — SSO, RBAC, audit, tenancy — обслуживает все модули
+```mermaid
+flowchart LR
+    registry["registry<br/>что анализировать"]
+    sources["sources<br/>транспорт"]
+    extract["extract<br/>AST, манифесты"]
+    interpret["interpret<br/>LLM"]
+    reconcile["reconcile<br/>конфликты,<br/>provenance"]
+    model["model<br/>граф знаний"]
+    resolve["resolve<br/>склейка по корпусу"]
+    policies["policies"]
+    drift["drift"]
+    assurance["assurance<br/>находки, ревью"]
+    portal["portal"]
+    prbot["pr-bot"]
+    chatbot["chat-bot"]
+    export["export"]
+
+    registry --> sources
+    sources --> extract
+    sources --> interpret
+    extract --> reconcile
+    interpret --> reconcile
+    reconcile --> model
+    model --> resolve
+    model --> policies
+    model --> drift
+    policies --> assurance
+    drift --> assurance
+    assurance --> portal
+    assurance --> prbot
+    assurance --> chatbot
+    assurance --> export
 ```
 
-Читается слева направо как поток данных. `assurance` принимает находки от
-`policies` и `drift` и выставляет решения людям в `portal`; доверие к
-элементам графа (`auto/reviewed/accepted`) — тоже её ответственность.
+Читается слева направо. `assurance` принимает находки от `policies` и
+`drift` и выставляет решения людям в `portal`; доверие к элементам графа
+(`auto/reviewed/accepted`) — тоже её ответственность.
 
 | Слой | Модули | Ответ |
 | :--- | :--- | :--- |

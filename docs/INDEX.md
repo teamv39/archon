@@ -26,10 +26,8 @@
 ## Research & Analysis
 
 - [Research Index](research/README.md) — план исследований
-  - Competitive analysis (TBD)
-  - Technology research (TBD)
-  - User interviews (TBD)
 
+- [Competitive Analysis](research/competitive-analysis.md) — Backstage/Port/OpsLevel/Compass/Structurizr/IcePanel (+ Cortex/Swimm/LeanIX кратко); ниша Archon — drift доки-код (черновик 2026-08-29)
 - [User Journeys](research/user-journeys.md) — сквозные сценарии как тесты декомпозиции (+ дефекты F1-F9)
 - [Decomposition Adversarial Review](research/decomposition-adversarial.md) — 12 атак на границы модулей, вердикты, пересмотренная декомпозиция (OQ-11..OQ-17)
 - [Decomposition Revalidation](research/decomposition-revalidation.md) — повторный прогон шести сценариев по ревизии 1 (подтверждения, новые находки F10-F12)

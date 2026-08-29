@@ -80,32 +80,25 @@
 
 Единый центр: **Generator Repository** `ded-aa-lab/archmap` (включает код генератора `/tool` и CI-шаблоны сборки).
 
-```
-[Пользователь] 
-      │ (старт, форма в TiMe-боте)
-      ▼
-  [TiMe-бот] ──► [n8n Workflow]
-                       │
-                       ├─► 1. File Selector (LLM-1) (отбор файлов по дереву)
-                       ├─► 2. Extractor (LLM-2)     (чтение файлов + vocabulary.json -> JSON-контракт)
-                       │
-                       ▼ (коммит JSON в Generator Repo & открытие MR)
-            [Generator Repository CI]
-                       │
-                       ├─► json_to_likec4.py (детерминированная генерация .c4)
-                       └─► pack_bundle.py   (упаковка в bundle.json / GitLab-артефакт)
-                       │
-                       ▼
-                 [n8n Publisher] (коммит в Output Repository / multi-project)
-                       │
-                       ▼
-             [Output Repository CI]
-                       │
-                       ├─► likec4 build
-                       └─► Деплой на GitLab Pages
-                       │
-                       ▼
- [Ссылка на готовую диаграмму возвращается пользователю в TiMe-бот]
+```mermaid
+flowchart TB
+    user(["Пользователь"]) --> BOT["TiMe-бот"]
+    BOT --> N8N["n8n Workflow"]
+
+    N8N --> SEL{{"1. File Selector<br/>(LLM-1): отбор файлов по дереву"}}
+    N8N --> EXT{{"2. Extractor<br/>(LLM-2): файлы + vocabulary.json<br/>→ JSON-контракт"}}
+
+    EXT -->|"коммит JSON в Generator Repo<br/>+ открытие MR"| GENCI["Generator Repository CI"]
+    GENCI --> PY["json_to_likec4.py<br/>детерминированная генерация .c4"]
+    PY --> PACK["pack_bundle.py<br/>bundle.json / GitLab artifact"]
+    PACK --> PUB["n8n Publisher<br/>коммит в Output Repository<br/>(multi-project)"]
+    PUB --> OUTCI["Output Repository CI"]
+    OUTCI --> BUILD["likec4 build<br/>(статический сайт)"]
+    BUILD --> PAGES["GitLab Pages"]
+    PAGES --> RET(["Ссылка на диаграмму<br/>в TiMe-бот"])
+
+    classDef ci fill:#eef,stroke:#66a;
+    class GENCI,OUTCI ci;
 ```
 
 ### Пошаговый процесс работы конвейера

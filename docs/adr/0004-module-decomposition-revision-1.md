@@ -31,16 +31,24 @@ Accepted
 
 ### 1. Новая декомпозиция: 16 логических модулей, без категорий
 
+```mermaid
+flowchart LR
+    registry["registry"] --> sources["sources"]
+    sources --> extract["extract"]
+    sources --> interpret["interpret"]
+    extract --> reconcile["reconcile"]
+    interpret --> reconcile
+    reconcile --> model["model"]
+    model --> resolve["resolve"]
+    model --> policies["policies"]
+    model --> drift["drift"]
+    policies --> assurance["assurance"]
+    drift --> assurance
+    assurance --> channels["portal · pr-bot · chat-bot · export"]
 ```
-registry -> sources -> extract -----> reconcile -> model -> resolve
-                              -> interpret -^          |
-                   (обе пишут находки)      |          v
-                      policies ----------- assurance -> portal, pr-bot,
-                      drift -------------------------------- chat-bot, export
 
-runtime    — планирует и оплачивает прогоны всех вычислительных модулей
-platform   — SSO, RBAC, audit, tenancy для всех модулей
-```
+`runtime` планирует и оплачивает прогоны всех вычислительных модулей;
+`platform` (SSO, RBAC, audit, tenancy) обслуживает все модули.
 
 | Модуль | Ответственность (одной строкой) |
 | :--- | :--- |
