@@ -1,131 +1,66 @@
 # Архитектура системы Archon
 
 Общая архитектура платформы, компонентная модель, интеграции.
+Каноническое описание модулей — в реестре [`modules/README.md`](modules/README.md),
+декомпозиция принята [`ADR-0004`](../adr/0004-module-decomposition-revision-1.md).
 
 ## Высокоуровневая архитектура
 
 ```
-┌─────────────────┐
-│  Source Inputs  │
-│                 │
-│  • Git repos    │
-│  • Manifests    │
-│  • Confluence   │
-│  • Jira         │
-└────────┬────────┘
-         │
-         ▼
-┌─────────────────────────────────┐
-│      Ingestion Layer            │
-│                                 │
-│  • Git connector                │
-│  • Webhook handler              │
-│  • API integrations             │
-└────────┬────────────────────────┘
-         │
-         ▼
-┌─────────────────────────────────┐
-│      Analysis Layer             │
-│                                 │
-│  • AST parsers                  │
-│  • Dependency extractor         │
-│  • Contract parser (OpenAPI,    │
-│    gRPC, Kafka)                 │
-│  • Anomaly detector             │
-└────────┬────────────────────────┘
-         │
-         ▼
-┌─────────────────────────────────┐
-│      Knowledge Graph            │
-│                                 │
-│  • Graph database               │
-│  • Versioning engine            │
-│  • Query API                    │
-└────────┬────────────────────────┘
-         │
-         ▼
-┌─────────────────────────────────┐
-│      Intelligence Layer         │
-│                                 │
-│  • RAG pipeline                 │
-│  • Drift detector               │
-│  • Impact analyzer              │
-└────────┬────────────────────────┘
-         │
-         ▼
-┌─────────────────────────────────┐
-│      Presentation Layer         │
-│                                 │
-│  • Web Portal                   │
-│  • PR Bot                       │
-│  • CLI                          │
-│  • API                          │
-└─────────────────────────────────┘
+                      ┌──────────────────────────────────────┐
+                      │              runtime                 │
+                      │  планирование, ретраи, бюджеты LLM   │
+                      └──────────────┬───────────────────────┘
+                                     │
+ registry ──────► sources ──► extract ──┐
+ (конфигурация)   (транспорт)           ├─► reconcile ──► model ──► resolve
+                                  interpret ┘    (граф)    (склейка по корпусу)
+                                       │
+                          ┌────────────┴───────────┐
+                          ▼                        ▼
+                      policies                  drift
+                          │                        │
+                          └────────► assurance ◄───┘
+                              (находки, ревью, доверие)
+                                     │
+              ┌──────────┬───────────┼───────────┐
+              ▼          ▼           ▼           ▼
+           portal      pr-bot     chat-bot    export
+
+ platform — SSO, RBAC, audit, tenancy — обслуживает все модули
 ```
 
-## Основные компоненты
+Читается как поток данных слева направо: корпус (`registry`, `sources`) ->
+извлечение (`extract`, `interpret`, `reconcile`) -> граф (`model`, `resolve`)
+-> аналитика (`policies`, `drift`) -> человеческий контур (`assurance`) ->
+доставка (четыре канала). `runtime` и `platform` — горизонтальные слои.
 
-### 1. Ingestion Layer
-Отвечает за получение данных из внешних источников.
+## Слои
 
-**Компоненты:**
-- Git connector — клонирование и отслеживание изменений в репозиториях
-- Webhook handler — обработка событий от GitHub/GitLab/Bitbucket
-- Confluence connector — индексация документации
-- Jira connector — связь с тикетами и ownership
-
-**Технологии:** TBD (см. research)
-
-### 2. Analysis Layer
-Парсинг и анализ кода, извлечение метаданных.
-
-**Компоненты:**
-- AST parsers — статический анализ кода (Java, Kotlin, Go, Python, Node.js)
-- Dependency extractor — построение графа зависимостей между сервисами
-- Contract parser — извлечение API спецификаций (OpenAPI, gRPC, AsyncAPI)
-- Anomaly detector — поиск архитектурных анти-паттернов
-
-**Технологии:** TBD (см. research)
-
-### 3. Knowledge Graph
-Центральное хранилище архитектурной информации.
-
-**Компоненты:**
-- Graph database — хранение узлов (Service, Contract, Anomaly) и связей
-- Versioning engine — история изменений графа
-- Query API — GraphQL/REST API для доступа к данным
-
-**Технологии:** TBD (см. research)
-
-### 4. Intelligence Layer
-AI/ML компоненты для семантического анализа и детекции дрифта.
-
-**Компоненты:**
-- RAG pipeline — векторный поиск по документации и коду
-- Drift detector — сравнение спецификаций с реальным кодом
-- Impact analyzer — оценка влияния изменений на систему
-
-**Технологии:** TBD (см. research)
-
-### 5. Presentation Layer
-Интерфейсы взаимодействия с пользователями.
-
-**Компоненты:**
-- Web Portal — интерактивная визуализация графа, Service Passport
-- PR Bot — комментарии в PR с архитектурным diff
-- CLI — локальное использование для разработчиков
-- API — интеграция с внешними системами
-
-**Технологии:** TBD (см. research)
+| Слой | Модули | Ответ |
+| :--- | :--- | :--- |
+| Корпус | `registry`, `sources` | что анализировать и как туда дотянуться |
+| Извлечение | `extract`, `interpret`, `reconcile` | факты о системе и кто в них прав |
+| Модель | `model`, `resolve` | единый граф и склейка между репозиториями |
+| Аналитика | `policies`, `drift` | что не так |
+| Доверие | `assurance` | что с этим решили люди |
+| Доставка | `portal`, `pr-bot`, `chat-bot`, `export` | показать результат там, где удобно |
+| Инфраструктура | `runtime`, `platform` | чтобы работало, окупалось и продавалось |
 
 ## Модель данных (черновая)
 
-Описана в `/docs/architecture/data-model.md` (TBD)
+Описана в [`data-model.md`](data-model.md). Черновик до принятия OQ-2
+(source of truth); часть сущностей пока без модуля-владельца — отмечено в
+атаке A12 ([`../research/decomposition-adversarial.md`](../research/decomposition-adversarial.md)).
 
 ## Интеграции
 
-Описаны в `/docs/architecture/integrations.md` (TBD)
+Коннекторы (транспорт) — `sources`; правила скоупа и привязки — `registry`.
+Список провайдеров и статусы коннекторов — TBD (спека `sources`).
 
 ## Deployment архитектура
 
-Описана в `/docs/architecture/deployment.md` (TBD)
+Физическая топология не принята — это открытый вопрос
+[OQ-8](open-questions.md). Логический модуль не равен сервису;
+требование к топологии: MVP собирается из 2-3 сборочных единиц.
+Отдельный документ `deployment.md` появится после решения.

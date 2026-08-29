@@ -12,6 +12,7 @@
 
 - [ADR README](adr/README.md) — что такое ADR и как их писать
 - [ADR-0001: Docs-as-Code](adr/0001-docs-as-code.md) — выбор подхода к документации
+- [ADR-0004: Модульная декомпозиция, ревизия 1](adr/0004-module-decomposition-revision-1.md) — 16 модулей без категорий (0002/0003 зарезервированы)
 - [ADR Template](adr/TEMPLATE.md) — шаблон для новых ADR
 
 ## Архитектура системы
