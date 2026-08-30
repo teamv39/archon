@@ -32,6 +32,11 @@
 - [Decomposition Adversarial Review](research/decomposition-adversarial.md) — 12 атак на границы модулей, вердикты, пересмотренная декомпозиция (OQ-11..OQ-17)
 - [Decomposition Revalidation](research/decomposition-revalidation.md) — повторный прогон шести сценариев по ревизии 1 (подтверждения, новые находки F10-F12)
 
+## Гайды
+
+- [Шпаргалка для презентации](guides/presentation-cheatsheet.md) — одна страница: 3 идеи, слои, рынок, ожидаемые вопросы
+- [Гайд тимлида](guides/team-lead-playbook.md) — как вести проект на GitHub: project, задачи, ADR, ритуалы, рост команды
+
 ## Non-Functional Requirements
 
 - [NFR Specification](nfr/README.md) — требования к производительности, безопасности, масштабируемости
