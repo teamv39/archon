@@ -7,6 +7,7 @@
 - [README.md](README.md) — введение в структуру документации
 - [ROADMAP.md](ROADMAP.md) — план развития проекта по фазам
 - [DEVELOPMENT.md](DEVELOPMENT.md) — процессы разработки и workflow
+- [../AGENTS.md](../AGENTS.md) — инструкция для агентных LLM, работающих с репозиторием
 
 ## Architecture Decision Records
 
