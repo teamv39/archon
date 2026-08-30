@@ -17,6 +17,7 @@
 
 ## Архитектура системы
 
+- [Product Overview](architecture/product-overview.md) — что видит пользователь: 4 точки входа, 5 блоков, типичный день
 - [Architecture Overview](architecture/README.md) — высокоуровневая архитектура
 - [Data Model](architecture/data-model.md) — модель данных Knowledge Graph
 - [Modules Registry](architecture/modules/README.md) — реестр модулей (коды, статусы, ссылки)
