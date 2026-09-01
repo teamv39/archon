@@ -1,4 +1,4 @@
-# `assurance` — находки, ревью и доверие
+# `assurance` — управляет жизненным циклом находок (ревью, решение, доверие)
 
 Статус: new
 Зависит от: model, policies, drift, reconcile (очереди), platform (RBAC)

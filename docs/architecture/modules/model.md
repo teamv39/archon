@@ -1,4 +1,4 @@
-# `model` — Knowledge Graph
+# `model` — хранит граф связей о системе
 
 Статус: blocked (OQ-2)
 Зависит от: reconcile
