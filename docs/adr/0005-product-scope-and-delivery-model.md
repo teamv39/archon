@@ -80,10 +80,10 @@ Cloud/SaaS — **второстепенный** канал поставки, р�
 ```mermaid
 flowchart TB
     subgraph USER ["Пользователь"]
-        cli["CLI\n$ archon analyze ./repo"]
-        browser["Браузер\nhttp://localhost:PORT"]
-        git["Git PR\nwebhook / polling"]
-        messenger["Slack / Teams\nбот"]
+        cli["CLI<br><code>$ archon analyze ./repo</code>"]
+        browser["Браузер<br>http://localhost:PORT"]
+        git["Git PR<br>webhook / polling"]
+        messenger["Slack / Teams<br>бот"]
     end
 
     subgraph ARCHON ["Archon (single process / Docker)"]
@@ -91,37 +91,37 @@ flowchart TB
 
         subgraph CORE ["Ядро"]
             registry["registry"]
-            sources["sources\nGit, Jira, Confluence\nадаптеры"]
-            extract["extract\nAST"]
-            interpret["interpret\nLLM"]
+            sources["sources<br>адаптеры (Git, Jira, Confluence)"]
+            extract["extract (AST)"]
+            interpret["interpret (LLM)"]
             reconcile["reconcile"]
-            model["model\nKnowledge Graph"]
+            model["model (Knowledge Graph)"]
             resolve["resolve"]
             policies["policies"]
             drift["drift"]
             assurance["assurance"]
-            runtime["runtime\nоркестрация"]
+            runtime["runtime (оркестрация)"]
         end
 
         subgraph DELIVERY ["Каналы доставки"]
-            portal["portal\nвеб-интерфейс"]
+            portal["portal (веб-интерфейс)"]
             prbot["pr-bot"]
             chatbot["chat-bot"]
             export["export"]
         end
 
         subgraph STORAGE ["Встроенное хранилище"]
-            pg["PostgreSQL + AGE\nграф + данные"]
-            vec["Qdrant / pgvector\nэмбеддинги"]
+            pg[("PostgreSQL + AGE<br>граф + данные")]
+            vec[("Qdrant / pgvector<br>эмбеддинги")]
         end
     end
 
     subgraph EXTERNAL ["Внешние системы (адаптеры)"]
-        github["GitHub / GitLab\nBitbucket"]
-        confluence["Confluence\nNotion"]
+        github["GitHub / GitLab / Bitbucket"]
+        confluence["Confluence / Notion"]
         jira["Jira"]
-        sast["Snyk / SonarQube\nTrivy"]
-        llm_api["LLM API\ncloud или локальный"]
+        sast["Snyk / SonarQube / Trivy"]
+        llm_api["LLM API (cloud / local)"]
     end
 
     cli --> CORE
@@ -138,6 +138,17 @@ flowchart TB
 
     CORE --> STORAGE
     CORE --> DELIVERY
+
+    %% Стили и цветовая дифференциация фреймов
+    style USER fill:#f8fafc,stroke:#475569,stroke-width:2px
+    style ARCHON fill:#f0f9ff,stroke:#0284c7,stroke-width:3px
+    style CORE fill:#ffffff,stroke:#2563eb,stroke-width:2px
+    style DELIVERY fill:#ffffff,stroke:#059669,stroke-width:2px
+    style STORAGE fill:#ffffff,stroke:#7c3aed,stroke-width:2px
+    style EXTERNAL fill:#f8fafc,stroke:#64748b,stroke-width:2px
+
+    style pg fill:#f3e8ff,stroke:#7c3aed,stroke-width:1px
+    style vec fill:#f3e8ff,stroke:#7c3aed,stroke-width:1px
 ```
 
 **CLI-first сценарий (MVP):**
