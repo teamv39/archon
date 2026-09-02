@@ -80,10 +80,10 @@ Cloud/SaaS — **второстепенный** канал поставки, р�
 ```mermaid
 flowchart TB
     subgraph USER ["Пользователь"]
-        cli["CLI<br><code>$ archon analyze ./repo</code>"]
-        browser["Браузер<br>http://localhost:PORT"]
-        git["Git PR<br>webhook / polling"]
-        messenger["Slack / Teams<br>бот"]
+        cli["CLI — archon analyze ./repo"]
+        browser["Браузер — http://localhost:PORT"]
+        git["Git PR — webhook / polling"]
+        messenger["Slack / Teams бот"]
     end
 
     subgraph ARCHON ["Archon (single process / Docker)"]
@@ -91,7 +91,7 @@ flowchart TB
 
         subgraph CORE ["Ядро"]
             registry["registry"]
-            sources["sources<br>адаптеры (Git, Jira, Confluence)"]
+            sources["sources — адаптеры (Git, Jira, Confluence)"]
             extract["extract (AST)"]
             interpret["interpret (LLM)"]
             reconcile["reconcile"]
@@ -111,8 +111,8 @@ flowchart TB
         end
 
         subgraph STORAGE ["Встроенное хранилище"]
-            pg[("PostgreSQL + AGE<br>граф + данные")]
-            vec[("Qdrant / pgvector<br>эмбеддинги")]
+            pg[("PostgreSQL + AGE — граф + данные")]
+            vec[("Qdrant / pgvector — эмбеддинги")]
         end
     end
 
@@ -121,7 +121,7 @@ flowchart TB
         confluence["Confluence / Notion"]
         jira["Jira"]
         sast["Snyk / SonarQube / Trivy"]
-        llm_api["LLM API (cloud / local)"]
+        llm_api["LLM API — cloud / local"]
     end
 
     cli --> CORE
@@ -139,16 +139,13 @@ flowchart TB
     CORE --> STORAGE
     CORE --> DELIVERY
 
-    %% Стили и цветовая дифференциация фреймов
-    style USER fill:#f8fafc,stroke:#475569,stroke-width:2px
-    style ARCHON fill:#f0f9ff,stroke:#0284c7,stroke-width:3px
-    style CORE fill:#ffffff,stroke:#2563eb,stroke-width:2px
-    style DELIVERY fill:#ffffff,stroke:#059669,stroke-width:2px
-    style STORAGE fill:#ffffff,stroke:#7c3aed,stroke-width:2px
-    style EXTERNAL fill:#f8fafc,stroke:#64748b,stroke-width:2px
-
-    style pg fill:#f3e8ff,stroke:#7c3aed,stroke-width:1px
-    style vec fill:#f3e8ff,stroke:#7c3aed,stroke-width:1px
+    %% Цветовые границы фреймов (fill:none гарантирует отличную читаемость текста в Light и Dark теме)
+    style USER fill:none,stroke:#64748b,stroke-width:2px
+    style ARCHON fill:none,stroke:#0284c7,stroke-width:3px
+    style CORE fill:none,stroke:#2563eb,stroke-width:2px
+    style DELIVERY fill:none,stroke:#059669,stroke-width:2px
+    style STORAGE fill:none,stroke:#7c3aed,stroke-width:2px
+    style EXTERNAL fill:none,stroke:#64748b,stroke-width:2px
 ```
 
 **CLI-first сценарий (MVP):**
