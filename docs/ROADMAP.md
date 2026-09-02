@@ -5,7 +5,8 @@
 
 Декомпозиция: 16 модулей ([ADR-0004](adr/0004-module-decomposition-revision-1.md)).
 Стек: Kotlin/JVM + Python для LLM-модулей ([tech-stack.md](architecture/tech-stack.md)).
-Блокеры: OQ-1, OQ-2, OQ-8, OQ-10 ([open-questions.md](architecture/open-questions.md)).
+Блокеры: OQ-1, OQ-2, OQ-8 ([open-questions.md](architecture/open-questions.md)).
+OQ-10 закрыт: [ADR-0005](adr/0005-product-scope-and-delivery-model.md).
 Команда: 4 ядро (Денис — lead/architect, Миша — AI/R&D, Паша — core backend, Максим — DevOps/SRE) + пул.
 
 ---
@@ -45,13 +46,12 @@
 
 Самый высокий приоритет. Без этого нет смысла начинать разработку.
 
-**Граница скоупа продукта (OQ-10):**
-- [ ] Определить: Archon — слой знаний поверх существующих инструментов
-  (Backstage, Confluence, Git) или самостоятельная docs-as-code платформа?
-- [ ] Сформулировать: что делаем мы, что оставляем другим (Vale, lychee,
-  Docusaurus, MkDocs)
-- [ ] Определить модель поставки: on-premise only / open-core / SaaS / CLI-first
-- [ ] Зафиксировать как ADR
+**Граница скоупа продукта (OQ-10) — закрыт [ADR-0005](adr/0005-product-scope-and-delivery-model.md):**
+- [x] Определить: Archon — слой знаний поверх существующих инструментов
+- [x] Сформулировать: что делаем мы, что оставляем другим
+- [x] Определить модель поставки: all-in-one self-hosted CLI-first MVP
+- [x] Зафиксировать как ADR-0005
+- [ ] SaaS/cloud как второй канал — вынесено в OQ-18 (фаза 2+)
 
 **User research:**
 - [ ] 5-7 интервью с архитекторами/тимлидами
@@ -75,7 +75,7 @@
 - [ ] Детальный разбор Swimm (ближайший по формулировке "docs drift")
 
 **Deliverables P1:**
-- ADR по OQ-10 (граница скоупа)
+- ~~ADR по OQ-10 (граница скоупа)~~ — готово: [ADR-0005](adr/0005-product-scope-and-delivery-model.md)
 - Отчёт по интервью с выводами
 - Pricing model (черновик)
 - Обновлённый competitive analysis
@@ -243,10 +243,10 @@
 ## Метрики успеха
 
 **Фаза 0:**
-- OQ-10 закрыт: граница скоупа и модель поставки зафиксированы
+- OQ-10 закрыт: граница скоупа и модель поставки зафиксированы ([ADR-0005](adr/0005-product-scope-and-delivery-model.md))
 - Проведено 5+ интервью, гипотезы получили статус confirmed/adjusted/dropped
 - Бизнес-модель и pricing (черновик)
-- Все 4 блокера (OQ-1, OQ-2, OQ-8, OQ-10) закрыты через ADR
+- Оставшиеся блокеры (OQ-1, OQ-2, OQ-8) закрыты через ADR
 
 **Фаза 1:**
 - Демо: "доки врут, вот доказательство" на реальном репозитории
