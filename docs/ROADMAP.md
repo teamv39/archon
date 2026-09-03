@@ -46,36 +46,40 @@ OQ-10 закрыт: [ADR-0005](adr/0005-product-scope-and-delivery-model.md).
 
 Самый высокий приоритет. Без этого нет смысла начинать разработку.
 
-**Граница скоупа продукта (OQ-10) — закрыт [ADR-0005](adr/0005-product-scope-and-delivery-model.md):**
-- [x] Определить: Archon — слой знаний поверх существующих инструментов
+**Граница скоупа и модель поставки (OQ-10, OQ-18, OQ-19):**
+- [x] Определить: Archon — слой знаний поверх существующих инструментов ([ADR-0005](adr/0005-product-scope-and-delivery-model.md))
 - [x] Сформулировать: что делаем мы, что оставляем другим
-- [x] Определить модель поставки: all-in-one self-hosted CLI-first MVP
-- [x] Зафиксировать как ADR-0005
-- [ ] SaaS/cloud как второй канал — вынесено в OQ-18 (фаза 2+)
+- [x] Анализ бизнес-ценности и экономики ([business-value-analysis.md](research/business-value-analysis.md))
+- [x] Исследование Context Layer и закрытие OQ-19 (Путь B) ([ai-context-layer-research.md](research/ai-context-layer-research.md))
+- [x] Миграция от CLI/IaaS к Managed SaaS-модели (OQ-18) ([IaaS → SaaS.md](research/IaaS%20%E2%86%92%20SaaS.md))
+- [ ] Оформление ADR-0006: AI-native Source of Truth & Managed SaaS
 
 **User research:**
 - [ ] 5-7 интервью с архитекторами/тимлидами
   - Фокус: как сейчас поддерживают документацию, где болит
-  - Валидация гипотезы: "on-prem + drift доки-код — платежеспособная боль"
+  - Валидация гипотезы: "потребность в актуальном контексте для AI-агентов + drift доки-код"
   - Приоритизация источников: GitHub vs GitLab vs Bitbucket, Jira, Confluence
 - [ ] Обновить user journeys: статус гипотез → confirmed / adjusted / dropped
 - [ ] User segments: Jobs-to-be-done, pain points, success metrics для каждой роли
-  (архитектор, тимлид, новичок, SRE, CISO, PM)
+  (архитектор, тимлид, AI-инженер, новичок, SRE, CISO, PM)
 
 **Бизнес-модель:**
-- [ ] Pricing research: модели монетизации (per-user, per-service, flat license)
-- [ ] ROI-калькулятор для клиентов: сколько стоит устаревшая документация
-- [ ] Open-core стратегия: что бесплатно, за что платят
+- [ ] Pricing research: модели монетизации (per-seat, per-repo, SaaS подписка)
+- [ ] ROI-калькулятор для клиентов: сколько стоит устаревшая документация (базовый расчет в `business-value-analysis.md`)
+- [ ] Open-core / Freemium стратегия: что бесплатно, за что платят
 - [ ] Unit-экономика: стоимость LLM-прогона на репозиторий, маржинальность
 
 **Конкурентный анализ (доработка):**
 - [ ] Ручная верификация цен/лицензий конкурентов
 - [ ] Свежие релиз-ноуты Port/OpsLevel/Compass: не закрыли ли drift кейсы
 - [ ] Hands-on тест: Backstage TechInsights и Port scorecards на реальном репо
-- [ ] Детальный разбор Swimm (ближайший по формулировке "docs drift")
+- [ ] Детальный разбор Swimm (pivot в "Agentic Context Layer as a Service")
 
 **Deliverables P1:**
 - ~~ADR по OQ-10 (граница скоупа)~~ — готово: [ADR-0005](adr/0005-product-scope-and-delivery-model.md)
+- ~~Бизнес-анализ ценности и расчет ROI~~ — готово: [business-value-analysis.md](research/business-value-analysis.md)
+- ~~Концепция SaaS и AI Context Layer~~ — готово: [ai-context-layer-research.md](research/ai-context-layer-research.md), [IaaS → SaaS.md](research/IaaS%20%E2%86%92%20SaaS.md)
+- ADR-0006 (AI-native Source of Truth & SaaS model)
 - Отчёт по интервью с выводами
 - Pricing model (черновик)
 - Обновлённый competitive analysis
@@ -177,6 +181,7 @@ OQ-10 закрыт: [ADR-0005](adr/0005-product-scope-and-delivery-model.md).
 **Витрина:**
 - [ ] `portal`: карта, каталог (секция), инбокс находок
 - [ ] `pr-bot`: комментарий + гейт в PR при расхождении
+- [ ] `mcp`: базовый MCP-сервер (топология, контракты) + автогенерация `AGENTS.md`
 
 **Фундамент:**
 - [ ] `runtime`: очередь задач, один воркер

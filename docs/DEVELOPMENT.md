@@ -6,19 +6,22 @@
 
 ### Branching Strategy
 
-**Main branches:**
-- `main` — production-ready код
-- `develop` — integration branch для feature branches
+> **Текущий режим (Фаза 0):** База проекта активно строится — пуш в `main` разрешен (решение лида). Ветка `develop` не используется. Ветки создаются как `feature/<id>-kebab` напрямую от `main`. Когда будет включен branch protection, процесс перейдет на строгий PR-flow.
 
-**Feature branches:**
-- Формат: `feature/ARCH-123-short-description`
-- Создаются от `develop`
-- Мержатся обратно в `develop` через PR
+**Основная ветка:**
+- `main` — единственная базовая ветка проекта (пока без `develop`).
 
-**Hotfix branches:**
-- Формат: `hotfix/ARCH-456-short-description`
+**Тематические ветки:**
+- Формат: `feature/<id>-kebab` (например, `feature/arch-42-ast-parser` или `feature/iaas-to-saas`)
 - Создаются от `main`
-- Мержатся в `main` и `develop`
+- Мержатся обратно в `main` напрямую или через Pull Request.
+
+**Коммиты:**
+- Формат: `ARCH-123: что сделано` или краткий функциональный префикс, если задача вне трекера:
+  - `Docs: ...` — правка документации
+  - `Research: ...` — исследовательские документы
+  - `Architecture: ...` — архитектурные решения и спецификации
+  - `Spike: ...` — исследовательский код / прототипы OQ
 
 ### Commit Messages
 
