@@ -1,12 +1,13 @@
 # Roadmap
 
-Планы развития проекта Archon по фазам.
-Актуализировано: 2026-09-02.
+Планы развития проекта Archon по фазам.  
+Актуализировано: 2026-09-03.
 
-Декомпозиция: 16 модулей ([ADR-0004](adr/0004-module-decomposition-revision-1.md)).
-Стек: Kotlin/JVM + Python для LLM-модулей ([tech-stack.md](architecture/tech-stack.md)).
-Блокеры: OQ-1, OQ-2, OQ-8 ([open-questions.md](architecture/open-questions.md)).
-OQ-10 закрыт: [ADR-0005](adr/0005-product-scope-and-delivery-model.md).
+Декомпозиция: модули фабрики ([ADR-0004](adr/0004-module-decomposition-revision-1.md)) + 5 каналов витрины, включая MCP ([ADR-0006](adr/0006-saas-delivery-model-and-ai-native-source-of-truth.md)).  
+Модель поставки: Managed SaaS (Context-as-a-Service) + Git Sync ([ADR-0006](adr/0006-saas-delivery-model-and-ai-native-source-of-truth.md)).  
+Стек: Kotlin/JVM + Python для LLM-модулей ([tech-stack.md](architecture/tech-stack.md)).  
+Блокеры для кода: OQ-1, OQ-2, OQ-8 ([open-questions.md](architecture/open-questions.md)).  
+Закрытые архитектурные развилки: OQ-10 ([ADR-0005](adr/0005-product-scope-and-delivery-model.md)), OQ-18 и OQ-19 ([ADR-0006](adr/0006-saas-delivery-model-and-ai-native-source-of-truth.md)).  
 Команда: 4 ядро (Денис — lead/architect, Миша — AI/R&D, Паша — core backend, Максим — DevOps/SRE) + пул.
 
 ---
@@ -20,18 +21,23 @@ OQ-10 закрыт: [ADR-0005](adr/0005-product-scope-and-delivery-model.md).
 ### Что сделано
 
 **Продукт и архитектура:**
-- [x] Описание продукта: 4 точки входа, 5 блоков ([product-overview.md](architecture/product-overview.md))
-- [x] Декомпозиция: 16 модулей ([ADR-0004](adr/0004-module-decomposition-revision-1.md))
-- [x] Черновик модели данных ([data-model.md](architecture/data-model.md))
+- [x] Описание продукта: 5 точек входа, 5 блоков ([product-overview.md](architecture/product-overview.md))
+- [x] Декомпозиция модулей фабрики ([ADR-0004](adr/0004-module-decomposition-revision-1.md))
+- [x] Модель поставки Managed SaaS и AI-native Source of Truth ([ADR-0006](adr/0006-saas-delivery-model-and-ai-native-source-of-truth.md))
+- [x] Спецификация модуля `mcp` (MCP Server для Cursor/Copilot) ([modules/mcp.md](architecture/modules/mcp.md))
+- [x] Черновик модели данных ([data-model.md](architecture/data-model.md)) — зафиксирован статус драфта
 - [x] Технологический стек принят ([tech-stack.md](architecture/tech-stack.md))
 - [x] ADR-0001: docs-as-code
 - [x] Гайды: шпаргалка для презентации, playbook тимлида
 
-**Ресерч:**
-- [x] Competitive analysis: Backstage, Port, OpsLevel, Compass, Structurizr, IcePanel ([competitive-analysis.md](research/competitive-analysis.md))
+**Ресерч и бизнес:**
+- [x] Competitive analysis: Backstage, Port, OpsLevel, Compass, Structurizr, IcePanel, Swimm ([competitive-analysis.md](research/competitive-analysis.md))
 - [x] User journeys: 6 сценариев, 9 дефектов F1-F9 ([user-journeys.md](research/user-journeys.md))
 - [x] Adversarial review декомпозиции: 12 атак, OQ-11..OQ-17 ([decomposition-adversarial.md](research/decomposition-adversarial.md))
 - [x] Revalidation ревизии: подтверждение, F10-F12 ([decomposition-revalidation.md](research/decomposition-revalidation.md))
+- [x] Бизнес-анализ ценности и расчет ROI ([business-value-analysis.md](research/business-value-analysis.md))
+- [x] Исследование AI Context Layer: pivot Port/Swimm, MCP ([ai-context-layer-research.md](research/ai-context-layer-research.md))
+- [x] Анализ перехода от IaaS к Managed SaaS ([IaaS → SaaS.md](research/IaaS%20%E2%86%92%20SaaS.md))
 - [x] Документация прототипа archmap ([archmap.md](architecture/prototypes/archmap.md))
 
 ### Что осталось
@@ -46,13 +52,13 @@ OQ-10 закрыт: [ADR-0005](adr/0005-product-scope-and-delivery-model.md).
 
 Самый высокий приоритет. Без этого нет смысла начинать разработку.
 
-**Граница скоупа и модель поставки (OQ-10, OQ-18, OQ-19):**
+**Граница скоупа и модель поставки (OQ-10, OQ-18, OQ-19) — завершено:**
 - [x] Определить: Archon — слой знаний поверх существующих инструментов ([ADR-0005](adr/0005-product-scope-and-delivery-model.md))
 - [x] Сформулировать: что делаем мы, что оставляем другим
 - [x] Анализ бизнес-ценности и экономики ([business-value-analysis.md](research/business-value-analysis.md))
 - [x] Исследование Context Layer и закрытие OQ-19 (Путь B) ([ai-context-layer-research.md](research/ai-context-layer-research.md))
 - [x] Миграция от CLI/IaaS к Managed SaaS-модели (OQ-18) ([IaaS → SaaS.md](research/IaaS%20%E2%86%92%20SaaS.md))
-- [ ] Оформление ADR-0006: AI-native Source of Truth & Managed SaaS
+- [x] Оформление и принятие ADR-0006 ([ADR-0006](adr/0006-saas-delivery-model-and-ai-native-source-of-truth.md))
 
 **User research:**
 - [ ] 5-7 интервью с архитекторами/тимлидами
@@ -79,7 +85,7 @@ OQ-10 закрыт: [ADR-0005](adr/0005-product-scope-and-delivery-model.md).
 - ~~ADR по OQ-10 (граница скоупа)~~ — готово: [ADR-0005](adr/0005-product-scope-and-delivery-model.md)
 - ~~Бизнес-анализ ценности и расчет ROI~~ — готово: [business-value-analysis.md](research/business-value-analysis.md)
 - ~~Концепция SaaS и AI Context Layer~~ — готово: [ai-context-layer-research.md](research/ai-context-layer-research.md), [IaaS → SaaS.md](research/IaaS%20%E2%86%92%20SaaS.md)
-- ADR-0006 (AI-native Source of Truth & SaaS model)
+- ~~ADR-0006 (AI-native Source of Truth & SaaS model)~~ — готово: [ADR-0006](adr/0006-saas-delivery-model-and-ai-native-source-of-truth.md)
 - Отчёт по интервью с выводами
 - Pricing model (черновик)
 - Обновлённый competitive analysis
@@ -149,29 +155,29 @@ OQ-10 закрыт: [ADR-0005](adr/0005-product-scope-and-delivery-model.md).
 | PostgreSQL + Apache AGE | Проверка гибридной модели (OQ-2) | Паша | Решение OQ-2 в пользу гибрида |
 | AST-парсинг Java/Kotlin | Валидация подхода extract | Паша | После OQ-1 |
 | LLM-пайплайн извлечения | Валидация подхода interpret | Миша | После OQ-1 |
-| RAG для Confluence | Проверка drift на реальных доках | Миша | После OQ-10 |
+| MCP-сервер + Cursor/Copilot | Валидация отдачи контекста по JSON-RPC | Миша / Паша | После ADR-0006 |
 | Docker Compose dev-env | Минимальная инфраструктура | Максим | Перед фазой 1 |
 
 ---
 
 ## Фаза 1: Core MVP (8-10 недель)
 
-**Цель:** минимально рабочий продукт — одна главная фича на одном репозитории:
-"документы не совпадают с кодом, вот доказательство".
+**Цель:** минимально рабочий продукт на одном репозитории: доказательство рассинхрона кода с документацией + живой контекст для AI-агентов через MCP.
 
-**Начало:** после закрытия OQ-1, OQ-2, OQ-8, OQ-10 через ADR.
+**Начало:** после закрытия архитектурных блокеров OQ-1, OQ-2, OQ-8 через ADR (OQ-10, OQ-18, OQ-19 уже закрыты).
 
-### Скоуп MVP (2-3 сборочных единицы)
+### Скоуп MVP (2-3 сборочных единицы в SaaS)
 
-**Фабрика (извлечение фактов):**
+**Фабрика (извлечение фактов и генерация):**
 - [ ] `registry`: конфиг корпуса для одного репозитория
-- [ ] `sources`: Git-коннектор (clone + read)
+- [ ] `sources`: Git-коннектор (clone + read + webhook)
 - [ ] `extract`: AST-парсинг для 1-2 языков (Java/Kotlin)
 - [ ] `interpret`: LLM-семантика для документов
 - [ ] `reconcile`: примирение extract vs interpret с provenance
+- [ ] `export`: генератор docs-as-code (`AGENTS.md`) для Git Sync
 
 **Мозг (граф и аналитика):**
-- [ ] `model`: хранение графа, query API, версионирование
+- [ ] `model`: хранение графа в PostgreSQL + Apache AGE, query API, версионирование
 - [ ] `policies`: 3-5 базовых правил (shared DB, circular deps, undocumented API)
 - [ ] `drift`: сверка документов с кодом — основной нарратив продукта
 
@@ -179,54 +185,54 @@ OQ-10 закрыт: [ADR-0005](adr/0005-product-scope-and-delivery-model.md).
 - [ ] `assurance`: lifecycle находки (обнаружена → исправлена / risk accepted / false positive)
 
 **Витрина:**
-- [ ] `portal`: карта, каталог (секция), инбокс находок
-- [ ] `pr-bot`: комментарий + гейт в PR при расхождении
-- [ ] `mcp`: базовый MCP-сервер (топология, контракты) + автогенерация `AGENTS.md`
+- [ ] `portal`: интерактивная карта, каталог сервисов (секция), инбокс находок
+- [ ] `pr-bot`: комментарий + quality gate в PR при расхождении
+- [ ] `mcp`: базовый MCP-сервер (топология, контракты) для передачи контекста в Cursor/Copilot
 
 **Фундамент:**
-- [ ] `runtime`: очередь задач, один воркер
-- [ ] `platform`: базовая аутентификация
+- [ ] `runtime`: очередь задач (Temporal / lightweight runner), воркеры
+- [ ] `platform`: базовая мультитенантность (`tenant_id`) и авторизация по API токенам
 
 **Не делаем в фазе 1:**
-- `chat-bot`, `export`, `resolve`
-- SSO/RBAC/multi-tenancy, Kubernetes
+- `chat-bot` (Slack/Teams), регуляторная выгрузка PDF-отчетов в `export`, межрепозиторная склейка `resolve`
+- Сложный Enterprise SSO/SAML (Keycloak), Kubernetes для клиентов (продукт работает в нашем управляемом облаке)
 
 **Распределение по команде:**
 
 | Кто | Зона ответственности |
 | :--- | :--- |
 | Денис | Архитектура, контракты, спеки модулей, product decisions |
-| Паша | extract, reconcile, model, policies, API layer (Kotlin) |
-| Миша | interpret, drift, RAG-пайплайн (Python) |
-| Максим | runtime, platform, CI/CD, Docker Compose, инфраструктура |
+| Паша | extract, reconcile, model, policies, API layer, tenant isolation (Kotlin) |
+| Миша | interpret, drift, RAG-пайплайн, MCP-сервер (Python/Kotlin) |
+| Максим | runtime, platform, CI/CD, облачная инфра (SaaS) |
 | vibecode / пул | portal, pr-bot (TypeScript/React) |
 
 **Deliverables:**
-- Один репозиторий → граф → drift → находки в портале и PR-боте
-- Демо "доки врут — вот пруф из кода" на реальном PR
-- Документация по установке
-- Automated tests
+- Репозиторий подключен → построен граф → drift обнаружен → находки в портале и PR-боте
+- MCP-сервер: агент в IDE (Cursor) запрашивает контракт и строит вызов без галлюцинаций
+- Двусторонняя синхронизация: автогенерация `AGENTS.md` в репозиторий через PR
+- Демо "доки врут — вот пруф из кода + агент пишет по актуальному контракту"
 
 ---
 
 ## Фаза 2: Multi-Repo & Enterprise (8-10 недель)
 
-**Цель:** от одного репозитория к нескольким, enterprise-readiness.
+**Цель:** от одного репозитория к корпоративному ландшафту, поддержка закрытых контуров.
 
 - [ ] `resolve`: склейка сущностей между репозиториями, landscape
-- [ ] `sources`: коннекторы Confluence, Jira
+- [ ] `sources`: коннекторы Confluence, Jira, GitLab, Bitbucket
 - [ ] `extract`: поддержка Go, Python, TypeScript; инкрементальный анализ
 - [ ] `chat-bot`: ответы из графа в Slack/Teams
-- [ ] `export`: PDF/JSON отчёты на дату
-- [ ] `platform`: SSO (Keycloak), RBAC, audit
-- [ ] `runtime`: бюджеты LLM, throttling
-- [ ] Kubernetes deployment (Helm charts)
-- [ ] Observability (метрики, логи, трейсы)
+- [ ] `export`: PDF/JSON отчёты на дату для регуляторов и аудиторов
+- [ ] `platform`: Enterprise SSO (SAML/OIDC), гранулярный RBAC, аудит
+- [ ] `runtime`: квоты организаций, бюджеты LLM, throttling
+- [ ] Поддержка закрытых контуров (Hybrid Cloud / Local Agent по OQ-23)
+- [ ] Observability (OpenTelemetry: метрики, логи, трейсы)
 
 **Deliverables:**
-- 10+ репозиториев, resolve, landscape
-- Enterprise security, on-premise Helm chart
-- Пилот у 1-3 внешних пользователей
+- 10+ репозиториев компании, resolve, единый ландшафт
+- Корпоративная безопасность (SSO/RBAC)
+- Пилоты у 1-3 внешних enterprise-клиентов
 
 ---
 
@@ -234,33 +240,33 @@ OQ-10 закрыт: [ADR-0005](adr/0005-product-scope-and-delivery-model.md).
 
 Приоритизация — после фазы 2:
 
-- AI-powered рекомендации для рефакторинга
+- AI-powered рекомендации и автономные PR для рефакторинга (healing PRs)
 - Predictive anomaly detection
-- Historical graph tracking
-- Multi-tenancy / SaaS
-- IDE plugins (VS Code, JetBrains)
-- CLI как канал доставки (после OQ-10)
-- Impact analysis с blast radius
-- Каталог как публичный API (OQ-17)
+- Historical graph tracking (путешествие по архитектуре во времени)
+- Гранулярная авторизация и аудит запросов к MCP Server на уровне команд (OQ-24)
+- IDE plugins (VS Code, JetBrains) с предиктивным подсказчиком архитектурных правил
+- Impact analysis с глубоким расчетом blast radius
+- Каталог как публичный внешний API (OQ-17, OQ-22)
 
 ---
 
 ## Метрики успеха
 
 **Фаза 0:**
-- OQ-10 закрыт: граница скоупа и модель поставки зафиксированы ([ADR-0005](adr/0005-product-scope-and-delivery-model.md))
+- OQ-10, OQ-18, OQ-19 закрыты: граница скоупа, модель SaaS и AI-native Source of Truth зафиксированы ([ADR-0005](adr/0005-product-scope-and-delivery-model.md), [ADR-0006](adr/0006-saas-delivery-model-and-ai-native-source-of-truth.md))
 - Проведено 5+ интервью, гипотезы получили статус confirmed/adjusted/dropped
 - Бизнес-модель и pricing (черновик)
-- Оставшиеся блокеры (OQ-1, OQ-2, OQ-8) закрыты через ADR
+- Оставшиеся блокеры для кода (OQ-1, OQ-2, OQ-8) закрыты через ADR
 
 **Фаза 1:**
 - Демо: "доки врут, вот доказательство" на реальном репозитории
-- PR-бот блокирует мерж при нарушении
-- Портал: карта, каталог, инбокс
+- AI-агент в IDE выполняет задачу по контракту, полученному через MCP Archon
+- PR-бот блокирует мерж при нарушении политик
+- Портал: карта, каталог, инбокс находок
 
 **Фаза 2:**
-- 10+ репозиториев, resolve работает
-- SSO/RBAC, пилотный доступ у внешних пользователей
+- 10+ репозиториев, resolve работает без ручной склейки
+- SSO/RBAC, пилотный запуск у внешних клиентов
 - Query latency < 2s для impact analysis
 
 ---
@@ -268,23 +274,26 @@ OQ-10 закрыт: [ADR-0005](adr/0005-product-scope-and-delivery-model.md).
 ## Приоритизация
 
 **Критически важно (Фаза 0 — сейчас):**
-- Граница скоупа и бизнес-модель (OQ-10)
-- User research и валидация гипотез
-- Pricing и unit-экономика
+- Архитектурные блокеры для кода (OQ-1 судьба archmap, OQ-2 source of truth, OQ-8 топология)
+- User research и валидация гипотез (интервью с тимлидами и архитекторами)
+- Pricing и unit-экономика SaaS
 - Конкурентный анализ (доработка)
 
 **Must Have (Фаза 1 — MVP):**
 - Drift detection: "доки врут, вот доказательство"
+- MCP-сервер для AI-агентов (контракты и топология)
+- Генерация `AGENTS.md` (Git Sync)
 - PR-бот: гейт при расхождении
-- Портал: карта, каталог, инбокс
+- Портал: интерактивная карта, каталог, инбокс
 
 **Should Have (Фаза 2):**
-- Multi-repo, resolve, landscape
-- Chat-bot, export
-- Enterprise security
+- Multi-repo, resolve, корпоративный ландшафт
+- Chat-bot, регуляторный экспорт
+- Enterprise security (SSO/RBAC)
+- Hybrid / Local Agent для закрытых контуров
 
 **Nice to Have (Фаза 3+):**
-- AI recommendations, IDE plugins, SaaS
+- Автономные PR для устранения дрифта, IDE plugins, предиктивный анализ
 
 ---
 
