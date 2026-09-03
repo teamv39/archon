@@ -1,5 +1,9 @@
 # Модули Archon
 
+> **Раздел:** `docs/architecture/modules/` (Реестр модулей фабрики)  
+> **Статус:** Ревизия 1, принята в [`ADR-0004`](../../adr/0004-module-decomposition-revision-1.md)  
+> **Навигация:** [Архитектура](../README.md) | [Продуктовый срез](../product-overview.md) | [Открытые вопросы](../open-questions.md) | [Полный индекс](../../INDEX.md)
+
 Главный документ системы. Здесь описано, что Archon делает и из каких частей состоит.
 
 - Детали каждого модуля — в отдельном файле рядом.
@@ -34,7 +38,7 @@
 
 | Блок | Модули | Зачем нужен |
 | :--- | :--- | :--- |
-| **Витрина** | [`portal`](portal.md), [`pr-bot`](pr-bot.md), [`chat-bot`](chat-bot.md), [`export`](export.md) (+ MCP) | Показывает результат пользователю и AI-агентам |
+| **Витрина** | [`portal`](portal.md), [`pr-bot`](pr-bot.md), [`mcp`](mcp.md), [`chat-bot`](chat-bot.md), [`export`](export.md) | Показывает результат пользователю и AI-агентам |
 | **Решение** | [`assurance`](assurance.md) | Следит за жизненным циклом проблемы: обнаружена → исправлена / риск принят / ложная тревога |
 | **Мозг** | [`model`](model.md), [`resolve`](resolve.md), [`policies`](policies.md), [`drift`](drift.md) | Строит граф из кода и документов, находит проблемы |
 | **Фабрика** | [`registry`](registry.md), [`sources`](sources.md), [`extract`](extract.md), [`interpret`](interpret.md), [`reconcile`](reconcile.md) | Читает код и документы, разбирается в конфликтах |
@@ -60,8 +64,9 @@ flowchart LR
     assurance["assurance<br/>находки, ревью"]
     portal["portal"]
     prbot["pr-bot"]
+    mcp["mcp<br/>AI-агенты"]
     chatbot["chat-bot"]
-    export["export"]
+    export["export<br/>отчёты, docs-as-code"]
 
     registry --> sources
     sources --> extract
@@ -76,6 +81,7 @@ flowchart LR
     drift --> assurance
     assurance --> portal
     assurance --> prbot
+    assurance --> mcp
     assurance --> chatbot
     assurance --> export
 ```
@@ -137,7 +143,7 @@ flowchart LR
 | **Модель** | [`model`](model.md), [`resolve`](resolve.md) | Хранит граф, склеивает одинаковые сущности |
 | **Аналитика** | [`policies`](policies.md), [`drift`](drift.md) | Находит проблемы |
 | **Доверие** | [`assurance`](assurance.md) | Следит за решениями человека |
-| **Доставка** | [`portal`](portal.md), [`pr-bot`](pr-bot.md), [`chat-bot`](chat-bot.md), [`export`](export.md) | Показывает результат |
+| **Доставка** | [`portal`](portal.md), [`pr-bot`](pr-bot.md), [`mcp`](mcp.md), [`chat-bot`](chat-bot.md), [`export`](export.md) | Показывает результат и отдаёт контекст |
 | **Инфраструктура** | [`runtime`](runtime.md), [`platform`](platform.md) | Планирует задачи, права, аудит |
 
 ## Статусы и расшифровка модулей
@@ -156,8 +162,9 @@ flowchart LR
 | [`assurance`](assurance.md) | Жизненный цикл находок: обнаружена → исправлена / риск принят / ложня | new | концепт введён ревизией; ядро продуктовой идеи |
 | [`portal`](portal.md) | Веб-интерфейс: карта, каталог, инбокс находок | new | просмотрщик-предшественник есть в archmap; каталог стал секцией здесь |
 | [`pr-bot`](pr-bot.md) | Бот в Git: комментирует/блокирует при расхождении с доками | new | требует извлечения по диффу (`extract`) |
+| [`mcp`](mcp.md) | MCP-сервер для AI-агентов (Cursor, Copilot): контракты, зависимости, правила | new | введён в ADR-0006 для Context-as-a-Service |
 | [`chat-bot`](chat-bot.md) | Бот в мессенджере: ответы из графа с пруфами | new | TiMe-бот archmap — прототип-предшественник |
-| [`export`](export.md) | Выгрузка отчётов на дату (аудит, регуляторы) | new | введён ревизией (F7: регуляторная отчётность) |
+| [`export`](export.md) | Выгрузка отчётов на дату (аудит) и генерация docs-as-code (`AGENTS.md`) | new | расширен в ADR-0006 для Git Sync |
 | [`runtime`](runtime.md) | Планирует задачи, очереди, повторы, бюджеты на прогоны | new | в archmap роль играл n8n; бюджета стоимости никогда не было |
 | [`platform`](platform.md) | Корпоративная обвязка: единый вход, права, аудит, изоляция клиентов | new | обязательна до первого внешнего клиента |
 

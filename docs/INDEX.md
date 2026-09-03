@@ -61,6 +61,8 @@
 
 - [../README.md](../README.md) — главная страница проекта
 - [../CONTRIBUTING.md](../CONTRIBUTING.md) — гайд для контрибьюторов
+- [../team_v39.md](../team_v39.md) — состав команды v.3.9 и компетенции
+- [../archon_pre-research.md](../archon_pre-research.md) — исторический черновик концепта и гипотез
 
 ---
 

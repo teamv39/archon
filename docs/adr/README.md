@@ -1,6 +1,21 @@
 # Architecture Decision Records
 
+> **Раздел:** `docs/adr/` (Архитектурные решения)  
+> **Статус:** Актуально (ADR-0001 .. ADR-0006)  
+> **Навигация:** [Корень проекта](../../README.md) | [Документация](../README.md) | [Полный индекс](../INDEX.md) | [Шаблон ADR](TEMPLATE.md)
+
 История всех значимых архитектурных решений в проекте.
+
+## Реестр решений
+
+| ID | Название | Статус | Дата |
+| :--- | :--- | :--- | :--- |
+| [0001](0001-docs-as-code.md) | Docs-as-Code подход к документации | Accepted | 2026-08-28 |
+| 0002 | Судьба archmap | Planned | зарезервирован под OQ-1 |
+| 0003 | Source of truth модели | Planned | зарезервирован под OQ-2 |
+| [0004](0004-module-decomposition-revision-1.md) | Модульная декомпозиция, ревизия 1 | Accepted | 2026-08-29 |
+| [0005](0005-product-scope-and-delivery-model.md) | Граница скоупа и модель поставки | Partially Superseded (ADR-0006) | 2026-09-02 |
+| [0006](0006-saas-delivery-model-and-ai-native-source-of-truth.md) | Модель поставки Managed SaaS и AI-native Source of Truth | Accepted | 2026-09-03 |
 
 ## Что фиксировать в ADR
 

@@ -1,66 +1,27 @@
 # API Specifications
 
-Спецификации API для внутренних и внешних интеграций.
+> **Раздел:** `docs/api/` (Спецификации API и интеграций)  
+> **Статус:** Отложено (Фаза 1, в рамках OQ-22)  
+> **Навигация:** [Корень проекта](../../README.md) | [Документация](../README.md) | [Полный индекс](../INDEX.md) | [Архитектура](../architecture/README.md)
 
-## Структура
+Спецификации API для взаимодействия сервисов, внешних интеграций и CI-гейтов.
 
-### Внутренние API
+## Текущий статус
 
-**Query API** — `/docs/api/query-api.yaml` (TBD)
-- REST/GraphQL для доступа к Knowledge Graph
-- Получение Service Passport
-- Поиск по графу
-- Impact Analysis
+На текущем этапе (Фаза 0: Product & Business Analysis) детальные OpenAPI/gRPC контракты **не специфицируются** и вынесены за скоуп. 
 
-**Ingestion API** — `/docs/api/ingestion-api.yaml` (TBD)
-- Webhook endpoints для Git events
-- Manual trigger для парсинга
-- Status endpoints
+Проектирование API начнется в Фазе 1 после закрытия архитектурных блокеров (OQ-1, OQ-2, OQ-8) и проработки [OQ-22](../architecture/open-questions.md#oq-22-формат-и-скоуп-публичного-api).
 
-**Admin API** — `/docs/api/admin-api.yaml` (TBD)
-- Управление репозиториями
-- Конфигурация правил аномалий
-- User management
+## Целевые контуры интеграций (на будущее)
 
-### Внешние интеграции
+1. **Query API:** доступ клиентов (портал, CLI, CI) к графу связей и результатам анализа.
+2. **Ingestion API:** вебхуки Git-провайдеров и обработка событий.
+3. **Public API / CI Quality Gates:** эндпоинты для проверок в пайплайнах при обнаружении drift-аномалий.
+4. **Внешние коннекторы:** интеграции с Git (GitHub/GitLab), трекерами (Jira/Linear) и вики (Confluence/Notion).
 
-**Git Providers** — `/docs/api/integrations/git.md` (TBD)
-- GitHub API usage
-- GitLab API usage
-- Bitbucket API usage
+## Стандарты контрактов
 
-**Issue Trackers** — `/docs/api/integrations/issue-trackers.md` (TBD)
-- Jira API
-- Linear API
-
-**Documentation** — `/docs/api/integrations/documentation.md` (TBD)
-- Confluence API
-- Notion API
-
-## Формат спецификаций
-
-Используем OpenAPI 3.1 для REST API. Файлы в формате YAML.
-
-Каждая спецификация включает:
-- Описание API
-- Authentication схема
-- Endpoints с примерами запросов/ответов
-- Схемы данных
-- Error codes
-
-## Контракты для event-driven архитектуры
-
-Если используем Kafka/messaging — документируем через AsyncAPI.
-
-## Генерация документации
-
-Из OpenAPI spec автоматически генерируется:
-- API reference docs (Redoc/Swagger UI)
-- Client SDKs (опционально)
-- Postman collections
-
-## Версионирование
-
-API версионируется через URL: `/api/v1/...`
-
-Breaking changes = новая мажорная версия.
+- **REST API:** OpenAPI 3.1 (YAML).
+- **AI Context Layer:** Model Context Protocol (JSON-RPC) — см. модуль [`mcp`](../architecture/modules/mcp.md).
+- **Асинхронные события:** CloudEvents / AsyncAPI.
+- **Версионирование:** URL-based (`/api/v1/...`), breaking changes = смена мажорной версии.

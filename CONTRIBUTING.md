@@ -21,7 +21,7 @@
 ### 2. Создание ветки
 
 ```bash
-git checkout develop
+git checkout main
 git pull
 git checkout -b feature/ARCH-123-short-description
 ```
@@ -35,7 +35,7 @@ git checkout -b feature/ARCH-123-short-description
 
 ### 4. Pull Request
 
-Создай PR в `develop`:
+Создай PR в `main`:
 - Используй шаблон описания из `/docs/DEVELOPMENT.md`
 - Проставь reviewers
 - Убедись что CI checks passed
@@ -48,7 +48,7 @@ git checkout -b feature/ARCH-123-short-description
 
 ### 6. Merge
 
-После approval и прохождения всех checks — мерж в `develop`.
+После approval и прохождения всех checks — мерж в `main`.
 
 ## Документация
 

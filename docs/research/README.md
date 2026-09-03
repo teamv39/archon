@@ -1,5 +1,9 @@
 # Research & Analysis
 
+> **Раздел:** `docs/research/` (Исследования и анализ)  
+> **Статус:** Актуально (Фаза 0: Product & Business Analysis)  
+> **Навигация:** [Корень проекта](../../README.md) | [Документация](../README.md) | [Полный индекс](../INDEX.md) | [Дорожная карта](../ROADMAP.md)
+
 Результаты исследований, competitive analysis, technology benchmarks, user interviews.
 
 ## Текущие research направления

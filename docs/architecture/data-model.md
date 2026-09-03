@@ -1,5 +1,10 @@
 # Модель данных Knowledge Graph
 
+> [!WARNING]
+> **Статус: Концептуальный черновик (Draft / Outdated)**  
+> Этот документ — ранний эскиз сущностей до принятия решений [ADR-0004](../adr/0004-module-decomposition-revision-1.md) (где аномалии заменены на сущность `Finding`), [ADR-0006](../adr/0006-saas-delivery-model-and-ai-native-source-of-truth.md) (переход на Multi-tenant SaaS) и блокера [OQ-2](open-questions.md#oq-2-source-of-truth-модели-данных).  
+> Детальная модель данных не зафиксирована и не является блокирующей до решения OQ-2. Не использовать как контракт для кода.
+
 Сущности и связи в архитектурном графе Archon.
 
 ## Основные сущности
