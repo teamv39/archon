@@ -121,6 +121,15 @@ Compass (Atlassian), плюс Cortex, Swimm, LeanIX кратко.
 
 ### 5. Market & Business Model
 
+**Business Value & Economics** — [`business-value-analysis.md`](business-value-analysis.md) (черновик 2026-09-03)
+- Оценка ценности функций, расчет ROI для 50 инженеров ($100K-200K/год)
+- Сравнение себестоимости и маржинальности Self-hosted vs SaaS
+
+**Delivery Model & AI Context Layer**
+- [`ai-context-layer-research.md`](ai-context-layer-research.md) — Archon как context layer для AI-агентов (MCP, pivot Swimm/Port)
+- [`IaaS → SaaS.md`](IaaS%20%E2%86%92%20SaaS.md) — миграция от CLI/IaaS к SaaS: Archon в нашей инфре, MCP, Web-UI, API
+- [`deep-research-ai-native.md`](deep-research-ai-native.md) — план исследования генерации docs-as-code артефактов
+
 **Pricing Research** — `/docs/research/pricing-models.md` (TBD)
 - Pricing конкурентов
 - ROI калькулятор для клиентов

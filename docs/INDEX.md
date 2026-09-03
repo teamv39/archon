@@ -38,6 +38,7 @@
 - [Business Value Analysis](research/business-value-analysis.md) — оценка ценности функций, экономика, цены конкурентов, продуктовые дырки (черновик 2026-09-03)
 - [AI Context Layer Research](research/ai-context-layer-research.md) — Archon как context layer для AI-агентов: Port/OpsLevel/Swimm pivot, MCP, docs-as-code vs wiki (черновик 2026-09-03)
 - [Deep Research: AI-native Source of Truth](research/deep-research-ai-native.md) — вопросы для исследования генерации docs-as-code артефактов и список контекстных файлов (черновик 2026-09-03)
+- [IaaS → SaaS Migration](research/IaaS%20%E2%86%92%20SaaS.md) — эволюция модели поставки: от CLI/IaaS к SaaS и Context-as-a-Service (черновик 2026-09-03)
 
 ## Гайды
 
