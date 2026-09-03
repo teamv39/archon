@@ -48,6 +48,33 @@
 
 ---
 
+### Оперативный бэклог Фазы 0 (Kanban)
+
+Команда работает по чистой Kanban-модели (потоковая разработка без фиксированных спринтов): задачи вытягиваются исполнителями из пула `Ready` по мере готовности.
+
+Все задачи отслеживаются на доске **[GitHub Projects: archon-core](https://github.com/orgs/teamv39/projects/2)**.
+Крупные эпики Фазы 0 декомпозированы на атомарные задачи (0.5–1.5 дня работы, размер XS-M) с четкими критериями готовности (DoD):
+
+| Issue | Задача | Кто | Размер | DoD / Результат |
+| :--- | :--- | :---: | :---: | :--- |
+| [#17](https://github.com/teamv39/archon/issues/17) | **ARCH-17: [PoC-AGE-1]** Docker Compose PostgreSQL 16 + AGE | Паша | `XS` | База и расширение AGE поднимаются локально |
+| [#18](https://github.com/teamv39/archon/issues/18) | **ARCH-18: [PoC-AGE-2]** DDL и генератор графа микросервисов | Паша | `S` | Синтетический граф (15 сервисов, 25 контрактов) |
+| [#19](https://github.com/teamv39/archon/issues/19) | **ARCH-19: [PoC-AGE-3]** Бенчмарк Cypher-запросов (Impact и циклы) | Паша | `S` | Запросы blast radius и циклов < 100ms |
+| [#20](https://github.com/teamv39/archon/issues/20) | **ARCH-20: [PoC-AGE-4]** Исследование изоляции тенантов в AGE | Паша | `S` | Вердикт Schema vs Graph per tenant для OQ-2 |
+| [#21](https://github.com/teamv39/archon/issues/21) | **ARCH-21: [ADR-0003]** Проект решения: Source of Truth графа | Паша | `S` | Принят ADR-0003, блокер OQ-2 закрыт |
+| [#31](https://github.com/teamv39/archon/issues/31) | **ARCH-22: [PoC-MCP-1]** Базовый сервер Model Context Protocol | Миша | `S` | Сервер стартует, проходит handshake по stdio |
+| [#22](https://github.com/teamv39/archon/issues/22) | **ARCH-23: [PoC-MCP-2]** MCP Resources: топология сервиса | Миша | `S` | URI `archon://services/{id}/overview` отдает схему |
+| [#23](https://github.com/teamv39/archon/issues/23) | **ARCH-24: [PoC-MCP-3]** MCP Tools: контракт API и правила | Миша | `S` | Инструмент `get_service_contract` отдает точные DTO |
+| [#24](https://github.com/teamv39/archon/issues/24) | **ARCH-25: [PoC-MCP-4]** E2E тест интеграции с Cursor IDE | Миша | `S` | Агент в Cursor генерирует клиент без галлюцинаций |
+| [#25](https://github.com/teamv39/archon/issues/25) | **ARCH-26: [ADR-0002]** Анализ прототипа archmap (закрытие OQ-1) | Денис | `S` | Принят ADR-0002, закрыт OQ-1 |
+| [#26](https://github.com/teamv39/archon/issues/26) | **ARCH-27: [ADR-0007]** Физическая топология SaaS (закрытие OQ-8) | Денис | `M` | Спецификация `deployment.md` (2–3 сборочные единицы) |
+| [#27](https://github.com/teamv39/archon/issues/27) | **ARCH-28: [CustDev-1]** Гайд и скрипт интервью для тимлидов | Денис | `XS` | Скрипт интервью в `docs/research/custdev-script.md` |
+| [#28](https://github.com/teamv39/archon/issues/28) | **ARCH-29: [CustDev-2]** Проведение 5 интервью и аналитический отчет | Денис | `M` | Отчет `docs/research/user-interviews.md`, валидация гипотез |
+| [#29](https://github.com/teamv39/archon/issues/29) | **ARCH-30: [Pricing]** Спецификация тарифов и токен-лимитов SaaS | Денис | `S` | Документ `docs/research/pricing.md` (Free/Team/Enterprise) |
+| [#30](https://github.com/teamv39/archon/issues/30) | **ARCH-31: [DevOps]** Docker Compose стек для локальной разработки | Максим | `S` | Единый `docker-compose.yml` (AGE, Redis, Qdrant) |
+
+---
+
 ### P1. Продуктовая и бизнес-валидация
 
 Самый высокий приоритет. Без этого нет смысла начинать разработку.

@@ -4,7 +4,7 @@
 
 ## Ядро команды
 
-### Денис — Lead / Architect
+### Денис (`@ischademadda`) — Lead / Architect
 Проектирование систем, NFR, интеграционная логика и Product Vision.
 
 **Ключевые компетенции:**
@@ -15,9 +15,10 @@
 
 ---
 
-### Миша — AI / R&D Scientist
+### Миша (`@vocisy`) — AI / R&D Scientist
 RAG-пайплайны, LLM fine-tuning, Computer Vision и математические модели.
 Фулл AI-компетенции
+
 **Ключевые компетенции:**
 - RAG-пайплайны
 - LLM fine-tuning
@@ -27,7 +28,7 @@ RAG-пайплайны, LLM fine-tuning, Computer Vision и математиче
 
 ---
 
-### Паша — Core Backend
+### Паша (`@Pavelgrr7`) — Core Backend
 Real-time системы, высоконагруженные API, ML-WAF и сетевая безопасность.
 
 **Ключевые компетенции:**
@@ -40,7 +41,7 @@ Real-time системы, высоконагруженные API, ML-WAF и се
 
 ---
 
-### Максим — DevOps / SRE
+### Максим (`@lelouch-byte`) — DevOps / SRE
 Infrastructure as Code, CI/CD, K8s, масштабируемость и мониторинг.
 
 **Ключевые компетенции:**
@@ -52,10 +53,9 @@ Infrastructure as Code, CI/CD, K8s, масштабируемость и мони
 
 ---
 
-###  UX / Frontend - vibecode
+## Дополнительный стек и пул (на будущее)
 
-Есть в запасном пуле:
-* 2 бэкендера
-* 1 Аналитик
-
-При необходимости найдем еще людей
+- **UX / Frontend:** vibecode
+- **Запасной пул (при расширении скоупа):**
+  - 2 бэкендера
+  - 1 аналитик
