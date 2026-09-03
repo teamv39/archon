@@ -14,12 +14,13 @@
 - [ADR README](adr/README.md) — что такое ADR и как их писать
 - [ADR-0001: Docs-as-Code](adr/0001-docs-as-code.md) — выбор подхода к документации
 - [ADR-0004: Модульная декомпозиция, ревизия 1](adr/0004-module-decomposition-revision-1.md) — 16 модулей без категорий (0002/0003 зарезервированы)
-- [ADR-0005: Граница скоупа и модель поставки](adr/0005-product-scope-and-delivery-model.md) — слой знаний, self-hosted CLI-first MVP, адаптеры
+- [ADR-0005: Граница скоупа и модель поставки](adr/0005-product-scope-and-delivery-model.md) — слой знаний, адаптеры (модель поставки заменена в ADR-0006)
+- [ADR-0006: Модель поставки Managed SaaS и AI-native Source of Truth](adr/0006-saas-delivery-model-and-ai-native-source-of-truth.md) — переход к Context-as-a-Service, MCP-сервер, Web-портал, API и Git Sync
 - [ADR Template](adr/TEMPLATE.md) — шаблон для новых ADR
 
 ## Архитектура системы
 
-- [Product Overview](architecture/product-overview.md) — что видит пользователь: 4 точки входа, 5 блоков, типичный день
+- [Product Overview](architecture/product-overview.md) — что видит пользователь: ключевые каналы (MCP, Web, API, Git Sync), 5 блоков, сценарии
 - [Tech Stack Proposal](architecture/tech-stack.md) — предлагаемый технологический стек (Go vs Kotlin, библиотеки, инфраструктура)
 - [Architecture Overview](architecture/README.md) — высокоуровневая архитектура
 - [Data Model](architecture/data-model.md) — модель данных Knowledge Graph
@@ -63,4 +64,4 @@
 
 ---
 
-**Обновлено:** 2026-09-02
+**Обновлено:** 2026-09-03

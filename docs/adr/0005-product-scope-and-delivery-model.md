@@ -4,9 +4,9 @@
 
 ## Статус
 
-Accepted
+Partially Superseded by [ADR-0006](0006-saas-delivery-model-and-ai-native-source-of-truth.md)
 
-Закрывает OQ-10. Открывает OQ-18 (SaaS/cloud как будущий канал поставки).
+Закрывает OQ-10. Решение о модели поставки (CLI-first, self-hosted) и пассивной роли заменено на Managed SaaS и AI-native Source of Truth в ADR-0006. Архитектура адаптеров (`sources`) и слой знаний сохранены.
 
 ## Контекст
 
@@ -62,6 +62,11 @@ Archon строит Knowledge Graph из фактов, извлечённых и
 - Archon работает и без части адаптеров (минимум — Git)
 
 ### 3. Модель поставки: self-hosted CLI-first MVP
+
+> [!NOTE]
+> **Обновлено в [ADR-0006](0006-saas-delivery-model-and-ai-native-source-of-truth.md):**
+> Модель поставки пересмотрена в пользу **Managed SaaS (Context-as-a-Service)** в нашей инфраструктуре
+> с интерфейсами MCP, Web Portal, API и Git Sync. Текст ниже сохранен для исторического контекста.
 
 MVP поставляется как **all-in-one standalone self-hosted CLI-first** продукт:
 
