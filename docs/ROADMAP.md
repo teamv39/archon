@@ -38,7 +38,7 @@
 - [x] Бизнес-анализ ценности и расчет ROI ([business-value-analysis.md](research/business-value-analysis.md))
 - [x] Исследование AI Context Layer: pivot Port/Swimm, MCP ([ai-context-layer-research.md](research/ai-context-layer-research.md))
 - [x] Анализ перехода от IaaS к Managed SaaS ([IaaS → SaaS.md](research/IaaS%20%E2%86%92%20SaaS.md))
-- [x] Документация прототипа archmap ([archmap.md](architecture/prototypes/archmap.md))
+- [x] Документация прототипа archmap ([archmap.md](architecture/prototypes/archmap_dump/archmap.md))
 
 ### Что осталось
 
@@ -66,7 +66,7 @@
 | [#22](https://github.com/teamv39/archon/issues/22) | **ARCH-23: [PoC-MCP-2]** MCP Resources: топология сервиса | Миша | `S` | URI `archon://services/{id}/overview` отдает схему |
 | [#23](https://github.com/teamv39/archon/issues/23) | **ARCH-24: [PoC-MCP-3]** MCP Tools: контракт API и правила | Миша | `S` | Инструмент `get_service_contract` отдает точные DTO |
 | [#24](https://github.com/teamv39/archon/issues/24) | **ARCH-25: [PoC-MCP-4]** E2E тест интеграции с Cursor IDE | Миша | `S` | Агент в Cursor генерирует клиент без галлюцинаций |
-| [#25](https://github.com/teamv39/archon/issues/25) | **ARCH-26: [ADR-0002]** Анализ прототипа archmap (закрытие OQ-1) | Денис | `S` | Принят ADR-0002, закрыт OQ-1 |
+| [#25](https://github.com/teamv39/archon/issues/25) | **ARCH-26: [ADR-0002]** Анализ прототипа archmap (закрытие OQ-1) | Денис | `S` | Принят [ADR-0002](adr/0002-archmap-fate.md), закрыт OQ-1 |
 | [#26](https://github.com/teamv39/archon/issues/26) | **ARCH-27: [ADR-0007]** Физическая топология SaaS (закрытие OQ-8) | Денис | `M` | Спецификация `deployment.md` (2–3 сборочные единицы) |
 | [#27](https://github.com/teamv39/archon/issues/27) | **ARCH-28: [CustDev-1]** Гайд и скрипт интервью для тимлидов | Денис | `XS` | Скрипт интервью в `docs/research/custdev-script.md` |
 | [#28](https://github.com/teamv39/archon/issues/28) | **ARCH-29: [CustDev-2]** Проведение 5 интервью и аналитический отчет | Денис | `M` | Отчет `docs/research/user-interviews.md`, валидация гипотез |
@@ -125,9 +125,9 @@
 Решаем после P1 или параллельно, когда бизнес-контекст понятен.
 
 **OQ-1: судьба прототипа archmap:**
-- [ ] Решить: переписать с нуля / взять заготовки / развивать отдельно
-- [ ] Учесть решение OQ-10 (модель поставки влияет на ответ)
-- [ ] Зафиксировать как ADR-0002
+- [x] Решить: переписать с нуля / взять заготовки / развивать отдельно (принят гибридный перенос ядра)
+- [x] Учесть решение OQ-10/18 (модель поставки Managed SaaS)
+- [x] Зафиксировать как [ADR-0002](adr/0002-archmap-fate.md) (закрыт 2026-09-04)
 
 **OQ-2: source of truth модели:**
 - [ ] Git-файлы vs графовая БД vs гибрид

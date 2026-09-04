@@ -13,7 +13,8 @@
 
 - [ADR README](adr/README.md) — что такое ADR и как их писать
 - [ADR-0001: Docs-as-Code](adr/0001-docs-as-code.md) — выбор подхода к документации
-- [ADR-0004: Модульная декомпозиция, ревизия 1](adr/0004-module-decomposition-revision-1.md) — 16 модулей без категорий (0002/0003 зарезервированы)
+- [ADR-0002: Судьба прототипа archmap](adr/0002-archmap-fate.md) — списание рантайма, перенос JSON-контракта и LikeC4-генератора
+- [ADR-0004: Модульная декомпозиция, ревизия 1](adr/0004-module-decomposition-revision-1.md) — 16 модулей без категорий (0003 зарезервирован)
 - [ADR-0005: Граница скоупа и модель поставки](adr/0005-product-scope-and-delivery-model.md) — слой знаний, адаптеры (модель поставки заменена в ADR-0006)
 - [ADR-0006: Модель поставки Managed SaaS и AI-native Source of Truth](adr/0006-saas-delivery-model-and-ai-native-source-of-truth.md) — переход к Context-as-a-Service, MCP-сервер, Web-портал, API и Git Sync
 - [ADR Template](adr/TEMPLATE.md) — шаблон для новых ADR
@@ -26,7 +27,7 @@
 - [Data Model](architecture/data-model.md) — модель данных Knowledge Graph
 - [Modules Registry](architecture/modules/README.md) — реестр модулей (коды, статусы, ссылки)
 - [Open Questions](architecture/open-questions.md) — открытые проектные вопросы (кандидаты в ADR)
-- [Prototypes: archmap](architecture/prototypes/archmap.md) — прототип пайплайна генерации C4 (включая разбор его роли в Archon)
+- [Prototypes & Dumps](architecture/prototypes/README.md) — прототипы и дампы: разбор archmap, JSON-контракт RFC-44.2, промпты и генератор LikeC4
 - [Sample Architecture](architecture/sample-architecture.md) — эталонная тестовая архитектура (Golden Dataset для PoC и тестов)
 
 ## Research & Analysis

@@ -42,7 +42,8 @@ TBD (OQ-8). Вместе с `extract`/`reconcile` — естественная �
 ## Решения
 
 - ADR-0004
+- ADR-0002
 
 ## Заметки
 
-Прототип для этого модуля — набросок, не продукт (см. `../prototypes/archmap.md`). До промышленных метрик качества далеко.
+Прототип для этого модуля — набросок, не продукт (см. [`../prototypes/archmap_dump/archmap.md`](../prototypes/archmap_dump/archmap.md)). Согласно [ADR-0002](../../adr/0002-archmap-fate.md), двухфазный контур отбора файлов (File Selector) и семантического анализа (Extractor) переносится в контур `interpret`.

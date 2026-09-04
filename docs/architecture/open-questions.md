@@ -8,7 +8,7 @@
 
 | ID | Вопрос | Критичность | Модули | Статус |
 | :--- | :--- | :--- | :--- | :--- |
-| OQ-1 | Судьба и место archmap в Archon | блок | extract, interpret, portal | открыт |
+| OQ-1 | Судьба и место archmap в Archon | блок | extract, interpret, portal | **закрыт ADR-0002** |
 | OQ-2 | Source of truth модели: git vs БД vs гибрид | блок | model | открыт |
 | OQ-3 | Границы и версионирование Extraction Contract | high | extract, interpret, reconcile, model | открыт |
 | OQ-4 | Разрешение противоречий источников | high | reconcile | открыт (владелец появился) |
@@ -35,23 +35,21 @@
 adversarial-прохода декомпозиции. Обоснование —
 [`../research/decomposition-adversarial.md`](../research/decomposition-adversarial.md),
 решение — [`../adr/0004-module-decomposition-revision-1.md`](../adr/0004-module-decomposition-revision-1.md).
-Оставшиеся блокеры для кода: OQ-1, OQ-2, OQ-8.
+Оставшиеся блокеры для кода: OQ-2, OQ-8.
 OQ-10 закрыт ADR-0005 (2026-09-02).
 
 ---
 
 ## OQ-1. Судьба прототипа archmap
 
-**Блокирует код.** Нужно решить до начала разработки `extract`, `interpret` и `portal`.
+**Статус:** закрыт [ADR-0002](../adr/0002-archmap-fate.md) (2026-09-04).
 
-Есть рабочий прототип (archmap), который делает примерно то, что нужно, но не готов к продакшену. Что с ним делать?
-
-Варианты:
-- (a) Переписать с нуля, используя прототип как пример.
-- (b) Взять код из прототипа и доработать.
-- (c) Развивать прототип отдельно и интегрировать позже.
-
-Связано с вопросом о том, как будем поставлять продукт (on-premise / open-source / CLI-first).
+Решение:
+1. Рантайм и инфраструктуру прототипа (n8n, TiMe-бот, GitLab Pages loop, хранение PAT в n8n Data Table) списать и архивировать.
+2. JSON-контракт RFC-44.2 v1.0 принять как основу Extraction Contract (OQ-3) с обязательным сохранением `evidence_files` (защита от галлюцинаций), `confidence`, `uncertainties`, `k8s_hints` и `flows`.
+3. Двухфазный контур отбора (File Selector Agent с правилом представительства + Architecture Extractor Agent) интегрировать в модуль `interpret`, дополнив детерминированным анализом фактов в `extract`.
+4. Алгоритмическое ядро `json_to_likec4.py` (транслятор в DSL LikeC4, генерация C1–C3 и dynamic flows, подъем связей, детекция висячих элементов и `#manual_check`) портировать в модули `portal` и `export`.
+5. Ручной файл `shared/externals.c4` списать; глобальную склейку сущностей передать модулям `resolve` (OQ-7) и `registry` (OQ-9).
 
 ## OQ-2. Где хранить модель данных
 
