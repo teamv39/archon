@@ -173,7 +173,7 @@ flowchart LR
 Отдельная категория — не модуль, а прототип-предшественник:
 [`../prototypes/archmap_dump/archmap.md`](../prototypes/archmap_dump/archmap.md). Решение по его
 судьбе принято в [ADR-0002](../../adr/0002-archmap-fate.md) (OQ-1 закрыт): рантайм на n8n
-списан, JSON-контракт RFC-44.2 и генератор LikeC4 переносятся в ядро Archon.
+списан, Extraction Contract v1.0 и генератор LikeC4 переносятся в ядро Archon.
 Отклонённый подход к каноническим ID (`shared/externals.c4`) — как раз дыра,
 под которую в ревизии выделен `resolve`.
 

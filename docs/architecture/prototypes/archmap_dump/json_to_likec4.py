@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Генератор LikeC4 DSL из JSON-выгрузки RFC-44.2.
+Генератор LikeC4 DSL из JSON-выгрузки Extraction Contract v1.0.
 
 Создаёт подпапку проекта внутри --output-dir и записывает:
   - <project_slug>.c4 — модель LikeC4

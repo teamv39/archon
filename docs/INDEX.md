@@ -27,7 +27,7 @@
 - [Data Model](architecture/data-model.md) — модель данных Knowledge Graph
 - [Modules Registry](architecture/modules/README.md) — реестр модулей (коды, статусы, ссылки)
 - [Open Questions](architecture/open-questions.md) — открытые проектные вопросы (кандидаты в ADR)
-- [Prototypes & Dumps](architecture/prototypes/README.md) — прототипы и дампы: разбор archmap, JSON-контракт RFC-44.2, промпты и генератор LikeC4
+- [Prototypes & Dumps](architecture/prototypes/README.md) — прототипы и дампы: разбор archmap, Extraction Contract v1.0, промпты и генератор LikeC4
 - [Sample Architecture](architecture/sample-architecture.md) — эталонная тестовая архитектура (Golden Dataset для PoC и тестов)
 
 ## Research & Analysis

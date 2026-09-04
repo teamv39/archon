@@ -46,7 +46,7 @@ OQ-10 закрыт ADR-0005 (2026-09-02).
 
 Решение:
 1. Рантайм и инфраструктуру прототипа (n8n, TiMe-бот, GitLab Pages loop, хранение PAT в n8n Data Table) списать и архивировать.
-2. JSON-контракт RFC-44.2 v1.0 принять как основу Extraction Contract (OQ-3) с обязательным сохранением `evidence_files` (защита от галлюцинаций), `confidence`, `uncertainties`, `k8s_hints` и `flows`.
+2. JSON-контракт извлечения (Extraction Contract v1.0) принять как основу OQ-3 с обязательным сохранением `evidence_files` (защита от галлюцинаций), `confidence`, `uncertainties`, `k8s_hints` и `flows`.
 3. Двухфазный контур отбора (File Selector Agent с правилом представительства + Architecture Extractor Agent) интегрировать в модуль `interpret`, дополнив детерминированным анализом фактов в `extract`.
 4. Алгоритмическое ядро `json_to_likec4.py` (транслятор в DSL LikeC4, генерация C1–C3 и dynamic flows, подъем связей, детекция висячих элементов и `#manual_check`) портировать в модули `portal` и `export`.
 5. Ручной файл `shared/externals.c4` списать; глобальную склейку сущностей передать модулям `resolve` (OQ-7) и `registry` (OQ-9).
