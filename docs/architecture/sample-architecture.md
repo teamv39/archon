@@ -11,31 +11,37 @@
 
 ```mermaid
 flowchart LR
-    subgraph Clients
-        Web[Web / Mobile Client]
+    subgraph Clients ["Клиентский слой"]
+        Web["Web / Mobile Client"]
     end
 
-    subgraph Services
-        Auth[auth-service<br/>Java / Spring]
-        Order[order-service<br/>Kotlin / Spring]
-        Billing[billing-service<br/>Java / Spring]
-        Inventory[inventory-service<br/>Go]
-        Notify[notification-service<br/>Python]
+    subgraph Services ["Микросервисы"]
+        Auth["auth-service<br/>Java / Spring"]
+        Order["order-service<br/>Kotlin / Spring"]
+        Billing["billing-service<br/>Java / Spring"]
+        Inventory["inventory-service<br/>Go"]
+        Notify["notification-service<br/>Python"]
     end
 
-    subgraph Kafka[Event Bus: Kafka]
-        TopicPaid[(Topic: order.paid)]
+    subgraph Infrastructure ["Хранилища и брокеры"]
+        TopicPaid[("Topic: order.paid")]
+        AuthDB[("auth-db (PostgreSQL)")]
     end
 
-    Web -->|POST /api/v1/orders| Order
-    Order -->|POST /api/v1/invoices| Billing
-    Order -->|GET /api/v1/inventory| Inventory
-    Order -.->|Validate Token| Auth
-    Billing -->|Publish| TopicPaid
-    TopicPaid -->|Consume| Notify
+    Web -->|"POST /api/v1/orders"| Order
+    Order -->|"POST /api/v1/invoices"| Billing
+    Order -->|"GET /api/v1/items/{sku}/availability"| Inventory
+    Order -.->|"Validate Token"| Auth
+    Billing -->|"Publish"| TopicPaid
+    TopicPaid -->|"Consume"| Notify
+    Auth -->|"Владелец БД"| AuthDB
 
-    %% Искусственное нарушение (цикл)
-    Billing -.->|GET /api/v1/orders/:id<br/>(АРХИТЕКТУРНЫЙ ЦИКЛ)| Order
+    %% Дефект 1: Циклическая зависимость
+    Billing -.->|"GET /api/v1/orders/:id<br/>[ДЕФЕКТ 1: ЦИКЛ]"| Order
+
+    %% Дефект 3: Прямой доступ к чужой БД (Shared Database)
+    Order ==>|"Direct DB Query<br/>[ДЕФЕКТ 3: SHARED DB]"| AuthDB
+    Billing ==>|"Direct DB Query<br/>[ДЕФЕКТ 3: SHARED DB]"| AuthDB
 ```
 
 ---
@@ -186,11 +192,31 @@ SELECT * FROM cypher('archon_graph', $$
            (n)-[:DEPENDS_ON {sync: false}]->(b)
 $$) as (n agtype);
 
--- Создание циклической зависимости (billing -> order)
+-- Создание циклической зависимости (billing -> order, дефект 1)
 SELECT * FROM cypher('archon_graph', $$
     MATCH (b:Service {id: 'billing-service'}), (c:Contract {id: 'c-get-order'}), (o:Service {id: 'order-service'})
     CREATE (b)-[:CONSUMES]->(c),
            (b)-[:DEPENDS_ON {sync: true}]->(o)
+$$) as (n agtype);
+
+-- 6. Создание базы данных и связей прямого доступа (Shared Database, дефект 3)
+SELECT * FROM cypher('archon_graph', $$
+    CREATE (db:Database {id: 'auth-db', name: 'Auth Database', engine: 'PostgreSQL'})
+$$) as (n agtype);
+
+SELECT * FROM cypher('archon_graph', $$
+    MATCH (a:Service {id: 'auth-service'}), (db:Database {id: 'auth-db'})
+    CREATE (a)-[:OWNS_DB]->(db)
+$$) as (n agtype);
+
+SELECT * FROM cypher('archon_graph', $$
+    MATCH (o:Service {id: 'order-service'}), (db:Database {id: 'auth-db'})
+    CREATE (o)-[:DIRECT_DB_ACCESS]->(db)
+$$) as (n agtype);
+
+SELECT * FROM cypher('archon_graph', $$
+    MATCH (b:Service {id: 'billing-service'}), (db:Database {id: 'auth-db'})
+    CREATE (b)-[:DIRECT_DB_ACCESS]->(db)
 $$) as (n agtype);
 ```
 
