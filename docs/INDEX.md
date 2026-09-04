@@ -27,6 +27,7 @@
 - [Modules Registry](architecture/modules/README.md) — реестр модулей (коды, статусы, ссылки)
 - [Open Questions](architecture/open-questions.md) — открытые проектные вопросы (кандидаты в ADR)
 - [Prototypes: archmap](architecture/prototypes/archmap.md) — прототип пайплайна генерации C4 (включая разбор его роли в Archon)
+- [Sample Architecture](architecture/sample-architecture.md) — эталонная тестовая архитектура (Golden Dataset для PoC и тестов)
 
 ## Research & Analysis
 
