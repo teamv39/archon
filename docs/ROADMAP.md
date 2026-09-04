@@ -72,6 +72,7 @@
 | [#28](https://github.com/teamv39/archon/issues/28) | **ARCH-29: [CustDev-2]** Проведение 5 интервью и аналитический отчет | Денис | `M` | Отчет `docs/research/user-interviews.md`, валидация гипотез |
 | [#29](https://github.com/teamv39/archon/issues/29) | **ARCH-30: [Pricing]** Спецификация тарифов и токен-лимитов SaaS | Денис | `S` | Документ `docs/research/pricing.md` (Free/Team/Enterprise) |
 | [#30](https://github.com/teamv39/archon/issues/30) | **ARCH-31: [DevOps]** Docker Compose стек для локальной разработки | Максим | `S` | Единый `docker-compose.yml` (AGE, Redis, Qdrant) |
+| [#32](https://github.com/teamv39/archon/issues/32) | **ARCH-32: [DevOps]** Настройка CI workflow для валидации репозитория | Максим | `S` | GitHub Actions проверка CJK, битых ссылок и Mermaid |
 
 ---
 

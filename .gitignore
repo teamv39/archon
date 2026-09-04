@@ -47,3 +47,21 @@ coverage/
 
 # Documentation build
 docs/_build/
+
+# Python & MCP PoC
+__pycache__/
+*.py[cod]
+*$py.class
+.venv/
+venv/
+ENV/
+env/
+
+# Cursor & Local AI IDE
+.cursor/
+.cursorrules.local
+
+# Local Docker volumes
+pgdata/
+.age_data/
+*.sql.bak
