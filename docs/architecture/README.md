@@ -30,6 +30,7 @@ flowchart TB
         drift["drift<br/>документы против кода:<br/>где доки врут"]
         assurance["assurance<br/>находки, ревью,<br/>принятие риска"]
         portal["portal"]
+        mcp["mcp"]
         prbot["pr-bot"]
         chatbot["chat-bot"]
         export["export"]
@@ -46,6 +47,7 @@ flowchart TB
         policies --> assurance
         drift --> assurance
         assurance --> portal
+        assurance --> mcp
         assurance --> prbot
         assurance --> chatbot
         assurance --> export
@@ -64,7 +66,8 @@ flowchart TB
 Смысл: `runtime` и `platform` — горизонтальные слои, они не ступеньки
 конвейера, а обслуживание всего потока (пунктир). Основной поток читается
 слева направо: корпус -> извлечение -> граф -> аналитика -> человеческий
-контур -> четыре канала доставки.
+контур -> каналы доставки (витрина: портал, MCP-сервер, бот в PR, чат-бот,
+генератор артефактов экспорт) и Public API.
 
 ## Слои
 
@@ -75,7 +78,7 @@ flowchart TB
 | Модель | `model`, `resolve` | единый граф и склейка между репозиториями |
 | Аналитика | `policies`, `drift` | что не так |
 | Доверие | `assurance` | что с этим решили люди |
-| Доставка | `portal`, `pr-bot`, `chat-bot`, `export` | показать результат там, где удобно |
+| Доставка | `portal`, `mcp`, `pr-bot`, `chat-bot`, `export` | показать результат, передать контекст и выгрузить артефакты |
 | Инфраструктура | `runtime`, `platform` | чтобы работало, окупалось и продавалось |
 
 ## Модель данных (черновая)

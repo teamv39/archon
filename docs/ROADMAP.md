@@ -3,11 +3,11 @@
 Планы развития проекта Archon по фазам.  
 Актуализировано: 2026-09-03.
 
-Декомпозиция: модули фабрики ([ADR-0004](adr/0004-module-decomposition-revision-1.md)) + 5 каналов витрины, включая MCP ([ADR-0006](adr/0006-saas-delivery-model-and-ai-native-source-of-truth.md)).  
+Декомпозиция: 17 модулей фабрики ([ADR-0004](adr/0004-module-decomposition-revision-1.md) + [ADR-0006](adr/0006-saas-delivery-model-and-ai-native-source-of-truth.md)).  
 Модель поставки: Managed SaaS (Context-as-a-Service) + Git Sync ([ADR-0006](adr/0006-saas-delivery-model-and-ai-native-source-of-truth.md)).  
 Стек: Kotlin/JVM + Python для LLM-модулей ([tech-stack.md](architecture/tech-stack.md)).  
-Блокеры для кода: OQ-1, OQ-2, OQ-8 ([open-questions.md](architecture/open-questions.md)).  
-Закрытые архитектурные развилки: OQ-10 ([ADR-0005](adr/0005-product-scope-and-delivery-model.md)), OQ-18 и OQ-19 ([ADR-0006](adr/0006-saas-delivery-model-and-ai-native-source-of-truth.md)).  
+Блокеры для кода: OQ-2, OQ-8 ([open-questions.md](architecture/open-questions.md)); OQ-1 закрыт ([ADR-0002](adr/0002-archmap-fate.md)).  
+Закрытые архитектурные развилки: OQ-1 ([ADR-0002](adr/0002-archmap-fate.md)), OQ-10 ([ADR-0005](adr/0005-product-scope-and-delivery-model.md)), OQ-18 и OQ-19 ([ADR-0006](adr/0006-saas-delivery-model-and-ai-native-source-of-truth.md)).  
 Команда: 4 ядро (Денис — lead/architect, Миша — AI/R&D, Паша — core backend, Максим — DevOps/SRE) + пул.
 
 ---

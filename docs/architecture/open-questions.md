@@ -10,7 +10,7 @@
 | :--- | :--- | :--- | :--- | :--- |
 | OQ-1 | Судьба и место archmap в Archon | блок | extract, interpret, portal | **закрыт ADR-0002** |
 | OQ-2 | Source of truth модели: git vs БД vs гибрид | блок | model | открыт |
-| OQ-3 | Границы и версионирование Extraction Contract | high | extract, interpret, reconcile, model | открыт |
+| OQ-3 | Границы и версионирование Extraction Contract | high | extract, interpret, reconcile, model | открыт (спецификация v1.0 на ревью по ADR-0002) |
 | OQ-4 | Разрешение противоречий источников | high | reconcile | открыт (владелец появился) |
 | OQ-5 | Хранилище графа и модель запросов | medium | model | ждать OQ-2 |
 | OQ-6 | Event model: коммит -> инкрементальный анализ -> алерты | medium | extract, sources, pr-bot | открыт |
@@ -66,12 +66,11 @@ OQ-10 закрыт ADR-0005 (2026-09-02).
 
 ## OQ-3. Контракт извлечения
 
-JSON-схема, которая описывает, в каком формате модули `extract` и `interpret` передают данные в `model`. Это самый важный интерфейс в системе.
+JSON-схема, которая описывает, в каком формате модули `extract` и `interpret` передают данные в `model`. Это базовый интерфейс контура извлечения.
 
-Нужно определить:
-- Какие поля обязательны?
-- Как выражается "я не уверен в этом факте"?
-- Как контракт будет эволюционировать без поломок?
+**Текущий статус:** открыт (спецификация v1.0 на ревью).
+По результатам [ADR-0002](../adr/0002-archmap-fate.md) за основу принята спецификация [Extraction Contract v1.0](prototypes/archmap_dump/json_contract.md) (`evidence_files`, `confidence`, `uncertainties`, `flows`, `containers`, `components`).
+Открытыми остаются формальная валидация JSON Schema генераторами типов и механизм версионирования при переходе к v2+.
 
 ## OQ-4. Разрешение противоречий
 
@@ -126,8 +125,10 @@ JSON-схема, которая описывает, в каком формате
 
 **Закрыт в ADR-0005.** Archon — слой знаний поверх существующих инструментов,
 не замена им. Внешние системы подключаются через универсальные адаптеры
-(`sources`). Модель поставки MVP: all-in-one self-hosted CLI-first.
-SaaS/cloud — второстепенный канал, вынесен в OQ-18.
+(`sources`).
+
+*(Примечание: первоначальная модель поставки self-hosted CLI-first заменена
+на Managed SaaS и AI-native Source of Truth в [ADR-0006](../adr/0006-saas-delivery-model-and-ai-native-source-of-truth.md)).*
 
 ## OQ-11. Разделение контура извлечения
 
