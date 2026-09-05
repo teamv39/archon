@@ -14,7 +14,8 @@
 - [ADR README](adr/README.md) — что такое ADR и как их писать
 - [ADR-0001: Docs-as-Code](adr/0001-docs-as-code.md) — выбор подхода к документации
 - [ADR-0002: Судьба прототипа archmap](adr/0002-archmap-fate.md) — списание рантайма, перенос JSON-контракта и LikeC4-генератора
-- [ADR-0004: Модульная декомпозиция, ревизия 1](adr/0004-module-decomposition-revision-1.md) — 17 модулей фабрики (0003 зарезервирован, расширен mcp по ADR-0006)
+- [ADR-0003: Хранилище Source of Truth и изоляция тенантов](adr/0003-source-of-truth-and-tenant-isolation.md) — PostgreSQL 16 + Apache AGE, изоляция тенант = граф, openCypher
+- [ADR-0004: Модульная декомпозиция, ревизия 1](adr/0004-module-decomposition-revision-1.md) — 17 модулей фабрики (расширен mcp по ADR-0006)
 - [ADR-0005: Граница скоупа и модель поставки](adr/0005-product-scope-and-delivery-model.md) — слой знаний, адаптеры (модель поставки заменена в ADR-0006)
 - [ADR-0006: Модель поставки Managed SaaS и AI-native Source of Truth](adr/0006-saas-delivery-model-and-ai-native-source-of-truth.md) — переход к Context-as-a-Service, MCP-сервер, Web-портал, API и Git Sync
 - [ADR Template](adr/TEMPLATE.md) — шаблон для новых ADR
