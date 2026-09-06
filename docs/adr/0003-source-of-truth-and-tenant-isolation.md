@@ -76,3 +76,10 @@ Archon позиционируется как AI-native Source of Truth архи�
 ### Риски
 - Специфика синтаксиса openCypher в Apache AGE (например, оборачивание вызовов в SQL-функцию `cypher('graph_name', $$ ... $$) as (v agtype)`).
 - *Митигация:* Изоляция диалекта в DAL-адаптере модуля `model`, обеспечение покрытия интеграционными тестами в рамках Docker-окружения (`ARCH-17`).
+
+## Ссылки
+
+- [Spike: Исследование изоляции тенантов в Apache AGE](../../scripts/postgres_spikes/tenant_isolation_research/RESULT.md)
+- [ADR-0006](0006-saas-delivery-model-and-ai-native-source-of-truth.md) — модель поставки Managed SaaS
+- [open-questions.md](../architecture/open-questions.md) — открытые вопросы OQ-2 и OQ-5
+
