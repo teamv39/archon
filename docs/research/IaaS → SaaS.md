@@ -47,7 +47,7 @@ flowchart TB
 
         subgraph CORE ["Фабрика знаний"]
             engine["Extract & Interpret Engine"]
-            graph[("Knowledge Graph<br/>(PostgreSQL + Apache AGE)")]
+            kg[("Knowledge Graph<br/>(PostgreSQL + Apache AGE)")]
             vectors[("Vector DB (Qdrant)")]
             orchestrator["Temporal Orchestrator"]
         end

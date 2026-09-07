@@ -73,7 +73,7 @@ Archon — enterprise-платформа docs-as-code и AI-native Source of Tru
 - Диаграммы — `mermaid` (flowchart). ASCII-бокс только для деревьев
   директорий. Проверяй рендер.
 - Проверяй отсутствие CJK-артефактов после правки на русском
-  (`grep -P '[\x{4e00}-\x{9fff}]'`).
+  (`grep -P '[\x{4e00}-\x{9fff}]'` или `python scripts/validate_docs.py --check-cjk`).
 - Сохраняй бренды в цитатах/коде/путях как есть.
 
 ## Git
@@ -83,7 +83,7 @@ Archon — enterprise-платформа docs-as-code и AI-native Source of Tru
 - Ветки: `feature/<id>-kebab` от `main`. Пока без `develop`.
 - Коммиты: `ARCH-123: что сделано` или краткий префикс типа
   `Docs:` / `Research:` / `Architecture:` если вне трекера.
-- Перед пушем: `git status`, `git diff --stat`, проверка ссылок.
+- Перед пушем: `git status`, `git diff --stat`, проверка валидации доков (`python scripts/validate_docs.py --all`).
 
 ## Что не делать
 
@@ -98,7 +98,7 @@ Archon — enterprise-платформа docs-as-code и AI-native Source of Tru
 
 - [ ] Дока обновлена вместе с кодом (если менялась архитектура — ADR/OQ)
 - [ ] Ссылки в `docs/INDEX.md` и `research/README.md` обновлены (если новый док)
-- [ ] Mermaid рендерится, CJK-артефактов нет
+- [ ] Валидация пройдена (`python scripts/validate_docs.py --all`): Mermaid рендерится, CJK-артефактов нет, локальные ссылки валидны
 - [ ] Коммит маленький, сообщение понятное
 
 ## Если не знаешь, что делать

@@ -94,7 +94,12 @@ ARCH-44: Fix query performance for impact analysis
 
 ## CI/CD Pipeline
 
-**На каждый PR:**
+**На каждый PR и push в main:**
+- **Docs & Repo Validation** (`.github/workflows/docs-validation.yml`):
+  - Проверка отсутствия CJK-символов в markdown (`python scripts/validate_docs.py --check-cjk`)
+  - Проверка валидности локальных ссылок между файлами (`python scripts/validate_docs.py --check-links`)
+  - Валидация синтаксиса диаграмм Mermaid (`npx -y md-mermaid-lint "**/*.md"`)
+  - *Локальный запуск перед коммитом:* `python scripts/validate_docs.py --all`
 - Lint
 - Unit tests
 - Integration tests

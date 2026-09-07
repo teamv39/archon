@@ -64,7 +64,7 @@ flowchart TB
 
         subgraph FACTORY ["Фабрика знаний"]
             engine["Extract & Interpret"]
-            graph[("Knowledge Graph<br/>(PostgreSQL + AGE)")]
+            kg[("Knowledge Graph<br/>(PostgreSQL + AGE)")]
             vectors[("Vector Store (Qdrant)")]
             runtime["Temporal Orchestrator"]
         end

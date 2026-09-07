@@ -2,13 +2,13 @@
 
 Дата: 2026-09-06  
 Статус: Завершено  
-Контекст: [ADR-0006](../../docs/adr/0006-saas-delivery-model-and-ai-native-source-of-truth.md), [OQ-2](../../docs/architecture/open-questions.md#oq-2), [OQ-5](../../docs/architecture/open-questions.md#oq-5)
+Контекст: [ADR-0006](../../../docs/adr/0006-saas-delivery-model-and-ai-native-source-of-truth.md), [OQ-2](../../../docs/architecture/open-questions.md#oq-2), [OQ-5](../../../docs/architecture/open-questions.md#oq-5)
 
 ---
 
 ## 1. Цель и контекст исследования
 
-В рамках перехода Archon к модели Managed SaaS ([ADR-0006](../../docs/adr/0006-saas-delivery-model-and-ai-native-source-of-truth.md)) и выбора графового движка для хранения архитектурного Source of Truth ([OQ-2](../../docs/architecture/open-questions.md#oq-2), [OQ-5](../../docs/architecture/open-questions.md#oq-5)) необходимо определить модель мультитенантности в PostgreSQL 16 + Apache AGE.
+В рамках перехода Archon к модели Managed SaaS ([ADR-0006](../../../docs/adr/0006-saas-delivery-model-and-ai-native-source-of-truth.md)) и выбора графового движка для хранения архитектурного Source of Truth ([OQ-2](../../../docs/architecture/open-questions.md#oq-2), [OQ-5](../../../docs/architecture/open-questions.md#oq-5)) необходимо определить модель мультитенантности в PostgreSQL 16 + Apache AGE.
 
 Ключевое требование к корпоративной B2B SaaS-платформе — исключение риска компрометации и смешивания архитектурных данных клиентов при высокой скорости выполнения запросов от MCP-сервера и веб-портала.
 
@@ -142,7 +142,7 @@ docker exec -it archon-age-benchmark psql -U postgres -d archon -f /scripts/post
 
 ## 6. Итоговая рекомендация (DoD 3)
 
-**Однозначная рекомендация:** Принять **Вариант A (Graph per Tenant)** как стандарт архитектурной изоляции данных в Archon Managed SaaS и зафиксировать его в [ADR-0003](../../docs/adr/0003-source-of-truth-and-tenant-isolation.md).
+**Однозначная рекомендация:** Принять **Вариант A (Graph per Tenant)** как стандарт архитектурной изоляции данных в Archon Managed SaaS и зафиксировать его в [ADR-0003](../../../docs/adr/0003-source-of-truth-and-tenant-isolation.md).
 
 ### Обоснование для включения в issue и ADR-0003:
 1. **Zero Trust Isolation:** В архитектурном продукте enterprise-уровня риск смешивания данных топологии неприемлем. Вариант A дает 100% гарантию безопасности на уровне изоляции схем PostgreSQL.
