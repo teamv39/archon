@@ -13,6 +13,7 @@
 - `seed-sample-graph.sql` — сид эталонного графа микросервисов на базе [`docs/architecture/sample-architecture.md`](../docs/architecture/sample-architecture.md) (Паша, задача [#18](https://github.com/teamv39/archon/issues/18)).
 - `benchmark-queries.sql` — замеры задержки Cypher-запросов (Blast Radius, Cycles) (Паша, задача [#19](https://github.com/teamv39/archon/issues/19)).
 - `mcp_server.py` — легковесный FastMCP сервер для интеграции с Cursor IDE (Миша, задачи [#31](https://github.com/teamv39/archon/issues/31), [#22](https://github.com/teamv39/archon/issues/22)-[#24](https://github.com/teamv39/archon/issues/24)).
+- `mock_mcp_data.json` — тестовые фикстуры для FastMCP (`get_service_contract`, `validate_dependency` с 4 сценариями) на базе Golden Dataset (Миша, задача [#23](https://github.com/teamv39/archon/issues/23)).
 
 ---
 

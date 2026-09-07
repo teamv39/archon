@@ -1,0 +1,186 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "description": "Моковые фикстуры для PoC MCP Server (FastMCP, задачи #31, #22-#24). Golden Dataset: E-Commerce 6 микросервисов.",
+  "services": [
+    {
+      "id": "order-service",
+      "name": "Order Service",
+      "tier": 2,
+      "language": "Kotlin",
+      "framework": "Spring Boot 3",
+      "repo_url": "github.com/acme/order-service",
+      "owner_team": "Checkout",
+      "outgoing_calls": [
+        { "target": "billing-service", "protocol": "REST", "contract": "c-create-invoice" },
+        { "target": "inventory-service", "protocol": "REST", "contract": "c-check-stock" },
+        { "target": "delivery-service", "protocol": "REST", "contract": "c-create-delivery" },
+        { "target": "auth-service", "protocol": "REST", "contract": "validate-token" }
+      ]
+    },
+    {
+      "id": "billing-service",
+      "name": "Billing Service",
+      "tier": 2,
+      "language": "Java",
+      "framework": "Spring Boot 3",
+      "repo_url": "github.com/acme/billing-service",
+      "owner_team": "Payments",
+      "outgoing_calls": [
+        { "target": "order-service", "protocol": "REST", "contract": "c-get-order", "is_defect_cycle": true },
+        { "target": "notification-service", "protocol": "KAFKA", "topic": "order.paid" }
+      ]
+    },
+    {
+      "id": "inventory-service",
+      "name": "Inventory Service",
+      "tier": 2,
+      "language": "Go",
+      "framework": "Chi",
+      "repo_url": "github.com/acme/inventory-service",
+      "owner_team": "Logistics",
+      "outgoing_calls": []
+    },
+    {
+      "id": "delivery-service",
+      "name": "Delivery Service",
+      "tier": 2,
+      "language": "TypeScript",
+      "framework": "NestJS",
+      "repo_url": "github.com/acme/delivery-service",
+      "owner_team": "Logistics",
+      "outgoing_calls": []
+    },
+    {
+      "id": "notification-service",
+      "name": "Notification Service",
+      "tier": 2,
+      "language": "Python",
+      "framework": "FastAPI",
+      "repo_url": "github.com/acme/notification-service",
+      "owner_team": "Marketing",
+      "outgoing_calls": []
+    },
+    {
+      "id": "auth-service",
+      "name": "Auth Service",
+      "tier": 0,
+      "language": "Java",
+      "framework": "Spring Boot 3",
+      "repo_url": "github.com/acme/auth-service",
+      "owner_team": "Security",
+      "outgoing_calls": []
+    }
+  ],
+  "contracts": {
+    "billing-service:/api/v1/invoices": {
+      "service": "billing-service",
+      "endpoint": "/api/v1/invoices",
+      "method": "POST",
+      "protocol": "REST",
+      "description": "Создание инвойса на оплату заказа",
+      "request_body": {
+        "type": "object",
+        "required": ["order_id", "amount", "currency", "customer_id"],
+        "properties": {
+          "order_id": { "type": "string", "format": "uuid" },
+          "amount": { "type": "number", "minimum": 0.01 },
+          "currency": { "type": "string", "enum": ["USD", "EUR", "RUB"] },
+          "customer_id": { "type": "string", "format": "uuid" }
+        }
+      },
+      "response_body": {
+        "type": "object",
+        "properties": {
+          "invoice_id": { "type": "string", "format": "uuid" },
+          "status": { "type": "string", "enum": ["PENDING", "PAID", "REJECTED"] },
+          "payment_url": { "type": "string", "format": "uri" }
+        }
+      },
+      "architectural_constraints": [
+        "Сервис billing-service НЕ должен синхронно вызывать order-service (предотвращение цикла)",
+        "Таймаут вызова: 1500ms, обязателен ретрай по статусам 502/503/504"
+      ]
+    },
+    "delivery-service:/api/v1/deliveries": {
+      "service": "delivery-service",
+      "endpoint": "/api/v1/deliveries",
+      "method": "POST",
+      "protocol": "REST",
+      "description": "Создание заявки на доставку заказа",
+      "request_body": {
+        "type": "object",
+        "required": ["order_id", "recipient_address", "delivery_slot"],
+        "properties": {
+          "order_id": { "type": "string", "format": "uuid" },
+          "recipient_address": { "type": "string" },
+          "delivery_slot": { "type": "string", "format": "date-time" },
+          "courier_comment": { "type": "string" }
+        }
+      },
+      "response_body": {
+        "type": "object",
+        "properties": {
+          "delivery_id": { "type": "string", "format": "uuid" },
+          "status": { "type": "string", "enum": ["SCHEDULED", "IN_TRANSIT", "DELIVERED"] },
+          "tracking_code": { "type": "string" }
+        }
+      },
+      "architectural_constraints": [
+        "Сервис delivery-service НЕ должен вызывать billing-service (транзитивный цикл L=3)",
+        "Таймаут вызова: 2000ms"
+      ]
+    }
+  },
+  "validate_dependency_scenarios": {
+    "order-service->delivery-service": {
+      "allowed": true,
+      "source": "order-service",
+      "target": "delivery-service",
+      "dependency_type": "SYNCHRONOUS_REST",
+      "impact": {
+        "new_edges": 1,
+        "cycles_detected": 0,
+        "risk_level": "LOW"
+      },
+      "message": "Зависимость допустима. Циклических связей и нарушений архитектурных слоев не обнаружено."
+    },
+    "billing-service->order-service": {
+      "allowed": false,
+      "source": "billing-service",
+      "target": "order-service",
+      "violation_type": "CIRCULAR_DEPENDENCY",
+      "cycle_length": 2,
+      "cycle_path": [
+        "billing-service",
+        "order-service",
+        "billing-service"
+      ],
+      "risk_level": "CRITICAL",
+      "message": "Запрещено архитектурной политикой No-Cycles: вызов создает прямую циклическую зависимость billing-service -> order-service -> billing-service. Рекомендуется использовать асинхронные события (Kafka topic: order.paid)."
+    },
+    "delivery-service->billing-service": {
+      "allowed": false,
+      "source": "delivery-service",
+      "target": "billing-service",
+      "violation_type": "CIRCULAR_DEPENDENCY",
+      "cycle_length": 3,
+      "cycle_path": [
+        "delivery-service",
+        "billing-service",
+        "order-service",
+        "delivery-service"
+      ],
+      "risk_level": "CRITICAL",
+      "message": "Запрещено архитектурной политикой No-Cycles: вызов создает транзитивный цикл длины 3: delivery-service -> billing-service -> order-service -> delivery-service."
+    },
+    "auth-service->delivery-service": {
+      "allowed": false,
+      "source": "auth-service",
+      "target": "delivery-service",
+      "violation_type": "LAYERING_VIOLATION",
+      "rule": "TIER_DOWNWARDS_ONLY",
+      "risk_level": "HIGH",
+      "message": "Запрещено правилом архитектурных слоев: Security/IAM сервис (auth-service, Tier 0) не может иметь исходящих зависимостей на сервис бизнес-домена (delivery-service, Tier 2)."
+    }
+  }
+}
