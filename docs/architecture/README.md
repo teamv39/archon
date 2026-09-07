@@ -81,11 +81,13 @@ flowchart TB
 | Доставка | `portal`, `mcp`, `pr-bot`, `chat-bot`, `export` | показать результат, передать контекст и выгрузить артефакты |
 | Инфраструктура | `runtime`, `platform` | чтобы работало, окупалось и продавалось |
 
-## Модель данных (черновая)
+## Ключевые архитектурные вехи
 
-Описана в [`data-model.md`](data-model.md). Черновик до принятия OQ-2
-(source of truth); часть сущностей пока без модуля-владельца — отмечено в
-атаке A12 ([`../research/decomposition-adversarial.md`](../research/decomposition-adversarial.md)).
+- [Архитектурная веха Code-to-Architecture](code-to-architecture.md) — проектирование сквозного контура автоматического извлечения и LikeC4-визуализации (на базе бизнес-ценности прототипа archmap по [ADR-0002](../adr/0002-archmap-fate.md)).
+
+## Модель данных и хранилище
+
+Хранилище Source of Truth и изоляция тенантов приняты в [ADR-0003](../adr/0003-source-of-truth-and-tenant-isolation.md) (PostgreSQL 16 + Apache AGE, граф на тенанта, openCypher). Черновая модель данных описана в [`data-model.md`](data-model.md).
 
 ## Интеграции
 
@@ -94,7 +96,6 @@ flowchart TB
 
 ## Deployment архитектура
 
-Физическая топология не принята — это открытый вопрос
-[OQ-8](open-questions.md). Логический модуль не равен сервису;
+Физическая топология — открытый вопрос [OQ-8](open-questions.md). Логический модуль не равен сервису;
 требование к топологии: MVP собирается из 2-3 сборочных единиц.
-Отдельный документ `deployment.md` появится после решения.
+Спецификация `deployment.md` появится после принятия ADR-0007.

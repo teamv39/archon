@@ -6,8 +6,9 @@
 Декомпозиция: 17 модулей фабрики ([ADR-0004](adr/0004-module-decomposition-revision-1.md) + [ADR-0006](adr/0006-saas-delivery-model-and-ai-native-source-of-truth.md)).  
 Модель поставки: Managed SaaS (Context-as-a-Service) + Git Sync ([ADR-0006](adr/0006-saas-delivery-model-and-ai-native-source-of-truth.md)).  
 Стек: Kotlin/JVM + Python для LLM-модулей ([tech-stack.md](architecture/tech-stack.md)).  
-Блокеры для кода: OQ-2, OQ-8 ([open-questions.md](architecture/open-questions.md)); OQ-1 закрыт ([ADR-0002](adr/0002-archmap-fate.md)).  
-Закрытые архитектурные развилки: OQ-1 ([ADR-0002](adr/0002-archmap-fate.md)), OQ-10 ([ADR-0005](adr/0005-product-scope-and-delivery-model.md)), OQ-18 и OQ-19 ([ADR-0006](adr/0006-saas-delivery-model-and-ai-native-source-of-truth.md)).  
+Блокеры для кода: OQ-8 ([open-questions.md](architecture/open-questions.md)); OQ-1 закрыт ([ADR-0002](adr/0002-archmap-fate.md)), OQ-2 и OQ-5 закрыты ([ADR-0003](adr/0003-source-of-truth-and-tenant-isolation.md)).  
+Закрытые архитектурные развилки: OQ-1 ([ADR-0002](adr/0002-archmap-fate.md)), OQ-2 и OQ-5 ([ADR-0003](adr/0003-source-of-truth-and-tenant-isolation.md)), OQ-10 ([ADR-0005](adr/0005-product-scope-and-delivery-model.md)), OQ-18 и OQ-19 ([ADR-0006](adr/0006-saas-delivery-model-and-ai-native-source-of-truth.md)).  
+Ключевые вехи проектирования: [Code-to-Architecture](architecture/code-to-architecture.md) (контур извлечения и LikeC4-визуализации).  
 Команда: 4 ядро (Денис — lead/architect, Миша — AI/R&D, Паша — core backend, Максим — DevOps/SRE) + пул.
 
 ---
@@ -125,32 +126,34 @@
 Решаем после P1 или параллельно, когда бизнес-контекст понятен.
 
 **OQ-1: судьба прототипа archmap:**
-- [x] Решить: переписать с нуля / взять заготовки / развивать отдельно (принят гибридный перенос ядра)
+- [x] Решить: переписать с нуля / взять заготовки / развивать отдельно (списание рантайма, перенос бизнес-ценности)
 - [x] Учесть решение OQ-10/18 (модель поставки Managed SaaS)
-- [x] Зафиксировать как [ADR-0002](adr/0002-archmap-fate.md) (закрыт 2026-09-04)
+- [x] Зафиксировать как [ADR-0002](adr/0002-archmap-fate.md) (закрыт, выделена веха [Code-to-Architecture](architecture/code-to-architecture.md))
 
-**OQ-2: source of truth модели:**
-- [ ] Git-файлы vs графовая БД vs гибрид
-- [ ] Что победит при расхождении
-- [ ] PoC на PostgreSQL + Apache AGE (если гибрид)
-- [ ] Зафиксировать как ADR-0003
+**OQ-2 и OQ-5: source of truth модели и хранилище графа:**
+- [x] Git-файлы vs графовая БД vs гибрид (канонический SoT в БД, Git как Source of Code)
+- [x] Выбор СУБД: PostgreSQL 16 + Apache AGE (`apache/age:PG16_latest`)
+- [x] Мультитенантность: строгая изоляция (граф на тенанта)
+- [x] Стандарт запросов: openCypher в DAL модуля model
+- [x] Зафиксировать как [ADR-0003](adr/0003-source-of-truth-and-tenant-isolation.md) (закрыт 2026-09-05)
 
 **OQ-8: физическая топология:**
 - [ ] Сколько процессов в MVP (целевое: 2-3 сборочных единицы)
 - [ ] Пары-кандидаты на объединение: registry+sources, extract+interpret+reconcile, portal+assurance
 - [ ] Dev / pilot / enterprise — как меняется топология
-- [ ] Зафиксировать как ADR
+- [ ] Зафиксировать как ADR-0007
 
 ---
 
 ### P3. Продуктовые спецификации и контракты
 
-Когда P1 и P2 решены, проектируем интерфейсы между модулями.
+Когда ключевые архитектурные блокеры решены, проектируем интерфейсы между модулями.
 
-**Extraction Contract (OQ-3):**
-- [ ] JSON-схема интерфейса extract/interpret → model
-- [ ] Обязательные/опциональные поля, confidence model
-- [ ] Версионирование контракта без поломок
+**Веха Code-to-Architecture (OQ-3, контур извлечения и LikeC4):**
+- [ ] Финализация Extraction Contract v1.0 как JSON Schema (`evidence_files`, `flows`, `confidence`, `uncertainties`)
+- [ ] LLM-пайплайн: бенчмарк селектора файлов и экстрактора на `sample-architecture.md` (точность evidence, расход токенов)
+- [ ] Спецификация детерминированного экстрактора `extract` (AST для Go/TS, OpenAPI, K8s)
+- [ ] Проектирование модульного LikeC4-генератора для `export` и `portal` на базе модели графа
 
 **Модель данных (ревизия):**
 - [ ] Проход "сущность → модуль-владелец" (атака A12)
