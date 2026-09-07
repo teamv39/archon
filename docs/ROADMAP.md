@@ -74,6 +74,11 @@
 | [#29](https://github.com/teamv39/archon/issues/29) | **ARCH-30: [Pricing]** Спецификация тарифов и токен-лимитов SaaS | Денис | `S` | Документ `docs/research/pricing.md` (Free/Team/Enterprise) |
 | [#30](https://github.com/teamv39/archon/issues/30) | **ARCH-31: [DevOps]** Docker Compose стек для локальной разработки | Максим | `S` | Единый `docker-compose.yml` (AGE, Redis, Qdrant) |
 | [#32](https://github.com/teamv39/archon/issues/32) | **ARCH-32: [DevOps]** Настройка CI workflow для валидации репозитория | Максим | `S` | GitHub Actions проверка CJK, битых ссылок и Mermaid |
+| [#34](https://github.com/teamv39/archon/issues/34) | **ARCH-33: [Spec-Contract]** Формализация Extraction Contract v1.0 (JSON Schema) | Денис | `S` | Спека `contracts/extraction-v1.json` валидирует sample-архитектуру |
+| [#35](https://github.com/teamv39/archon/issues/35) | **ARCH-34: [Model-Ingestion]** Ingestion DAL: загрузка контракта в Apache AGE | Паша | `M` | Парсинг JSON контракта и запись в граф тенанта через Cypher |
+| [#36](https://github.com/teamv39/archon/issues/36) | **ARCH-35: [Spike-LLM-1]** Тестовый harness двухфазного извлечения | Миша | `S` | Скрипт запускает селектор и экстрактор на коде, отдает JSON |
+| [#37](https://github.com/teamv39/archon/issues/37) | **ARCH-36: [Spike-LLM-2]** Бенчмарк качества: верификация evidence и токены | Миша | `S` | 100% точность evidence_files, замер стоимости (OQ-15) |
+| [#38](https://github.com/teamv39/archon/issues/38) | **ARCH-37: [Export-LikeC4]** Транслятор графа модели в LikeC4 DSL | Денис | `S` | Спека и прототип компилятора LikeC4 без легаси-кода |
 
 ---
 
