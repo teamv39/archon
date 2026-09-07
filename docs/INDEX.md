@@ -18,11 +18,13 @@
 - [ADR-0004: Модульная декомпозиция, ревизия 1](adr/0004-module-decomposition-revision-1.md) — 17 модулей фабрики (расширен mcp по ADR-0006)
 - [ADR-0005: Граница скоупа и модель поставки](adr/0005-product-scope-and-delivery-model.md) — слой знаний, адаптеры (модель поставки заменена в ADR-0006)
 - [ADR-0006: Модель поставки Managed SaaS и AI-native Source of Truth](adr/0006-saas-delivery-model-and-ai-native-source-of-truth.md) — переход к Context-as-a-Service, MCP-сервер, Web-портал, API и Git Sync
+- [ADR-0007: Физическая топология процессов SaaS и упаковка модулей](adr/0007-saas-process-topology-and-packaging.md) — 3 сборочные единицы (Core, AI, Portal), оркестрация Temporal, Privacy-by-default
 - [ADR Template](adr/TEMPLATE.md) — шаблон для новых ADR
 
 ## Архитектура системы
 
 - [Product Overview](architecture/product-overview.md) — что видит пользователь: ключевые каналы (MCP, Web, API, Git Sync), 5 блоков, сценарии
+- [Physical Deployment & Topology](architecture/deployment.md) — физическая топология процессов, сетевой периметр, конвейер Temporal и изоляция данных
 - [Tech Stack Proposal](architecture/tech-stack.md) — предлагаемый технологический стек (Go vs Kotlin, библиотеки, инфраструктура)
 - [Architecture Overview](architecture/README.md) — высокоуровневая архитектура
 - [Code-to-Architecture Milestone](architecture/code-to-architecture.md) — веха проектирования контура автоматического извлечения и LikeC4-визуализации
