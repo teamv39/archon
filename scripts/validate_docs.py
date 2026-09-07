@@ -23,7 +23,7 @@ import sys
 import urllib.parse
 from pathlib import Path
 
-# Обеспечиваем безопасный вывод UTF-8 в консоли (особенно актуально для Windows cp1251)
+# Обеспечиваем безопасный вывод UTF-8 в консоли
 if hasattr(sys.stdout, 'reconfigure'):
     sys.stdout.reconfigure(encoding='utf-8', errors='backslashreplace')
 if hasattr(sys.stderr, 'reconfigure'):
@@ -86,10 +86,10 @@ def check_cjk(repo_root: str, files: list[str]) -> bool:
                             'content': line.strip()
                         })
         except Exception as e:
-            print(f"Ошибка чтения файла {rel_path}: {e}", file=sys.stderr)
+            print(f"[ERROR] Ошибка чтения файла {rel_path}: {e}", file=sys.stderr)
 
     if cjk_errors:
-        print(f"\n❌ Найдено CJK-символов в {len(cjk_errors)} местах:")
+        print(f"\n[ERROR] Найдено CJK-символов в {len(cjk_errors)} местах:")
         for err in cjk_errors:
             chars_str = ", ".join(err['char_info'])
             print(f"  {err['file']}:{err['line']}: символы {chars_str}")
@@ -97,7 +97,7 @@ def check_cjk(repo_root: str, files: list[str]) -> bool:
         print("\nУдалите CJK-иероглифы согласно требованиям AGENTS.md.")
         return False
 
-    print(f"✅ CJK-символы не обнаружены (проверено файлов: {len(files)}).\n")
+    print(f"[OK] CJK-символы не обнаружены (проверено файлов: {len(files)}).\n")
     return True
 
 
@@ -118,7 +118,7 @@ def check_links(repo_root: str, files: list[str]) -> bool:
             with open(file_path, 'r', encoding='utf-8', errors='replace') as fh:
                 content = fh.read()
         except Exception as e:
-            print(f"Ошибка чтения файла {rel_path}: {e}", file=sys.stderr)
+            print(f"[ERROR] Ошибка чтения файла {rel_path}: {e}", file=sys.stderr)
             continue
 
         lines = content.splitlines()
@@ -184,14 +184,14 @@ def check_links(repo_root: str, files: list[str]) -> bool:
                     })
 
     if broken_links:
-        print(f"\n❌ Найдено {len(broken_links)} невалидных локальных ссылок:")
+        print(f"\n[ERROR] Найдено {len(broken_links)} невалидных локальных ссылок:")
         for b in broken_links:
             print(f"  {b['file']}:{b['line']}: [{b['text']}]({b['target']})")
             print(f"    Целевой путь не существует: {b['resolved']}")
         print("\nИсправьте указанные пути к файлам.")
         return False
 
-    print(f"✅ Все локальные ссылки валидны (проверено ссылок: {total_links_checked} в {len(files)} файлах).\n")
+    print(f"[OK] Все локальные ссылки валидны (проверено ссылок: {total_links_checked} в {len(files)} файлах).\n")
     return True
 
 
@@ -204,11 +204,10 @@ def check_mermaid(repo_root: str) -> bool:
     # Проверяем наличие npx
     try:
         cmd = ["npx", "-y", "md-mermaid-lint", "**/*.md"]
-        # На Windows npx может быть batch файлом npx.cmd
         use_shell = os.name == 'nt'
         result = subprocess.run(cmd, cwd=repo_root, shell=use_shell, capture_output=True, text=True, encoding='utf-8', errors='replace')
         if result.returncode != 0:
-            print("❌ Ошибки в синтаксисе Mermaid-диаграмм:")
+            print("[ERROR] Ошибки в синтаксисе Mermaid-диаграмм:")
             if result.stdout:
                 print(result.stdout)
             if result.stderr:
@@ -216,14 +215,14 @@ def check_mermaid(repo_root: str) -> bool:
             return False
         else:
             print(result.stdout.strip())
-            print("✅ Все Mermaid-диаграммы синтаксически корректны.\n")
+            print("[OK] Все Mermaid-диаграммы синтаксически корректны.\n")
             return True
     except FileNotFoundError:
-        print("⚠️ Утилита npx не найдена. Пропуск валидации Mermaid локально.")
+        print("[WARN] Утилита npx не найдена. Пропуск валидации Mermaid локально.")
         print("Для валидации Mermaid установите Node.js и запустите: npx md-mermaid-lint '**/*.md'\n")
         return True
     except Exception as e:
-        print(f"❌ Ошибка при запуске проверки Mermaid: {e}")
+        print(f"[ERROR] Ошибка при запуске проверки Mermaid: {e}")
         return False
 
 
@@ -267,10 +266,10 @@ def main():
             success = False
 
     if not success:
-        print("🚨 Валидация документации завершилась с ошибками!")
+        print("[FAIL] Валидация документации завершилась с ошибками.")
         sys.exit(1)
     else:
-        print("🎉 Все проверки документации успешно пройдены!")
+        print("[SUCCESS] Все проверки документации успешно пройдены.")
         sys.exit(0)
 
 
