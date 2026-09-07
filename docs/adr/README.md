@@ -11,10 +11,12 @@
 | ID | Название | Статус | Дата |
 | :--- | :--- | :--- | :--- |
 | [0001](0001-docs-as-code.md) | Docs-as-Code подход к документации | Accepted | 2026-08-28 |
+| [0002](0002-archmap-fate.md) | Судьба прототипа archmap (закрытие OQ-1) | Accepted | 2026-09-04 |
 | [0003](0003-source-of-truth-and-tenant-isolation.md) | Хранилище Source of Truth и модель изоляции тенантов | Accepted | 2026-09-05 |
 | [0004](0004-module-decomposition-revision-1.md) | Модульная декомпозиция, ревизия 1 | Accepted | 2026-08-29 |
 | [0005](0005-product-scope-and-delivery-model.md) | Граница скоупа и модель поставки | Partially Superseded (ADR-0006) | 2026-09-02 |
 | [0006](0006-saas-delivery-model-and-ai-native-source-of-truth.md) | Модель поставки Managed SaaS и AI-native Source of Truth | Accepted | 2026-09-03 |
+| [0007](0007-saas-process-topology-and-packaging.md) | Физическая топология процессов SaaS и упаковка модулей | Accepted | 2026-09-07 |
 
 ## Что фиксировать в ADR
 

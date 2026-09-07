@@ -15,7 +15,7 @@
 | OQ-5 | Хранилище графа и модель запросов | medium | model | **закрыт ADR-0003** |
 | OQ-6 | Event model: коммит -> инкрементальный анализ -> алерты | medium | extract, sources, pr-bot | открыт |
 | OQ-7 | Склейка сущностей между репозиториями | high | resolve | открыт (владелец появился) |
-| OQ-8 | Физическая топология: облачный стек SaaS vs гибридный агент | блок | все | открыт (скорректирован под SaaS) |
+| OQ-8 | Физическая топология: упаковка модулей и оркестрация SaaS | блок | все | **закрыт ADR-0007** |
 | OQ-9 | Канонический словарь и его поддержка | high | registry | открыт (владелец появился) |
 | OQ-10 | Граница скоупа: Архон как слой знаний vs полная docs-as-code платформа | блок | позиционирование | **закрыт ADR-0005** |
 | OQ-18 | Модель поставки: переход от CLI/self-hosted к Managed SaaS | high | platform, portal, runtime | **закрыт ADR-0006** |
@@ -35,7 +35,7 @@
 adversarial-прохода декомпозиции. Обоснование —
 [`../research/decomposition-adversarial.md`](../research/decomposition-adversarial.md),
 решение — [`../adr/0004-module-decomposition-revision-1.md`](../adr/0004-module-decomposition-revision-1.md).
-Оставшиеся блокеры для кода: OQ-8.
+Блокеры для кода: **отсутствуют** (OQ-1, OQ-2, OQ-5, OQ-8 закрыты через ADR). Команда разблокирована для разработки ядра.
 OQ-10 закрыт ADR-0005 (2026-09-02).
 
 ---
@@ -100,24 +100,17 @@ JSON-схема, которая описывает, в каком формате
 
 ## OQ-8. Физическая топология
 
-**Блокирует код.** Отвечает на вопрос "как модули разворачиваются и взаимодействуют физически в SaaS-модели".
+**Статус:** закрыт [ADR-0007](../adr/0007-saas-process-topology-and-packaging.md) (2026-09-07).  
+Полная спецификация физических процессов, сетевого контура и конвейера анализа оформлена в [deployment.md](deployment.md).
 
-В связи с переходом на Managed SaaS (ADR-0006) локальный all-in-one бинарник перестает быть целевой топологией MVP. Топология разделяется на сервисные контуры в нашей облачной инфраструктуре:
-
-1. **Client / Gateway Layer:**
-   - Web SPA (React/LikeC4 Portal)
-   - API & MCP Gateway (маршрутизация, JWT/API-key авторизация, троттлинг, SSE/JSON-RPC)
-2. **Worker / Orchestration Layer:**
-   - Temporal Cluster (оркестрация многошаговых пайплайнов анализа, ретраи)
-   - Stateless Extract & Interpret Workers (выкачивание AST, вызовы LLM, reconcile)
-3. **Storage Layer:**
-   - PostgreSQL 16 + Apache AGE (мультитенантный граф знаний и реляционные данные)
-   - Qdrant (векторный поиск по чанкам кода и архитектурным докам)
-   - Redis / NATS (кэширование, шина событий, pub/sub для обновлений портала)
-
-Открытые вопросы топологии:
-- Конфигурация multi-tenancy в PostgreSQL + AGE (схемы per-tenant vs общие таблицы с tenant_id).
-- Изоляция воркеров при парсинге репозиториев (gVisor/Firecracker microVM vs эфемерные K8s pods).
+**Принятое решение:**
+1. **3 сборочные единицы:**
+   - `archon-core-service` (Kotlin / JVM) — ядро, REST API, Webhooks, детерминированный разбор (AST/манифесты), reconcile, взаимодействие с Apache AGE.
+   - `archon-ai-service` (Python) — семантическое извлечение через LLM (`interpret`), валидация доказательств, векторный поиск, FastMCP сервер.
+   - `archon-portal` (TypeScript / React) — SPA веб-портал с LikeC4 viewer.
+2. **Оркестрация конвейера через Temporal Polyglot Workflows:** Kotlin Workflow управляет шагами: Activity 1 (Kotlin, клон в RAM-диск + AST) ➔ Activity 2 (Python, семантика LLM) ➔ Activity 3 (Kotlin, reconcile + запись в AGE).
+3. **Privacy-by-default:** код клиентов клонируется исключительно во временный RAM-диск (`/dev/shm`), парсится и немедленно удаляется (`rm -rf`). В БД сохраняются только метаданные и цитаты `evidence_files`.
+4. **Сетевой периметр:** стандартный Nginx Ingress без отдельного API Gateway на этапе MVP.
 
 ## OQ-9. Канонический словарь
 

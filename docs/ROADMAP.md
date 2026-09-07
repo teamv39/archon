@@ -6,9 +6,10 @@
 Декомпозиция: 17 модулей фабрики ([ADR-0004](adr/0004-module-decomposition-revision-1.md) + [ADR-0006](adr/0006-saas-delivery-model-and-ai-native-source-of-truth.md)).  
 Модель поставки: Managed SaaS (Context-as-a-Service) + Git Sync ([ADR-0006](adr/0006-saas-delivery-model-and-ai-native-source-of-truth.md)).  
 Стек: Kotlin/JVM + Python для LLM-модулей ([tech-stack.md](architecture/tech-stack.md)).  
-Блокеры для кода: OQ-8 ([open-questions.md](architecture/open-questions.md)); OQ-1 закрыт ([ADR-0002](adr/0002-archmap-fate.md)), OQ-2 и OQ-5 закрыты ([ADR-0003](adr/0003-source-of-truth-and-tenant-isolation.md)).  
-Закрытые эпики: ARCH-1 (OQ-1, ADR-0002), ARCH-2 (OQ-2, ADR-0003).  
-Закрытые архитектурные развилки: OQ-1 ([ADR-0002](adr/0002-archmap-fate.md)), OQ-2 и OQ-5 ([ADR-0003](adr/0003-source-of-truth-and-tenant-isolation.md)), OQ-10 ([ADR-0005](adr/0005-product-scope-and-delivery-model.md)), OQ-18 и OQ-19 ([ADR-0006](adr/0006-saas-delivery-model-and-ai-native-source-of-truth.md)).  
+Блокеры для кода: **сняты** (все ключевые архитектурные развилки OQ-1, OQ-2, OQ-5, OQ-8 закрыты через ADR).  
+Закрытые эпики: ARCH-1 (OQ-1, ADR-0002), ARCH-2 (OQ-2, ADR-0003), ARCH-3 (OQ-8, ADR-0007).  
+Закрытые архитектурные развилки: OQ-1 ([ADR-0002](adr/0002-archmap-fate.md)), OQ-2 и OQ-5 ([ADR-0003](adr/0003-source-of-truth-and-tenant-isolation.md)), OQ-8 ([ADR-0007](adr/0007-saas-process-topology-and-packaging.md)), OQ-10 ([ADR-0005](adr/0005-product-scope-and-delivery-model.md)), OQ-18 и OQ-19 ([ADR-0006](adr/0006-saas-delivery-model-and-ai-native-source-of-truth.md)).  
+Физическая топология: [deployment.md](architecture/deployment.md) (3 сборочные единицы, оркестрация Temporal).  
 Ключевые вехи проектирования: [Code-to-Architecture](architecture/code-to-architecture.md) (контур извлечения и LikeC4-визуализации).  
 Команда: 4 ядро (Денис — lead/architect, Миша — AI/R&D, Паша — core backend, Максим — DevOps/SRE) + пул.
 
@@ -69,7 +70,7 @@
 | [#23](https://github.com/teamv39/archon/issues/23) | **ARCH-24: [PoC-MCP-3]** MCP Tools: контракт API и правила | Миша | `S` | Инструмент `get_service_contract` отдает точные DTO |
 | [#24](https://github.com/teamv39/archon/issues/24) | **ARCH-25: [PoC-MCP-4]** E2E тест интеграции с Cursor IDE | Миша | `S` | Агент в Cursor генерирует клиент без галлюцинаций |
 | [#25](https://github.com/teamv39/archon/issues/25) | ~~**ARCH-26: [ADR-0002]** Анализ прототипа archmap (закрытие OQ-1)~~ | Денис | `S` | ✅ Done ([ADR-0002](adr/0002-archmap-fate.md)) |
-| [#26](https://github.com/teamv39/archon/issues/26) | **ARCH-27: [ADR-0007]** Физическая топология SaaS (закрытие OQ-8) | Денис | `M` | Спецификация `deployment.md` (2–3 сборочные единицы) |
+| [#26](https://github.com/teamv39/archon/issues/26) | ~~**ARCH-27: [ADR-0007]** Физическая топология SaaS (закрытие OQ-8)~~ | Денис | `M` | ✅ Done ([ADR-0007](adr/0007-saas-process-topology-and-packaging.md), [deployment.md](architecture/deployment.md)) |
 | [#27](https://github.com/teamv39/archon/issues/27) | **ARCH-28: [CustDev-1]** Гайд и скрипт интервью для тимлидов | Денис | `XS` | Скрипт интервью в `docs/research/custdev-script.md` |
 | [#28](https://github.com/teamv39/archon/issues/28) | **ARCH-29: [CustDev-2]** Проведение 5 интервью и аналитический отчет | Денис | `M` | Отчет `docs/research/user-interviews.md`, валидация гипотез |
 | [#29](https://github.com/teamv39/archon/issues/29) | **ARCH-30: [Pricing]** Спецификация тарифов и токен-лимитов SaaS | Денис | `S` | Документ `docs/research/pricing.md` (Free/Team/Enterprise) |
@@ -292,9 +293,10 @@
 **Фаза 0:**
 - ✅ OQ-10, OQ-18, OQ-19 закрыты: граница скоупа, модель SaaS и AI-native Source of Truth зафиксированы ([ADR-0005](adr/0005-product-scope-and-delivery-model.md), [ADR-0006](adr/0006-saas-delivery-model-and-ai-native-source-of-truth.md))
 - ✅ OQ-1 закрыт ([ADR-0002](adr/0002-archmap-fate.md)), OQ-2 и OQ-5 закрыты ([ADR-0003](adr/0003-source-of-truth-and-tenant-isolation.md))
+- ✅ OQ-8 закрыт ([ADR-0007](adr/0007-saas-process-topology-and-packaging.md)): физическая топология и упаковка в 3 сборочные единицы зафиксированы в [deployment.md](architecture/deployment.md)
+- ✅ Все архитектурные блокеры для кода сняты: команда разблокирована для разработки Фазы 1
 - Проведено 5+ интервью, гипотезы получили статус confirmed/adjusted/dropped
 - Бизнес-модель и pricing (черновик)
-- Оставшийся блокер для кода: OQ-8 (физическая топология, ADR-0007)
 
 **Фаза 1:**
 - Демо: "доки врут, вот доказательство" на реальном репозитории

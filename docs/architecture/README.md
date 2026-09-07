@@ -96,6 +96,6 @@ flowchart TB
 
 ## Deployment архитектура
 
-Физическая топология — открытый вопрос [OQ-8](open-questions.md). Логический модуль не равен сервису;
-требование к топологии: MVP собирается из 2-3 сборочных единиц.
-Спецификация `deployment.md` появится после принятия ADR-0007.
+Физическая топология принята в [ADR-0007](../adr/0007-saas-process-topology-and-packaging.md) (закрыт блокер [OQ-8](open-questions.md#oq-8-физическая-топология)).  
+17 логических модулей упакованы в 3 сборочные единицы (`archon-core-service`, `archon-ai-service`, `archon-portal`) под управлением оркестратора Temporal.  
+Полная спецификация процессов, протоколов и песочницы Privacy-by-default оформлена в [`deployment.md`](deployment.md).
