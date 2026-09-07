@@ -6,6 +6,7 @@
 
 ## Структура
 
+- `tasks.py` — просмотр и фильтрация задач команды из GitHub Projects (`python3 scripts/tasks.py --ready`).
 - `docker-compose.age.yml` (или в корне) — запуск тестовой базы PostgreSQL 16 + Apache AGE (Паша, задача [#17](https://github.com/teamv39/archon/issues/17)).
 - `init-age.sql` — скрипт инициализации расширения AGE.
 - `seed-sample-graph.sql` — сид эталонного графа микросервисов на базе [`docs/architecture/sample-architecture.md`](../docs/architecture/sample-architecture.md) (Паша, задача [#18](https://github.com/teamv39/archon/issues/18)).
