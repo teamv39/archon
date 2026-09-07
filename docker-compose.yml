@@ -1,0 +1,70 @@
+services:
+  postgres:
+    build:
+      context: .
+      dockerfile: ./scripts/Dockerfile
+    image: archon-postgres-age:16-1.5.0
+    container_name: archon-postgres
+    restart: unless-stopped
+    ports:
+      - "${POSTGRES_PORT:-5455}:5432"
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-postgres}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-postgres}
+      POSTGRES_DB: ${POSTGRES_DB:-archon}
+    command:
+      - "postgres"
+      - "-c"
+      - "shared_preload_libraries=age"
+    volumes:
+      - ./scripts/init-scripts:/docker-entrypoint-initdb.d:ro
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - archon-network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U $${POSTGRES_USER:-postgres} -d $${POSTGRES_DB:-archon}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  redis:
+    image: redis:7-alpine
+    container_name: archon-redis
+    restart: unless-stopped
+    ports:
+      - "${REDIS_PORT:-6379}:6379"
+    command: redis-server --appendonly yes
+    volumes:
+      - redis_data:/data
+    networks:
+      - archon-network
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  qdrant:
+    image: qdrant/qdrant:v1.12.0
+    container_name: archon-qdrant
+    restart: unless-stopped
+    ports:
+      - "${QDRANT_PORT:-6333}:6333"
+      - "${QDRANT_GRPC_PORT:-6334}:6334"
+    volumes:
+      - qdrant_data:/qdrant/storage
+    networks:
+      - archon-network
+
+networks:
+  archon-network:
+    name: archon-network
+    driver: bridge
+
+volumes:
+  postgres_data:
+    name: archon-postgres-data
+  redis_data:
+    name: archon-redis-data
+  qdrant_data:
+    name: archon-qdrant-data
