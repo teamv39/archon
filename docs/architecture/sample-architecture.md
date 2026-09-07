@@ -7,7 +7,7 @@
 
 ## 1. Сценарий: E-Commerce Checkout & Billing
 
-В качестве эталона взят классический домен электронной коммерции из 5 сервисов:
+В качестве эталона взят классический домен электронной коммерции из 6 сервисов:
 
 ```mermaid
 flowchart LR
@@ -20,6 +20,7 @@ flowchart LR
         Order["order-service<br/>Kotlin / Spring"]
         Billing["billing-service<br/>Java / Spring"]
         Inventory["inventory-service<br/>Go"]
+        Delivery["delivery-service<br/>TypeScript / NestJS"]
         Notify["notification-service<br/>Python"]
     end
 
@@ -31,6 +32,7 @@ flowchart LR
     Web -->|"POST /api/v1/orders"| Order
     Order -->|"POST /api/v1/invoices"| Billing
     Order -->|"GET /api/v1/items/{sku}/availability"| Inventory
+    Order -->|"POST /api/v1/deliveries"| Delivery
     Order -.->|"Validate Token"| Auth
     Billing -->|"Publish"| TopicPaid
     TopicPaid -->|"Consume"| Notify
@@ -53,6 +55,7 @@ flowchart LR
 | `order-service` | Order Management | Kotlin | Spring Boot 3 | `github.com/acme/order-service` | Checkout |
 | `billing-service` | Billing & Payments | Java | Spring Boot 3 | `github.com/acme/billing-service` | Payments |
 | `inventory-service` | Warehouse & Stock | Go | Chi | `github.com/acme/inventory-service` | Logistics |
+| `delivery-service` | Delivery & Shipping | TypeScript | NestJS | `github.com/acme/delivery-service` | Logistics |
 | `notification-service` | Email & Push | Python | FastAPI | `github.com/acme/notification-service` | Marketing |
 | `auth-service` | IAM & Tokens | Java | Spring Boot 3 | `github.com/acme/auth-service` | Security |
 
@@ -92,6 +95,28 @@ flowchart LR
    * Сервис-владелец: `inventory-service`
    * Метод/Путь: `GET /api/v1/items/{sku}/availability`
    * Потребитель: `order-service`
+
+4. **`contract-delivery-create`**:
+   * Сервис-владелец: `delivery-service`
+   * Метод/Путь: `POST /api/v1/deliveries`
+   * Потребитель: `order-service`
+   * Схема DTO (CreateDeliveryRequest):
+     ```json
+     {
+       "order_id": "string (uuid)",
+       "recipient_address": "string",
+       "delivery_slot": "string (ISO-8601)",
+       "courier_comment": "string (optional)"
+     }
+     ```
+   * Схема ответа (DeliveryResponse):
+     ```json
+     {
+       "delivery_id": "string (uuid)",
+       "status": "string (SCHEDULED, IN_TRANSIT, DELIVERED)",
+       "tracking_code": "string"
+     }
+     ```
 
 ### 3.2. Событийные контракты (Kafka)
 4. **`contract-kafka-order-paid`**:
@@ -144,6 +169,7 @@ SELECT * FROM cypher('archon_graph', $$
     CREATE (o:Service {id: 'order-service', name: 'Order Service', lang: 'Kotlin', framework: 'Spring Boot'}),
            (b:Service {id: 'billing-service', name: 'Billing Service', lang: 'Java', framework: 'Spring Boot'}),
            (i:Service {id: 'inventory-service', name: 'Inventory Service', lang: 'Go', framework: 'Chi'}),
+           (d:Service {id: 'delivery-service', name: 'Delivery Service', lang: 'TypeScript', framework: 'NestJS'}),
            (n:Service {id: 'notification-service', name: 'Notification Service', lang: 'Python', framework: 'FastAPI'}),
            (a:Service {id: 'auth-service', name: 'Auth Service', lang: 'Java', framework: 'Spring Boot'})
 $$) as (n agtype);
@@ -153,6 +179,7 @@ SELECT * FROM cypher('archon_graph', $$
     CREATE (c_inv:Contract {id: 'c-create-invoice', proto: 'REST', method: 'POST', path: '/api/v1/invoices'}),
            (c_ord:Contract {id: 'c-get-order', proto: 'REST', method: 'GET', path: '/api/v1/orders/{id}'}),
            (c_stock:Contract {id: 'c-check-stock', proto: 'REST', method: 'GET', path: '/api/v1/items/{sku}/availability'}),
+           (c_deliv:Contract {id: 'c-create-delivery', proto: 'REST', method: 'POST', path: '/api/v1/deliveries'}),
            (c_paid:Contract {id: 'c-order-paid', proto: 'KAFKA', topic: 'order.paid'})
 $$) as (n agtype);
 
@@ -170,6 +197,10 @@ SELECT * FROM cypher('archon_graph', $$
 $$) as (n agtype);
 
 SELECT * FROM cypher('archon_graph', $$
+    MATCH (d:Service {id: 'delivery-service'}), (c:Contract {id: 'c-create-delivery'}) CREATE (d)-[:EXPOSES]->(c)
+$$) as (n agtype);
+
+SELECT * FROM cypher('archon_graph', $$
     MATCH (b:Service {id: 'billing-service'}), (c:Contract {id: 'c-order-paid'}) CREATE (b)-[:EXPOSES]->(c)
 $$) as (n agtype);
 
@@ -184,6 +215,12 @@ SELECT * FROM cypher('archon_graph', $$
     MATCH (o:Service {id: 'order-service'}), (c:Contract {id: 'c-check-stock'}), (i:Service {id: 'inventory-service'})
     CREATE (o)-[:CONSUMES]->(c),
            (o)-[:DEPENDS_ON {sync: true}]->(i)
+$$) as (n agtype);
+
+SELECT * FROM cypher('archon_graph', $$
+    MATCH (o:Service {id: 'order-service'}), (c:Contract {id: 'c-create-delivery'}), (d:Service {id: 'delivery-service'})
+    CREATE (o)-[:CONSUMES]->(c),
+           (o)-[:DEPENDS_ON {sync: true}]->(d)
 $$) as (n agtype);
 
 SELECT * FROM cypher('archon_graph', $$
@@ -222,9 +259,11 @@ $$) as (n agtype);
 
 ---
 
-## 6. Формат ответа MCP Server для Cursor (Для PoC Миши)
+## 6. Форматы ответов MCP Server для Cursor (Для PoC Миши)
 
-Когда Cursor через MCP вызывает инструмент:
+### 6.1. Инструмент `get_service_contract`
+
+Когда Cursor через MCP запрашивает контракт:
 `get_service_contract(service_id="billing-service", endpoint="/api/v1/invoices")`
 
 MCP-сервер возвращает структурированный ответ:
@@ -258,5 +297,87 @@ MCP-сервер возвращает структурированный отв�
     "Сервис billing-service НЕ должен синхронно вызывать order-service (предотвращение цикла)",
     "Таймаут вызова: 1500ms, обязателен ретрай по статусам 502/503/504"
   ]
+}
+```
+
+---
+
+### 6.2. Инструмент `validate_dependency` (Проверка допустимости связей)
+
+AI-агент вызывает `validate_dependency(source, target)` перед добавлением новой зависимости в коде, чтобы предотвратить появление архитектурных дефектов и циклов.
+
+#### Тестовый сценарий 1: Допустимая зависимость (Success)
+*Запрос:* `validate_dependency(source="order-service", target="delivery-service")`  
+*Ответ:*
+```json
+{
+  "allowed": true,
+  "source": "order-service",
+  "target": "delivery-service",
+  "dependency_type": "SYNCHRONOUS_REST",
+  "impact": {
+    "new_edges": 1,
+    "cycles_detected": 0,
+    "risk_level": "LOW"
+  },
+  "message": "Зависимость допустима. Циклических связей и нарушений архитектурных слоев не обнаружено."
+}
+```
+
+#### Тестовый сценарий 2: Прямой цикл A ↔ B (Дефект 1, Critical)
+*Запрос:* `validate_dependency(source="billing-service", target="order-service")`  
+*Ответ:*
+```json
+{
+  "allowed": false,
+  "source": "billing-service",
+  "target": "order-service",
+  "violation_type": "CIRCULAR_DEPENDENCY",
+  "cycle_length": 2,
+  "cycle_path": [
+    "billing-service",
+    "order-service",
+    "billing-service"
+  ],
+  "risk_level": "CRITICAL",
+  "message": "Запрещено архитектурной политикой No-Cycles: вызов создает прямую циклическую зависимость billing-service -> order-service -> billing-service. Рекомендуется использовать асинхронные события (Kafka topic: order.paid)."
+}
+```
+
+#### Тестовый сценарий 3: Транзитивный цикл длины 3 (A → B → C → A)
+*Контекст:* `order-service` вызывает `delivery-service`, а `billing-service` вызывает `order-service`. Если `delivery-service` попытается вызвать `billing-service`:  
+*Запрос:* `validate_dependency(source="delivery-service", target="billing-service")`  
+*Ответ:*
+```json
+{
+  "allowed": false,
+  "source": "delivery-service",
+  "target": "billing-service",
+  "violation_type": "CIRCULAR_DEPENDENCY",
+  "cycle_length": 3,
+  "cycle_path": [
+    "delivery-service",
+    "billing-service",
+    "order-service",
+    "delivery-service"
+  ],
+  "risk_level": "CRITICAL",
+  "message": "Запрещено архитектурной политикой No-Cycles: вызов создает транзитивный цикл длины 3: delivery-service -> billing-service -> order-service -> delivery-service."
+}
+```
+
+#### Тестовый сценарий 4: Нарушение архитектурных слоев (Layering Violation)
+*Контекст:* `auth-service` относится к инфраструктурному слою (Security / Tier 0), а `delivery-service` — к бизнес-логике (Tier 2).  
+*Запрос:* `validate_dependency(source="auth-service", target="delivery-service")`  
+*Ответ:*
+```json
+{
+  "allowed": false,
+  "source": "auth-service",
+  "target": "delivery-service",
+  "violation_type": "LAYERING_VIOLATION",
+  "rule": "TIER_DOWNWARDS_ONLY",
+  "risk_level": "HIGH",
+  "message": "Запрещено правилом архитектурных слоев: Security/IAM сервис (auth-service, Tier 0) не может иметь исходящих зависимостей на сервис бизнес-домена (delivery-service, Tier 2)."
 }
 ```
