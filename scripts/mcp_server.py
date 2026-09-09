@@ -34,14 +34,37 @@ async def ping() -> str:
 
 @mcp.resource("archon://services/{service_id}/overview")
 async def get_service_overview(service_id: str) -> str:
-    """Топология сервиса: язык, команда-владелец, исходящие вызовы."""
+    """Паспорт сервиса: язык, фреймворк, репозиторий, команда-владелец."""
     service = services.get(service_id)
     if service is None:
         return json.dumps(
             {"error": f"Сервис '{service_id}' не найден в модели", "known_services": sorted(services)},
             ensure_ascii=False,
         )
-    return json.dumps(service, ensure_ascii=False, indent=2)
+    passport = {k: v for k, v in service.items() if k != "outgoing_calls"}
+    return json.dumps(passport, ensure_ascii=False, indent=2)
+
+
+@mcp.resource("archon://services/{service_id}/dependencies")
+async def get_service_dependencies(service_id: str) -> str:
+    """Топология зависимостей сервиса: исходящие и входящие вызовы."""
+    service = services.get(service_id)
+    if service is None:
+        return json.dumps(
+            {"error": f"Сервис '{service_id}' не найден в модели", "known_services": sorted(services)},
+            ensure_ascii=False,
+        )
+    incoming = [
+        {"source": other["id"], **call}
+        for other in services.values()
+        for call in other["outgoing_calls"]
+        if call["target"] == service_id
+    ]
+    return json.dumps(
+        {"service": service_id, "outgoing": service["outgoing_calls"], "incoming": incoming},
+        ensure_ascii=False,
+        indent=2,
+    )
 
 
 @mcp.tool()
