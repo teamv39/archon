@@ -1,0 +1,250 @@
+{
+  "$schema_version": "1.0",
+  "repository": {
+    "url": "https://github.com/acme/order-service",
+    "commit_sha": "a1b2c3d",
+    "default_branch": "main",
+    "primary_language": "kotlin",
+    "scanned_at": "2026-09-10T09:00:00Z"
+  },
+  "product": {
+    "slug": "order-service",
+    "name": "Order Management",
+    "team_slug": "checkout-team",
+    "team_name": "Checkout Team",
+    "business_description": "Управление заказами электронной коммерции: создание, оплата, отслеживание статуса.",
+    "tech_description": "Kotlin / Spring Boot 3, PostgreSQL. Ядро чекаута.",
+    "tags": ["core", "critical-path"],
+    "evidence_files": ["README.md", "docs/ARCHITECTURE.md"]
+  },
+  "containers": [
+    {
+      "slug": "order-api",
+      "name": "Order API",
+      "kind": "service",
+      "technology": "Kotlin/Spring Boot 3",
+      "description": "REST API управления заказами.",
+      "evidence_files": ["src/main/kotlin/com/acme/order/OrderApplication.kt", "build.gradle.kts"]
+    },
+    {
+      "slug": "order-db",
+      "name": "Order Database",
+      "kind": "database",
+      "technology": "PostgreSQL 16",
+      "evidence_files": ["src/main/resources/db/migration/V1__init.sql", "deploy/values-prod.yaml"]
+    }
+  ],
+  "external_systems": [
+    {
+      "slug": "billing-service",
+      "name": "Billing Service",
+      "scope": "internal",
+      "description": "Сервис биллинга и платежей.",
+      "owner": "team:payments-core",
+      "evidence_files": ["src/main/kotlin/com/acme/order/client/BillingClient.kt"]
+    },
+    {
+      "slug": "inventory-service",
+      "name": "Inventory Service",
+      "scope": "internal",
+      "description": "Склад и наличие товара.",
+      "owner": "team:logistics",
+      "evidence_files": ["src/main/kotlin/com/acme/order/client/InventoryClient.kt"]
+    },
+    {
+      "slug": "delivery-service",
+      "name": "Delivery Service",
+      "scope": "internal",
+      "description": "Доставка и отгрузка.",
+      "owner": "team:logistics",
+      "evidence_files": ["src/main/kotlin/com/acme/order/client/DeliveryClient.kt"]
+    },
+    {
+      "slug": "auth-service",
+      "name": "Auth Service",
+      "scope": "internal",
+      "description": "IAM и токены.",
+      "owner": "team:security",
+      "evidence_files": ["src/main/kotlin/com/acme/order/filter/AuthFilter.kt"]
+    },
+    {
+      "slug": "auth-db",
+      "name": "Auth Database",
+      "scope": "internal",
+      "description": "База данных сервиса аутентификации. Доступ order-service напрямую (дефект Shared Database).",
+      "owner": "team:security",
+      "evidence_files": ["src/main/resources/application-prod.yaml"]
+    },
+    {
+      "slug": "notification-service",
+      "name": "Notification Service",
+      "scope": "internal",
+      "description": "Email и push-уведомления.",
+      "owner": "team:marketing",
+      "evidence_files": ["docs/ARCHITECTURE.md"]
+    },
+    {
+      "slug": "order-paid-topic",
+      "name": "Kafka topic order.paid",
+      "scope": "internal",
+      "description": "Топик события оплаты заказа. Продюсер — billing-service, консьюмер — notification-service.",
+      "owner": "team:payments-core",
+      "evidence_files": ["docs/ARCHITECTURE.md"]
+    },
+    {
+      "slug": "web-client",
+      "name": "Web / Mobile Client",
+      "scope": "external",
+      "description": "Клиентское приложение магазина.",
+      "owner": null,
+      "evidence_files": ["docs/ARCHITECTURE.md"]
+    }
+  ],
+  "relationships": [
+    {
+      "id": "rel-web-order",
+      "source": "external:web-client",
+      "target": "container:order-api",
+      "label": "создает заказ",
+      "kind": "api_call",
+      "technology": "HTTPS/REST",
+      "evidence_files": ["docs/ARCHITECTURE.md"]
+    },
+    {
+      "id": "rel-order-billing",
+      "source": "container:order-api",
+      "target": "external:billing-service",
+      "label": "создает инвойс на оплату заказа",
+      "kind": "api_call",
+      "technology": "HTTPS/REST",
+      "evidence_files": ["src/main/kotlin/com/acme/order/client/BillingClient.kt:42"]
+    },
+    {
+      "id": "rel-order-inventory",
+      "source": "container:order-api",
+      "target": "external:inventory-service",
+      "label": "проверяет наличие товара",
+      "kind": "api_call",
+      "technology": "HTTPS/REST",
+      "evidence_files": ["src/main/kotlin/com/acme/order/client/InventoryClient.kt:31"]
+    },
+    {
+      "id": "rel-order-delivery",
+      "source": "container:order-api",
+      "target": "external:delivery-service",
+      "label": "создает доставку",
+      "kind": "api_call",
+      "technology": "HTTPS/REST",
+      "evidence_files": ["src/main/kotlin/com/acme/order/client/DeliveryClient.kt:18"]
+    },
+    {
+      "id": "rel-order-auth",
+      "source": "container:order-api",
+      "target": "external:auth-service",
+      "label": "валидирует токен",
+      "kind": "api_call",
+      "technology": "HTTPS/REST",
+      "evidence_files": ["src/main/kotlin/com/acme/order/filter/AuthFilter.kt:25"]
+    },
+    {
+      "id": "rel-order-authdb",
+      "source": "container:order-api",
+      "target": "external:auth-db",
+      "label": "прямой запрос к чужой БД",
+      "kind": "data",
+      "technology": "PostgreSQL/TCP",
+      "confidence": 0.7,
+      "evidence_files": ["src/main/resources/application-prod.yaml"]
+    },
+    {
+      "id": "rel-billing-kafka",
+      "source": "external:billing-service",
+      "target": "external:order-paid-topic",
+      "label": "публикует событие оплаты",
+      "kind": "event",
+      "technology": "Kafka",
+      "evidence_files": ["docs/ARCHITECTURE.md"]
+    },
+    {
+      "id": "rel-kafka-notify",
+      "source": "external:order-paid-topic",
+      "target": "external:notification-service",
+      "label": "консьюмит событие оплаты",
+      "kind": "event",
+      "technology": "Kafka",
+      "evidence_files": ["docs/ARCHITECTURE.md"]
+    }
+  ],
+  "flows": [
+    {
+      "slug": "checkout-flow",
+      "name": "Оформление заказа",
+      "description": "Создание заказа с проверкой стока, выставлением инвойса и регистрацией доставки.",
+      "steps": [
+        {
+          "order": 1,
+          "from": "external:web-client",
+          "to": "container:order-api",
+          "action": "отправляет корзину для создания заказа",
+          "evidence_files": ["src/main/kotlin/com/acme/order/controller/OrderController.kt:28"]
+        },
+        {
+          "order": 2,
+          "from": "container:order-api",
+          "to": "external:inventory-service",
+          "action": "проверяет наличие товара по SKU",
+          "evidence_files": ["src/main/kotlin/com/acme/order/client/InventoryClient.kt:31"]
+        },
+        {
+          "order": 3,
+          "from": "container:order-api",
+          "to": "external:billing-service",
+          "action": "создает инвойс на оплату",
+          "evidence_files": ["src/main/kotlin/com/acme/order/client/BillingClient.kt:42"]
+        },
+        {
+          "order": 4,
+          "from": "container:order-api",
+          "to": "external:delivery-service",
+          "action": "создает доставку",
+          "evidence_files": ["src/main/kotlin/com/acme/order/client/DeliveryClient.kt:18"]
+        }
+      ],
+      "evidence_files": ["docs/ARCHITECTURE.md"]
+    },
+    {
+      "slug": "order-paid-flow",
+      "name": "Оплата заказа",
+      "description": "Асинхронное уведомление об оплате через Kafka.",
+      "steps": [
+        {
+          "order": 1,
+          "from": "external:billing-service",
+          "to": "external:order-paid-topic",
+          "action": "публикует событие order.paid",
+          "evidence_files": ["docs/ARCHITECTURE.md"]
+        },
+        {
+          "order": 2,
+          "from": "external:order-paid-topic",
+          "to": "external:notification-service",
+          "action": "консьюмит событие и отправляет push-уведомление",
+          "evidence_files": ["docs/ARCHITECTURE.md"]
+        }
+      ],
+      "evidence_files": ["docs/ARCHITECTURE.md"]
+    }
+  ],
+  "uncertainties": [
+    {
+      "field": "external_systems[4].owner",
+      "reason": "Владелец auth-db не указан в конфигах явно; предполагаем team:security по пути кластера.",
+      "confidence": 0.6
+    },
+    {
+      "field": "relationships[5].confidence",
+      "reason": "Прямой доступ к auth-db виден только в application-prod.yaml; возможно, это staging-конфиг, попавший в prod-профайл.",
+      "confidence": 0.55
+    }
+  ]
+}

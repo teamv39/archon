@@ -10,7 +10,7 @@
 | :--- | :--- | :--- | :--- | :--- |
 | OQ-1 | Судьба и место archmap в Archon | блок | extract, interpret, portal | **закрыт ADR-0002** |
 | OQ-2 | Source of truth модели: git vs БД vs гибрид | блок | model | **закрыт ADR-0003** |
-| OQ-3 | Границы и версионирование Extraction Contract | high | extract, interpret, reconcile, model | открыт (спецификация v1.0 на ревью по ADR-0002) |
+| OQ-3 | Границы и версионирование Extraction Contract | high | extract, interpret, reconcile, model | **закрыт** (спецификация v1.0: [contracts/](contracts/README.md)) |
 | OQ-4 | Разрешение противоречий источников | high | reconcile | открыт (владелец появился) |
 | OQ-5 | Хранилище графа и модель запросов | medium | model | **закрыт ADR-0003** |
 | OQ-6 | Event model: коммит -> инкрементальный анализ -> алерты | medium | extract, sources, pr-bot | открыт |
@@ -62,11 +62,16 @@ OQ-10 закрыт ADR-0005 (2026-09-02).
 
 ## OQ-3. Контракт извлечения
 
-JSON-схема, которая описывает, в каком формате модули `extract` и `interpret` передают данные в `model`. Это базовый интерфейс контура извлечения.
+**Статус:** закрыт (2026-09-10). Спецификация v1.0 оформлена и провалидирована:
+[`contracts/README.md`](contracts/README.md).
 
-**Текущий статус:** открыт (спецификация v1.0 на ревью).
-По результатам [ADR-0002](../adr/0002-archmap-fate.md) за основу принята спецификация [Extraction Contract v1.0](prototypes/archmap_dump/json_contract.md) (`evidence_files`, `confidence`, `uncertainties`, `flows`, `containers`, `components`).
-Открытыми остаются формальная валидация JSON Schema генераторами типов и механизм версионирования при переходе к v2+.
+Решение:
+1. Каноническая JSON Schema (Draft 2020-12): [`contracts/extraction-v1.json`](contracts/extraction-v1.json) — источник истины.
+2. Версионирование — SemVer в `$schema_version`: мажор при breaking-изменениях, минор additive-only (решение лида 2026-09-10).
+3. Скоуп v1.0 — ядро без `components[]` (C3) и `k8s_hints`: ни один спайк Фазы 0 их не потребляет; оба возвращаются в v1.1+ с component-уровнем адресации.
+4. DTO: ручные Pydantic v2 ([`contracts/extraction_v1.py`](contracts/extraction_v1.py)) для `interpret` (Миша, ARCH-35/36), маппинг на Kotlin — [`contracts/kotlin-dto-spec.md`](contracts/kotlin-dto-spec.md) для `model` (Паша, ARCH-34).
+5. Защита от галлюцинаций зафиксирована схемой: `evidence_files` minItems 1, `confidence` 0.0–1.0, `uncertainties[].field` — dot-path без JSONPath-синтаксиса (решение лида 2026-09-10).
+6. Валидация эталона и негативных кейсов: [`contracts/validate_contract.py`](contracts/validate_contract.py) — метасхема, фикстура, round-trip Pydantic↔Schema, 8 негативных тестов.
 
 ## OQ-4. Разрешение противоречий
 
