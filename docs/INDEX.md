@@ -29,6 +29,7 @@
 - [Architecture Overview](architecture/README.md) — высокоуровневая архитектура
 - [Code-to-Architecture Milestone](architecture/code-to-architecture.md) — веха проектирования контура автоматического извлечения и LikeC4-визуализации
 - [Data Model](architecture/data-model.md) — модель данных Knowledge Graph
+- [Extraction Contract v1.0](architecture/contracts/README.md) — канонический контракт контура извлечения (JSON Schema, Pydantic DTO, Kotlin-спека, валидация)
 - [Modules Registry](architecture/modules/README.md) — реестр модулей (коды, статусы, ссылки)
 - [Open Questions](architecture/open-questions.md) — открытые проектные вопросы (кандидаты в ADR)
 - [Prototypes & Dumps](architecture/prototypes/README.md) — прототипы и дампы: разбор archmap, Extraction Contract v1.0, промпты и генератор LikeC4
