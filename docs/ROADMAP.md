@@ -1,7 +1,7 @@
 # Roadmap
 
 Планы развития проекта Archon по фазам.  
-Актуализировано: 2026-09-07.
+Актуализировано: 2026-09-09.
 
 Декомпозиция: 17 модулей фабрики ([ADR-0004](adr/0004-module-decomposition-revision-1.md) + [ADR-0006](adr/0006-saas-delivery-model-and-ai-native-source-of-truth.md)).  
 Модель поставки: Managed SaaS (Context-as-a-Service) + Git Sync ([ADR-0006](adr/0006-saas-delivery-model-and-ai-native-source-of-truth.md)).  
@@ -18,8 +18,9 @@
 ## Фаза 0: Product & Business Analysis (текущая)
 
 **Цель:** понять, что строим, для кого и почему за это будут платить.
-Код не пишем. Все силы — на продуктовый и бизнес-анализ, валидацию
-гипотез, закрытие архитектурных блокеров через ADR.
+Основной фокус — продуктовый и бизнес-анализ, валидация гипотез, закрытие
+архитектурных блокеров через ADR. Production-код не пишем; короткие
+PoC/спайки разрешены, если привязаны к конкретному открытому вопросу (см. P4).
 
 ### Что сделано
 
@@ -71,8 +72,8 @@
 | [#24](https://github.com/teamv39/archon/issues/24) | **ARCH-25: [PoC-MCP-4]** E2E тест интеграции с Cursor IDE | Миша | `S` | Агент в Cursor генерирует клиент без галлюцинаций |
 | [#25](https://github.com/teamv39/archon/issues/25) | ~~**ARCH-26: [ADR-0002]** Анализ прототипа archmap (закрытие OQ-1)~~ | Денис | `S` | ✅ Done ([ADR-0002](adr/0002-archmap-fate.md)) |
 | [#26](https://github.com/teamv39/archon/issues/26) | ~~**ARCH-27: [ADR-0007]** Физическая топология SaaS (закрытие OQ-8)~~ | Денис | `M` | ✅ Done ([ADR-0007](adr/0007-saas-process-topology-and-packaging.md), [deployment.md](architecture/deployment.md)) |
-| [#27](https://github.com/teamv39/archon/issues/27) | **ARCH-28: [CustDev-1]** Гайд и скрипт интервью для тимлидов | Денис | `XS` | Скрипт интервью в `docs/research/custdev-script.md` |
-| [#28](https://github.com/teamv39/archon/issues/28) | **ARCH-29: [CustDev-2]** Проведение 5 интервью и аналитический отчет | Денис | `M` | Отчет `docs/research/user-interviews.md`, валидация гипотез |
+| [#27](https://github.com/teamv39/archon/issues/27) | **ARCH-28: [CustDev-1]** Гайд и скрипт интервью для тимлидов | Денис | `XS` | Turnkey-кит в `docs/research/custdev-script.md`: скрипт, анкета, скрининг — проводить может любой член команды |
+| [#28](https://github.com/teamv39/archon/issues/28) | **ARCH-29: [CustDev-2]** Валидация гипотез: desk-research + интервью (если есть контакты) | Денис | `M` | Отчет `docs/research/user-interviews.md` с вердиктами по гипотезам; живые интервью — усиление, не блокер |
 | [#29](https://github.com/teamv39/archon/issues/29) | **ARCH-30: [Pricing]** Спецификация тарифов и токен-лимитов SaaS | Денис | `S` | Документ `docs/research/pricing.md` (Free/Team/Enterprise) |
 | [#30](https://github.com/teamv39/archon/issues/30) | **ARCH-31: [DevOps]** Docker Compose стек для локальной разработки | Максим | `S` | Единый `docker-compose.yml` (AGE, Redis, Qdrant) |
 | [#32](https://github.com/teamv39/archon/issues/32) | **ARCH-32: [DevOps]** Настройка CI workflow для валидации репозитория | Максим | `S` | GitHub Actions проверка CJK, битых ссылок и Mermaid |
@@ -96,14 +97,23 @@
 - [x] Миграция от CLI/IaaS к Managed SaaS-модели (OQ-18) ([IaaS → SaaS.md](research/IaaS%20%E2%86%92%20SaaS.md))
 - [x] Оформление и принятие ADR-0006 ([ADR-0006](adr/0006-saas-delivery-model-and-ai-native-source-of-truth.md))
 
-**User research:**
-- [ ] 5-7 интервью с архитекторами/тимлидами
-  - Фокус: как сейчас поддерживают документацию, где болит
-  - Валидация гипотезы: "потребность в актуальном контексте для AI-агентов + drift доки-код"
-  - Приоритизация источников: GitHub vs GitLab vs Bitbucket, Jira, Confluence
-- [ ] Обновить user journeys: статус гипотез → confirmed / adjusted / dropped
-- [ ] User segments: Jobs-to-be-done, pain points, success metrics для каждой роли
+**User research (двухдорожечная модель, решение лида 2026-09-09):**
+- [ ] Дорожка A (основная): desk-research — deep research публичных болей
+  (HN, Reddit, dev.to, тикеты/форумы конкурентов), где болит drift доков
+  и нехватка контекста для AI-агентов; fresh-срез конкурентов (Port, OpsLevel,
+  Compass, Swimm, Backstage) — не закрыли ли drift/context кейсы
+- [ ] Дорожка A: обновить user journeys — статус гипотез → confirmed / adjusted / dropped
+- [ ] Дорожка A: user segments: Jobs-to-be-done, pain points, success metrics для каждой роли
   (архитектор, тимлид, AI-инженер, новичок, SRE, CISO, PM)
+- [ ] Дорожка B (усиление, опционально): интервью 5-7 архитекторов/тимлидов.
+  Проводит любой участник команды по своим контактам — собран turnkey-кит
+  (скрипт, анкета, скрининг) в `docs/research/custdev-script.md`.
+  Каждое интервью добавляет уверенности, но не блокирует переход в Фазу 1
+
+**Гейт перехода в Фазу 1 (переформулирован):** вместо обязательных 5 интервью —
+desk-research отчёт с вердиктами по гипотезам (confirmed/adjusted/dropped)
++ черновик pricing. Если дорожка B даст хотя бы 2-3 интервью — гейт
+усиливается, но отсутствие интервью не блокирует.
 
 **Бизнес-модель:**
 - [ ] Pricing research: модели монетизации (per-seat, per-repo, SaaS подписка)
@@ -122,7 +132,8 @@
 - ~~Бизнес-анализ ценности и расчет ROI~~ — готово: [business-value-analysis.md](research/business-value-analysis.md)
 - ~~Концепция SaaS и AI Context Layer~~ — готово: [ai-context-layer-research.md](research/ai-context-layer-research.md), [IaaS → SaaS.md](research/IaaS%20%E2%86%92%20SaaS.md)
 - ~~ADR-0006 (AI-native Source of Truth & SaaS model)~~ — готово: [ADR-0006](adr/0006-saas-delivery-model-and-ai-native-source-of-truth.md)
-- Отчёт по интервью с выводами
+- Desk-research отчёт с вердиктами по гипотезам (дорожка A, замена CustDev-интервью)
+- Turnkey-кит для интервью (дорожка B): скрипт + анкета в `docs/research/custdev-script.md`
 - Pricing model (черновик)
 - Обновлённый competitive analysis
 
@@ -144,11 +155,11 @@
 - [x] Стандарт запросов: openCypher в DAL модуля model
 - [x] Зафиксировать как [ADR-0003](adr/0003-source-of-truth-and-tenant-isolation.md) (закрыт 2026-09-05)
 
-**OQ-8: физическая топология:**
-- [ ] Сколько процессов в MVP (целевое: 2-3 сборочных единицы)
-- [ ] Пары-кандидаты на объединение: registry+sources, extract+interpret+reconcile, portal+assurance
-- [ ] Dev / pilot / enterprise — как меняется топология
-- [ ] Зафиксировать как ADR-0007
+**OQ-8: физическая топология — закрыто:**
+- [x] Сколько процессов в MVP: 3 сборочные единицы (core-service, ai-service, portal)
+- [x] Пары-кандидаты на объединение: решены в [ADR-0007](adr/0007-saas-process-topology-and-packaging.md)
+- [x] Dev / pilot / enterprise — как меняется топология: см. [deployment.md](architecture/deployment.md)
+- [x] Зафиксировано как [ADR-0007](adr/0007-saas-process-topology-and-packaging.md)
 
 ---
 
@@ -295,7 +306,8 @@
 - ✅ OQ-1 закрыт ([ADR-0002](adr/0002-archmap-fate.md)), OQ-2 и OQ-5 закрыты ([ADR-0003](adr/0003-source-of-truth-and-tenant-isolation.md))
 - ✅ OQ-8 закрыт ([ADR-0007](adr/0007-saas-process-topology-and-packaging.md)): физическая топология и упаковка в 3 сборочные единицы зафиксированы в [deployment.md](architecture/deployment.md)
 - ✅ Все архитектурные блокеры для кода сняты: команда разблокирована для разработки Фазы 1
-- Проведено 5+ интервью, гипотезы получили статус confirmed/adjusted/dropped
+- Desk-research завершён: гипотезы получили статус confirmed/adjusted/dropped
+  (живые интервью по дорожке B — усиление, не блокер)
 - Бизнес-модель и pricing (черновик)
 
 **Фаза 1:**
@@ -314,10 +326,11 @@
 ## Приоритизация
 
 **Критически важно (Фаза 0 — сейчас):**
-- Архитектурные блокеры для кода (OQ-1 судьба archmap, OQ-2 source of truth, OQ-8 топология)
-- User research и валидация гипотез (интервью с тимлидами и архитекторами)
+- ~~Архитектурные блокеры для кода (OQ-1, OQ-2, OQ-8)~~ — закрыты (ADR-0002/0003/0007)
+- Extraction Contract v1.0 (ARCH-33) — разблокирует ARCH-34 (Паша) и ARCH-35/36 (Миша)
+- User research: desk-research по гипотезам (дорожка A) + turnkey-кит интервью (дорожка B)
 - Pricing и unit-экономика SaaS
-- Конкурентный анализ (доработка)
+- Конкурентный анализ (доработка, входит в desk-research дорожки A)
 
 **Must Have (Фаза 1 — MVP):**
 - Drift detection: "доки врут, вот доказательство"

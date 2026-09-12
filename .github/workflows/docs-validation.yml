@@ -1,0 +1,35 @@
+name: Docs & Repo Validation
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  validate-docs:
+    name: Validate Documentation
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Check CJK characters in Markdown files
+        run: python scripts/validate_docs.py --check-cjk
+
+      - name: Check local Markdown links
+        run: python scripts/validate_docs.py --check-links
+
+      - name: Validate Mermaid diagrams
+        run: npx -y md-mermaid-lint "**/*.md"

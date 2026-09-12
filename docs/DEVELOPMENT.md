@@ -78,6 +78,34 @@ ARCH-44: Fix query performance for impact analysis
 - ADR для архитектурных решений
 - API specs если меняются контракты
 
+## Local Development Environment
+
+Для локальной разработки и интеграционных тестов подготовлена Docker Compose инфраструктура ([`docker-compose.yml`](../docker-compose.yml)):
+
+- **PostgreSQL 16 + Apache AGE** (порт `5455`, контейнер `archon-postgres`): графовая база данных и Source of Truth для Knowledge Graph.
+- **Redis 7** (порт `6379`, контейнер `archon-redis`): кэширование контекста MCP и очереди задач.
+- **Qdrant** (порты `6333` REST / `6334` gRPC, контейнер `archon-qdrant`): векторная база данных для семантического поиска interpret/drift.
+
+### Быстрый старт
+
+1. Скопируйте шаблон переменных окружения:
+   ```bash
+   cp .env.example .env
+   ```
+2. Запустите сервисы инфраструктуры:
+   ```bash
+   docker compose up -d
+   ```
+3. Проверьте статус запущенных контейнеров:
+   ```bash
+   docker compose ps
+   ```
+4. Для остановки сервисов:
+   ```bash
+   docker compose down
+   ```
+   *(Для остановки с удалением персистентных томов добавьте флаг `-v`: `docker compose down -v`)*.
+
 ## Testing Strategy
 
 **Unit tests:**
@@ -94,7 +122,12 @@ ARCH-44: Fix query performance for impact analysis
 
 ## CI/CD Pipeline
 
-**На каждый PR:**
+**На каждый PR и push в main:**
+- **Docs & Repo Validation** (`.github/workflows/docs-validation.yml`):
+  - Проверка отсутствия CJK-символов в markdown (`python scripts/validate_docs.py --check-cjk`)
+  - Проверка валидности локальных ссылок между файлами (`python scripts/validate_docs.py --check-links`)
+  - Валидация синтаксиса диаграмм Mermaid (`npx -y md-mermaid-lint "**/*.md"`)
+  - *Локальный запуск перед коммитом:* `python scripts/validate_docs.py --all`
 - Lint
 - Unit tests
 - Integration tests
