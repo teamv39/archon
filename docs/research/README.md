@@ -76,6 +76,13 @@ Compass (Atlassian), плюс Cortex, Swimm, LeanIX кратко.
 
 ### 3. User Research
 
+**Desk-research Report** — [`desk-research-report.md`](desk-research-report.md) (in progress, ARCH-29 дорожка A)
+
+Вердикты `confirmed / adjusted / dropped` по 18 гипотезам из competitive-analysis,
+business-value-analysis, ai-context-layer-research и user-journeys. Свежий срез
+Port Context Lake / OpsLevel Context Layer / Swimm pivot (2026-09-10). Закрывает
+гейт Фазы 0 без интервью; живые интервью (дорожка B) — усиление, не блокер.
+
 **User Journeys** — [`user-journeys.md`](user-journeys.md) (готово, статус: гипотезы)
 
 Назначение — не требования, а проверка декомпозиции на модули. Шесть
