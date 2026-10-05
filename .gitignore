@@ -66,3 +66,9 @@ env/
 pgdata/
 .age_data/
 *.sql.bak
+
+# Gradle
+.gradle/
+*.jar
+!gradle-wrapper.jar
+!**/gradle/wrapper/gradle-wrapper.jar
