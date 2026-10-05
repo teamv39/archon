@@ -25,7 +25,7 @@
 
 | Сборочная единица | Стек | Модули фабрики | Назначение |
 | :--- | :--- | :--- | :--- |
-| **`archon-core-service`** | Kotlin / JVM (Spring Boot 3 / Micronaut) | `model`, `resolve`, `policies`, `drift` (синтакс), `assurance`, `export`, `registry`, `sources`, `extract`, `reconcile`, `platform` | Основной бэкенд, REST API, Webhooks, Ingestion Workflow, взаимодействие с Apache AGE и OPA. |
+| **`archon-core-service`** | Kotlin 2.3.0 / JVM (Spring Boot 4.1.0, JDK 21) | `model`, `resolve`, `policies`, `drift` (синтакс), `assurance`, `export`, `registry`, `sources`, `extract`, `reconcile`, `platform` | Основной бэкенд, REST API, Webhooks, Ingestion Workflow, взаимодействие с Apache AGE и OPA. |
 | **`archon-ai-service`** | Python 3.11+ (FastAPI, LangChain / DSPy, FastMCP) | `interpret`, `drift` (семантика), RAG-компоненты | Воркер семантического извлечения архитектуры через LLM, валидатор доказательств, векторный поиск. В MVP также хостит исследовательский FastMCP. |
 | **`archon-portal`** | TypeScript, React, Vite / Nginx | `portal` | Статическое SPA-приложение: LikeC4 интерактивный просмотрщик, каталог сервисов, инбокс находок. |
 
