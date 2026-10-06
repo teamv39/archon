@@ -22,11 +22,22 @@ ALIAS_MAP = {
     'misha': 'vocisy',
     'макс': 'lelouch-byte',
     'максим': 'lelouch-byte',
-    'maxim': 'lelouch-byte'
+    'maxim': 'lelouch-byte',
+    'артем': 'dusk190',
+    'artem': 'dusk190',
+    'кирилл': 'kiryxalvanov',
+    'kirill': 'kiryxalvanov',
+    'егор': 'bruuhher',
+    'egor': 'bruuhher',
+    'катя': 'katyaand007',
+    'екатерина': 'katyaand007',
+    'katya': 'katyaand007'
 }
 
-def get_project_items():
-    cmd = ['gh', 'project', 'item-list', '2', '--owner', 'teamv39', '--format', 'json', '--limit', '100']
+PORTAL_LOGINS = {'dusk190', 'kiryxalvanov', 'bruuhher', 'katyaand007'}
+
+def get_project_items(project_id='2'):
+    cmd = ['gh', 'project', 'item-list', str(project_id), '--owner', 'teamv39', '--format', 'json', '--limit', '100']
     res = subprocess.run(cmd, capture_output=True, text=True)
     if res.returncode != 0:
         print(f"Ошибка выполнения gh CLI: {res.stderr}", file=sys.stderr)
@@ -35,17 +46,25 @@ def get_project_items():
 
 def main():
     parser = argparse.ArgumentParser(description='Просмотр задач проекта Archon из GitHub Projects')
-    parser.add_argument('-a', '--assignee', help='Фильтр по исполнителю (логин или имя: Денис, Паша, Миша, Макс)')
+    parser.add_argument('-a', '--assignee', help='Фильтр по исполнителю (логин или имя)')
     parser.add_argument('-s', '--status', help='Фильтр по статусу (Backlog, Ready, In Progress, In Review, Done)')
     parser.add_argument('--ready', action='store_true', help='Показать только готовые к работе задачи (Status = Ready)')
     parser.add_argument('--p1', action='store_true', help='Показать задачи с приоритетом P0 и P1')
+    parser.add_argument('--portal', action='store_true', help='Использовать доску archon-portal (Project #3)')
+    parser.add_argument('-p', '--project', default=None, help='Номер проекта (2 для archon-core, 3 для archon-portal)')
     args = parser.parse_args()
-
-    items = get_project_items()
 
     target_assignee = None
     if args.assignee:
         target_assignee = ALIAS_MAP.get(args.assignee.lower(), args.assignee.lower())
+
+    proj_id = '2'
+    if args.project:
+        proj_id = str(args.project)
+    elif args.portal or (target_assignee and target_assignee in PORTAL_LOGINS):
+        proj_id = '3'
+
+    items = get_project_items(proj_id)
 
     filtered = []
     for item in items:

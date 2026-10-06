@@ -154,18 +154,32 @@ ARCH-44: Fix query performance for impact analysis
 
 ## Issue Tracking
 
-**Labels:**
-- `research` — исследовательские задачи
-- `feature` — новая функциональность
-- `bug` — исправление багов
-- `documentation` — работа с документацией
-- `tech-debt` — технический долг
+**Labels (3-уровневая таксономия, 2–4 тега на задачу):**
+
+*Архитектурный блок (Product Block):*
+- `showcase` — Витрина: веб-портал, SPA, Fastify BFF, боты, экспорт, LikeC4
+- `core-backend` — Ядро платформы: Kotlin, PostgreSQL + Apache AGE, Temporal, парсеры
+- `ai-research` — AI-пайплайн: LLM-экстракция, RAG, эмбеддинги, MCP-сервер
+- `devops` — Инфраструктура: Docker, docker-compose, CI/CD GitHub Actions, SaaS runtime
+- `product` — Продуктовая часть: CustDev, UI/UX, CJM, дизайн-система
+
+*Характер работы (Discipline):*
+- `architecture` — Архитектурные решения, спецификации, схемы данных, контракты API
+- `poc` — Исследовательские прототипы, спайки, моки, бенчмарки
+- `enhancement` — Разработка продуктовой функциональности и компонентов
+- `documentation` — Документация, онбординг, аналитические отчеты, гайды
+
+*Специальные маркеры:*
+- `epic` — Крупная составная инициатива / модуль (Parent Epic)
+- `blocker` — Блокирует написание кода или работу смежных потоков
+- `bug` — Исправление багов
+- `question` / `help wanted` — Вспомогательные типы по ситуации
 
 **Lifecycle:**
 1. Issue создается в GitHub Projects
 2. Добавляется в соответствующий Epic
 3. Назначается исполнитель
-4. Status: `Todo` → `In Progress` → `In Review` → `Done`
+4. Status: `Backlog` → `Ready` → `In Progress` → `In Review` → `Done`
 
 ## Release Process
 

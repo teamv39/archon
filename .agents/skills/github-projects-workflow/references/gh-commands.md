@@ -177,10 +177,10 @@ import subprocess
 import json
 import sys
 
-# 1. Конфигурация доски (получена через gh project field-list)
-PROJECT_NUM = "3"
-OWNER = "teamv39"
-REPO = "teamv39/archon"
+# 1. Конфигурация доски (получи через gh project list / field-list)
+PROJECT_NUM = "<PROJECT_NUMBER>"   # например "2" или "3"
+OWNER = "<OWNER>"                  # организация или пользователь
+REPO = "<OWNER>/<REPO>"            # owner/repo
 
 # 2. Пул подготовленных задач
 tasks = [
