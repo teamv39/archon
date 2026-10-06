@@ -1,7 +1,7 @@
 # Roadmap
 
 Планы развития проекта Archon по фазам.  
-Актуализировано: 2026-09-09.
+Актуализировано: 2026-10-06.
 
 Декомпозиция: 17 модулей фабрики ([ADR-0004](adr/0004-module-decomposition-revision-1.md) + [ADR-0006](adr/0006-saas-delivery-model-and-ai-native-source-of-truth.md)).  
 Модель поставки: Managed SaaS (Context-as-a-Service) + Git Sync ([ADR-0006](adr/0006-saas-delivery-model-and-ai-native-source-of-truth.md)).  
@@ -11,11 +11,11 @@
 Закрытые архитектурные развилки: OQ-1 ([ADR-0002](adr/0002-archmap-fate.md)), OQ-2 и OQ-5 ([ADR-0003](adr/0003-source-of-truth-and-tenant-isolation.md)), OQ-8 ([ADR-0007](adr/0007-saas-process-topology-and-packaging.md)), OQ-10 ([ADR-0005](adr/0005-product-scope-and-delivery-model.md)), OQ-18 и OQ-19 ([ADR-0006](adr/0006-saas-delivery-model-and-ai-native-source-of-truth.md)).  
 Физическая топология: [deployment.md](architecture/deployment.md) (3 сборочные единицы, оркестрация Temporal).  
 Ключевые вехи проектирования: [Code-to-Architecture](architecture/code-to-architecture.md) (контур извлечения и LikeC4-визуализации).  
-Команда: 4 ядро (Денис — lead/architect, Миша — AI/R&D, Паша — core backend, Максим — DevOps/SRE) + пул.
+Команда: Core (Денис — lead/architect, Миша — AI/R&D, Паша — core backend, Максим — DevOps/SRE) + Portal (Артем — tech lead/BFF, Кирилл — frontend, Егор — DevOps, Катя — UI/UX).
 
 ---
 
-## Фаза 0: Product & Business Analysis (текущая)
+## Фаза 0: Product & Business Analysis (текущая, дедлайн майлстоуна: 20 октября 2026)
 
 **Цель:** понять, что строим, для кого и почему за это будут платить.
 Основной фокус — продуктовый и бизнес-анализ, валидация гипотез, закрытие
@@ -209,7 +209,7 @@ desk-research отчёт с вердиктами по гипотезам (confir
 
 ---
 
-## Фаза 1: Core MVP (8-10 недель)
+## Фаза 1: Core MVP (дедлайн майлстоуна: 30 ноября 2026)
 
 **Цель:** минимально рабочий продукт на одном репозитории: доказательство рассинхрона кода с документацией + живой контекст для AI-агентов через MCP.
 
@@ -353,11 +353,10 @@ desk-research отчёт с вердиктами по гипотезам (confir
 ## Timeline
 
 ```
-Фаза 0: текущая        [Product & Business Analysis]
-Фаза 1: после Ф0       [Core MVP — 8-10 недель]
-Фаза 2: после Ф1       [Multi-Repo & Enterprise — 8-10 недель]
-Фаза 3: TBD            [Scale & Intelligence]
+Фаза 0: до 20 октября 2026   [Product & Business Analysis — завершение блокеров и CustDev]
+Фаза 1: до 30 ноября 2026    [Core MVP — ядро, AI, витрина archon-portal, MCP]
+Фаза 2: весна 2027           [Multi-Repo & Enterprise]
+Фаза 3: TBD                  [Scale & Intelligence]
 ```
 
-Переход между фазами — по deliverables, не по датам.
-Фаза 1 не начинается, пока фаза 0 не завершена (бизнес-валидация + ADR по блокерам).
+Управление разработкой строится по модели чистого Kanban (потоковая вытяжка задач из `Ready` по готовности без искусственных дат на уровне микротикетов). Контрольные сроки фиксируются на уровне ключевых майлстоунов фаз.

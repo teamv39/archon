@@ -1,10 +1,14 @@
 # План обучения и технические задачи: Archon Portal & BFF
 
 Документ содержит персональные программы обучения, технические спецификации задач и ссылки на учебные материалы для команды разработки клиентской витрины:
-* **Кирилл (`@KiRyXaIvaNov`)** — Frontend Lead (React SPA, UI/UX, LikeC4, TanStack).
-* **Артем (`@dusk190`)** — Fullstack / BFF Lead (Node.js/Fastify, безопасность, интеграция API ядра).
+* **Артем ([`@dusk190`](https://github.com/dusk190))** — Tech Lead / Fullstack & BFF Lead (Fastify, безопасность, Mock API, сессии).
+* **Кирилл ([`@KiRyXaIvaNov`](https://github.com/KiRyXaIvaNov)) — Frontend Lead (React SPA, Vite, Tailwind CSS, shadcn/ui, LikeC4, TanStack).
+* **Егор ([`@Bruuhher`](https://github.com/Bruuhher)) — DevOps / Infra (Portal Docker, docker-compose, GitHub Actions CI).
+* **Екатерина ([`@katyaand007`](https://github.com/katyaand007)) — UX/UI Designer (CJM, Figma UI-kit, вайрфреймы).
+* **Денис ([`@ischademadda`](https://github.com/ischademadda)) — Scrum Master & System Architect.
 
-Архитектурный выбор: **Вариант 2 (React SPA + BFF на Node.js/TypeScript)** с опциональным модулем `pr-bot`.
+Репозиторий клиентской кодовой базы: **[`teamv39/archon-portal`](https://github.com/teamv39/archon-portal)**.  
+Архитектурный выбор: **Вариант 2 (React SPA + BFF на Node.js/TypeScript)** с опциональным модулем `pr-bot`. Доска задач: [GitHub Project #3 (archon-portal)](https://github.com/orgs/teamv39/projects/3).
 
 ---
 
