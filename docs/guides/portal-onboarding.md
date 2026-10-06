@@ -116,22 +116,33 @@ Archon — enterprise-платформа docs-as-code и AI-native Source of Tru
 
 ---
 
-## 5. Распределение ролей в паре разработчиков
+## 5. Репозиторий и распределение ролей в команде витрины
 
-Разработка ведется в едином репозитории клиентского приложения с четким разграничением зон ответственности (подробные обучающие программы и технические задачи описаны в [portal-learning-plan.md](portal-learning-plan.md)):
+Разработка клиентского контура ведется в отдельном репозитории: **[`teamv39/archon-portal`](https://github.com/teamv39/archon-portal)**. 
 
-### Разработчик 1: Frontend Lead — Кирилл ([`@KiRyXaIvaNov`](https://github.com/KiRyXaIvaNov))
-* Проектирование компонентов UI и дизайн-системы (Tailwind CSS + `shadcn/ui`).
-* Верстка страниц: Каталог сервисов, Паспорт сервиса, Инбокс находок.
-* Клиентский роутинг, навигация, адаптивность.
-* Состояния загрузки (skeletons), обработка ошибок и пользовательские сценарии подтверждения действий.
+Это обеспечивает полную независимость экосистем (Node.js/React против Kotlin/AGE), чистый CI/CD и автономию команды витрины. Архитектурный Source of Truth и общие спецификации платформы остаются в репозитории ядра **[`teamv39/archon`](https://github.com/teamv39/archon)**. Задачи ведутся на доске [GitHub Project #3 (archon-portal)](https://github.com/orgs/teamv39/projects/3).
 
-### Разработчик 2: Fullstack / BFF Lead — Артем ([`@dusk190`](https://github.com/dusk190))
-* **BFF-сервис на Node.js (Fastify):** агрегация данных ядра, управление сессиями, защита периметра (CORS, Helmet, Rate limiting, Token Handler).
-* **Слой данных и моки:** настройка Mock API с фикстурами для независимой разработки фронтенда до готовности ядра.
-* **Интеграция графа LikeC4:** серверная трансформация графа в C4-модель, обработка событий узлов диаграммы.
-* **Инфраструктура поставки:** Dockerfile, переменные окружения, проксирование и сквозная сборка.
-* **Опционально:** разработка модуля [`pr-bot`](../architecture/modules/pr-bot.md) (GitHub App).
+### Роли и зоны ответственности
+
+* **Денис ([`@ischademadda`](https://github.com/ischademadda)) — Scrum Master & System Architect:**
+  * Фасилитация спринтов, бэклог, сквозная архитектура платформы, согласование DTO и контрактов ядра.
+* **Артем ([`@dusk190`](https://github.com/dusk190)) — Tech Lead / Fullstack & BFF Lead:**
+  * Техническое руководство разработкой портала, архитектура Fastify BFF, защита периметра (CORS, Helmet, Rate limiting, Token Handler/cookies).
+  * Настройка Mock API сервера с синтетическими фикстурами для автономной разработки фронтенда.
+  * Первичное код-ревью (Primary Reviewer) и приемка PR в репозитории `archon-portal`.
+  * *(Опционально)* модуль [`pr-bot`](../architecture/modules/pr-bot.md).
+* **Кирилл ([`@KiRyXaIvaNov`](https://github.com/KiRyXaIvaNov)) — Frontend Lead:**
+  * Проектирование компонентов UI и дизайн-системы (Tailwind CSS + `shadcn/ui`).
+  * Верстка страниц: Каталог сервисов, Паспорт сервиса, Инбокс находок.
+  * Клиентский роутинг, навигация, интерактивная карта LikeC4 (`@likec4/diagrams`).
+* **Егор ([`@Bruuhher`](https://github.com/Bruuhher)) — DevOps / Infra (Portal):**
+  * Спецификация сборки: `Dockerfile` для SPA и BFF.
+  * Локальный `docker-compose.yml` витрины (запуск SPA + BFF + моков одной командой).
+  * Базовый CI workflow (GitHub Actions) для линтинга, проверки типов и сборки портала.
+* **Екатерина ([`@katyaand007`](https://github.com/katyaand007)) — UX/UI Designer:**
+  * Исследование DevTools-интерфейсов и CJM пользовательских сценариев.
+  * Черновой UI-kit в Figma на базе компонентов `shadcn/ui` (темная тема, токены, бейджи дрейфа).
+  * Вайрфреймы Каталога и Паспорта сервиса.
 
 ---
 

@@ -28,6 +28,7 @@
 - [Tech Stack Proposal](architecture/tech-stack.md) — предлагаемый технологический стек (Go vs Kotlin, библиотеки, инфраструктура)
 - [Architecture Overview](architecture/README.md) — высокоуровневая архитектура
 - [Code-to-Architecture Milestone](architecture/code-to-architecture.md) — веха проектирования контура автоматического извлечения и LikeC4-визуализации
+- [RFC: Hybrid Repository Analysis Pipeline](architecture/rfc-hybrid-repository-analysis.md) — концепция и пайплайн гибридного анализа кода (детерминированный + LLM)
 - [Data Model](architecture/data-model.md) — модель данных Knowledge Graph
 - [Extraction Contract v1.0](architecture/contracts/README.md) — канонический контракт контура извлечения (JSON Schema, Pydantic DTO, Kotlin-спека, валидация)
 - [Modules Registry](architecture/modules/README.md) — реестр модулей (коды, статусы, ссылки)
@@ -54,7 +55,8 @@
 - [Шпаргалка для презентации](guides/presentation-cheatsheet.md) — одна страница: 3 идеи, слои, рынок, ожидаемые вопросы
 - [Гайд тимлида](guides/team-lead-playbook.md) — как вести проект на GitHub: project, задачи, ADR, ритуалы, рост команды
 - [Онбординг archon-portal](guides/portal-onboarding.md) — скоуп задач, стек и роли для команды разработки веб-витрины
-- [План обучения и задачи витрины](guides/portal-learning-plan.md) — персональные программы обучения по Frontend и BFF/Security для Кирилла и Артема
+- [План обучения и задачи витрины](guides/portal-learning-plan.md) — программы обучения и задачи по Frontend, BFF, DevOps и дизайну
+- [Регламент Tech Lead витрины](guides/portal-tech-lead-handbook.md) — рабочая инструкция и зоны ответственности технического лидера портала (Артем)
 
 ## Non-Functional Requirements
 

@@ -1,4 +1,4 @@
-# Team v.3.9
+# team v39
 
 Синдикат инженеров, специализирующийся на проектировании отказоустойчивых AI-систем, информационной безопасности и высоконагруженной инфраструктуре.
 
@@ -53,9 +53,60 @@ Infrastructure as Code, CI/CD, K8s, масштабируемость и мони
 
 ---
 
-## Дополнительный стек и пул (на будущее)
+---
 
-- **UX / Frontend:** vibecode
-- **Запасной пул (при расширении скоупа):**
-  - 2 бэкендера
-  - 1 аналитик
+## Команда клиентской витрины (archon-portal)
+
+### Денис (`@ischademadda`) — Scrum Master & Overall System Architect
+Фасилитация спринтов, управление бэклогом, сквозная архитектура и согласование межсервисных контрактов.
+
+---
+
+### Артем (`@dusk190`) — Tech Lead / Fullstack & BFF Lead
+Техническое лидерство команды витрины, архитектура Fastify BFF, безопасность (сессии, cookies, CORS, Rate-limit), Mock API сервер и интеграция с API ядра.
+
+**Ключевые компетенции:**
+- Node.js / TypeScript / Fastify
+- Web Security & Token Handler Pattern
+- Mocking & Data Fixtures
+- Код-ревью и техническая координация витрины
+
+---
+
+### Кирилл (`@KiRyXaIvaNov`) — Frontend Lead
+Клиентская архитектура SPA, дизайн-система `shadcn/ui`, верстка экранов и интерактивные диаграммы LikeC4.
+
+**Ключевые компетенции:**
+- React 18+ / TypeScript / Vite
+- Tailwind CSS & `shadcn/ui`
+- TanStack Table & TanStack Query
+- Интеграция `@likec4/diagrams`
+
+---
+
+### Егор (`@Bruuhher`) — DevOps / Infra (Portal)
+Контейнеризация клиентского контура, локальное окружение и автоматизация CI/CD витрины.
+
+**Ключевые компетенции:**
+- Docker & многоэтапная сборка (SPA + BFF)
+- Docker Compose для локальной разработки витрины
+- GitHub Actions CI (линтеры, проверка типов, билд)
+
+---
+
+### Екатерина (`@katyaand007`) — UX/UI Designer
+Исследование DevTools-интерфейсов, CJM ключевых сценариев, UI-kit под shadcn/ui и вайрфреймы в Figma.
+
+**Ключевые компетенции:**
+- Figma (дизайн-системы, токены)
+- Customer Journey Mapping (CJM)
+- Проектирование DevTools / B2B интерфейсов под темную тему
+
+---
+
+## Репозитории организации
+
+- **[`teamv39/archon`](https://github.com/teamv39/archon)** — Инженерное ядро платформы (`archon-core-service`, `archon-ai-service`), единый Source of Truth документации (docs-as-code, ADR, спецификации).
+- **[`teamv39/archon-portal`](https://github.com/teamv39/archon-portal)** — Клиентская витрина (`archon-portal` SPA + BFF), Mock API, локальное окружение и CI витрины.
+- **Доска задач витрины:** [GitHub Project #3 (archon-portal)](https://github.com/orgs/teamv39/projects/3)
+- **Доска задач ядра:** [GitHub Project #2 (archon-core)](https://github.com/orgs/teamv39/projects/2)
