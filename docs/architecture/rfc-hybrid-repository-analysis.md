@@ -1,7 +1,8 @@
 # RFC: Гибридный контур анализа репозиториев (Hybrid Analysis Pipeline)
 
-> **Статус:** Draft / In Discussion  
+> **Статус:** Accepted  
 > **Авторы:** Денис (@ischademadda), Михаил (@vocisy)  
+> **Дата принятия:** 2026-10-10  
 > **Связанные документы:** [ADR-0002](../adr/0002-archmap-fate.md), [ADR-0004](../adr/0004-module-decomposition-revision-1.md), [Extraction Contract v1.0](contracts/extraction-v1.json), [Веха Code-to-Architecture](code-to-architecture.md).
 
 ---
@@ -113,24 +114,243 @@ LLM вызывается **не на весь репозиторий вслеп�
 
 ---
 
-## 5. Вопросы для исследования и проработки (Зона ответственности Миши)
+## 5. Архитектура Слоя 0: детерминированный экстрактор
 
-В рамках совместной работы над RFC и следующего PoC Мише предстоит исследовать:
+### 5.1. Принятые решения по инструментам
 
-1. **Инструменты парсинга Слоя 0 (Python):**
-   - Какие легковесные библиотеки использовать для разбора:
-     - `docker-compose.yml` (PyYAML / специализированные парсеры compose-спецификаций);
-     - OpenAPI / Swagger (`prance`, `openapi-spec-validator` или чистый yaml/json парсинг);
-     - Манифестов (`package.json`, `pom.xml` через xml.etree, `go.mod`).
-2. **Стратегия обнаружения файлов (Discovery):**
-   - Как надежно находить манифесты в монорепозиториях и полирепозиториях без перебора лишних директорий (`.git`, `node_modules`, `build`, `target`).
-3. **Формат объединения (Reconciliation):**
-   - Как объединять детерминированные сущности Слоя 0 с ответом LLM из Слоя 1, чтобы LLM не перетирала проверенные факты, а только дополняла их (`flows`, описания).
+#### Docker Compose
+**Решение:** самописная Pydantic-модель + PyYAML.
+
+**Обоснование:**
+- Готовых библиотек практически нет (`python-compose` заброшена, `compose-go` — для Go).
+- Compose имеет официальную [JSON Schema](https://github.com/compose-spec/compose-spec/blob/master/schema/compose-spec.json), но покрывать всю спецификацию не нужно.
+- Для MVP достаточно subset полей: `services`, `depends_on`, `ports`, `environment`, `image`, `volumes`.
+
+**Реализация:**
+```python
+from pydantic import BaseModel
+import yaml
+
+class ComposeService(BaseModel):
+    image: str | None = None
+    depends_on: list[str] | dict = []
+    ports: list[str] = []
+    environment: dict[str, str] | list[str] = {}
+    # ... только необходимые поля
+
+class ComposeFile(BaseModel):
+    services: dict[str, ComposeService]
+    
+with open('docker-compose.yml') as f:
+    data = yaml.safe_load(f)
+    compose = ComposeFile(**data)
+```
+
+**Маппинг в Extraction Contract:**
+- `services` → `Container` (kind: service/database/queue/cache по эвристике image-имени)
+- `depends_on` → `Relationship` (kind: data/sync)
+- `evidence_files`: `["docker-compose.yml:15-23"]` (строки сервиса)
+
+#### OpenAPI / Swagger
+**Решение:** PyYAML/json + ручной парсинг paths без полной валидации.
+
+**Обоснование:**
+- `prance` (15+ зависимостей, resolving `$ref` через сеть) — оверкилл для сбора базовых фактов.
+- Нам нужны только `paths`, `servers`, `info` — это 5 строк кода.
+- Если позже понадобится валидация — добавим `openapi-spec-validator` (легковесный, 3 зависимости).
+
+**Реализация:**
+```python
+import yaml
+from pathlib import Path
+
+def extract_openapi_endpoints(spec_path: Path) -> list[dict]:
+    with open(spec_path) as f:
+        spec = yaml.safe_load(f)
+    
+    endpoints = []
+    for path, methods in spec.get('paths', {}).items():
+        for method, details in methods.items():
+            if method in ['get', 'post', 'put', 'delete', 'patch']:
+                endpoints.append({
+                    'path': path,
+                    'method': method.upper(),
+                    'operation_id': details.get('operationId'),
+                    'summary': details.get('summary'),
+                })
+    return endpoints
+```
+
+**Маппинг в Extraction Contract:**
+- Endpoints не идут в `Container`, но сохраняются как метаданные для `interpret` (помогают понять назначение сервиса).
+
+#### Манифесты зависимостей
+**Решение:** нативные парсеры по языку, без tree-sitter.
+
+| Формат | Инструмент | Обоснование |
+|--------|-----------|-------------|
+| `package.json` | `json.load()` | Нативный JSON |
+| `pom.xml` | `xml.etree.ElementTree` | Стандартная библиотека Python |
+| `build.gradle` | regex + текстовый парсинг | Groovy DSL, полный парсинг — сложно; для MVP извлекаем dependencies блоки |
+| `go.mod` | текстовый парсинг построчно | Простой формат `require (...)`  |
+| `requirements.txt` | `open().readlines()` | Построчный список |
+| `Cargo.toml` | `tomli` (Python 3.11+: `tomllib`) | TOML-парсер |
+
+**Маппинг в Extraction Contract:**
+- Фреймворки (Spring, NestJS, FastAPI) → `Container.technology`
+- БД-драйверы (psycopg2, mysql-connector) → `Relationship` (подтверждение связи сервис→БД)
+- HTTP-клиенты (axios, requests, okhttp) → маркер для `interpret` (сервис вызывает внешние API)
+
+#### Tree-sitter
+**Решение:** НЕ используем в Слое 0, откладываем на будущее.
+
+**Обоснование:**
+- Tree-sitter нужен для анализа **кода** (импорты, вызовы функций, строки подключения).
+- Для Слоя 0 (манифесты и конфиги) достаточно простых парсеров.
+- Tree-sitter подключится в Слое 1 (`interpret`) или при реализации инкрементального анализа (OQ-6).
+
+### 5.2. Стратегия обнаружения файлов (Discovery)
+
+**Проблема:** в монорепозиториях манифесты разбросаны по поддиректориям, а перебор всех файлов захватывает `.git`, `node_modules`, `target` (десятки тысяч файлов).
+
+**Решение:** двухпроходное сканирование с ignore-списком.
+
+#### Проход 1: быстрое обнаружение по имени (glob + blacklist)
+```python
+from pathlib import Path
+
+IGNORED_DIRS = {'.git', 'node_modules', 'build', 'target', 'dist', '.venv', 'venv', '__pycache__'}
+
+def discover_manifests(repo_root: Path) -> dict[str, list[Path]]:
+    manifests = {
+        'compose': [],
+        'openapi': [],
+        'package': [],
+        'build': [],
+    }
+    
+    for path in repo_root.rglob('*'):
+        # Пропуск игнорируемых директорий
+        if any(part in IGNORED_DIRS for part in path.parts):
+            continue
+        
+        if path.is_file():
+            if path.name in ['docker-compose.yml', 'docker-compose.yaml', 'compose.yml']:
+                manifests['compose'].append(path)
+            elif path.name in ['openapi.yaml', 'openapi.json', 'swagger.yaml', 'swagger.json']:
+                manifests['openapi'].append(path)
+            elif path.name == 'package.json':
+                manifests['package'].append(path)
+            elif path.name in ['pom.xml', 'build.gradle', 'go.mod', 'Cargo.toml']:
+                manifests['build'].append(path)
+    
+    return manifests
+```
+
+#### Проход 2: валидация и фильтрация
+Не все `package.json` — корневые манифесты проектов (многие лежат в `node_modules` подзависимостей). Фильтруем:
+```python
+def filter_root_package_json(candidates: list[Path]) -> list[Path]:
+    """Оставляем только package.json, у которых есть scripts или dependencies."""
+    roots = []
+    for path in candidates:
+        with open(path) as f:
+            data = json.load(f)
+        if 'scripts' in data or 'dependencies' in data or 'devDependencies' in data:
+            roots.append(path)
+    return roots
+```
+
+**Для монорепо:** если обнаружено несколько `package.json` с `workspaces` или `pnpm-workspace.yaml` — это монорепо. Каждый workspace — отдельный `Container`.
+
+### 5.3. Формат объединения Слоя 0 и Слоя 1 (Reconciliation)
+
+**Проблема:** как не дать LLM перетереть детерминированные факты из compose-файлов и манифестов.
+
+**Решение:** приоритет источника по типу факта.
+
+| Тип факта | Приоритет | Обоснование |
+|-----------|-----------|-------------|
+| `Container.slug`, `kind`, `technology` | **Слой 0** | Детерминированный факт из манифестов |
+| `Container.description` | **Слой 1** | Семантика, которую парсер не извлечёт |
+| `Relationship` (явная: сервис→БД в compose) | **Слой 0** | Точная связь из конфигурации |
+| `Relationship` (неявная: HTTP-вызов другого сервиса) | **Слой 1** | Требует анализа кода |
+| `Flow` (бизнес-сценарии) | **Слой 1** | Семантическая задача |
+| `Product.name`, `team_name` | **Слой 1** (из README) | Бизнес-контекст |
+
+**Алгоритм в модуле `reconcile`:**
+```python
+def merge_containers(l0: Container, l1: Container) -> Container:
+    """Слой 0 — источник структурных фактов, Слой 1 дополняет семантикой."""
+    return Container(
+        slug=l0.slug,  # Всегда из Слоя 0
+        name=l0.name,
+        kind=l0.kind,
+        technology=l0.technology or l1.technology,  # Fallback на LLM, если парсер не нашёл
+        description=l1.description,  # Всегда из Слоя 1
+        evidence_files=l0.evidence_files + l1.evidence_files,  # Объединение
+    )
+```
+
+**Конфликты (разные значения `slug` или `kind`):**
+- Логируются в `uncertainties` контракта.
+- Отправляются в очередь `assurance` для ручной проверки.
+- По умолчанию побеждает Слой 0 (детерминированный источник надёжнее).
+
+### 5.4. Триггеры запуска пайплайна
+
+**MVP (полный анализ):**
+1. **Onboarding репозитория** — первое добавление в `registry`.
+2. **Явный запрос на ресканирование** — кнопка в портале / API-вызов.
+3. **По расписанию** (опционально) — еженедельный full scan для обнаружения дрейфа.
+
+**Будущее (инкрементальный анализ, OQ-6):**
+- Анализ по git diff при коммите/PR (только изменённые манифесты).
+- Webhook от Git-провайдера → `sources` → `extract` только для дельты.
+- Это отдельная веха, не блокирует MVP.
+
+**Допущение для MVP:** полный пересборочный цикл (Слой 0 + Слой 1) занимает 2-5 секунд на репозиторий среднего размера. Это приемлемо для onboarding и редких ресканов.
 
 ---
 
-## 6. План внедрения
+## 6. Открытые вопросы и ограничения
 
-1. **Этап 1 (ARCH-35, текущая задача):** Финализация настоящего RFC, согласование интерфейса каркаса Слоя 0.
-2. **Этап 2 (ARCH-53, следующая задача):** Практический PoC детерминированного экстрактора `scripts/spikes/manifest_extractor.py` на эталонном репозитории.
-3. **Этап 3 (ARCH-36):** Бенчмарк гибридного пайплайна: замер точности, времени и токеномики по сравнению с чистым LLM.
+### 6.1. Отложенные на будущее
+1. **Инкрементальный анализ (OQ-6):** анализ по git diff, а не полное пересканирование. Требует отдельной проработки триггеров и кеширования промежуточных результатов.
+2. **Tree-sitter для кода:** AST-анализ исходников (.py, .go, .ts) для извлечения импортов, вызовов API, строк подключения. Не входит в MVP Слоя 0, подключается в `interpret` или при реализации OQ-6.
+3. **Kubernetes-манифесты и Helm-чарты:** пока фокус на docker-compose. K8s YAML — следующий шаг после валидации подхода.
+4. **Монорепо workspace-сканирование:** эвристика для Nx, Turborepo, Lerna. Сейчас каждый `package.json` с dependencies — отдельный кандидат.
+
+### 6.2. Риски
+- **Ложные позитивы при обнаружении манифестов:** не все `package.json` — корневые проекты. Митигация: фильтрация по наличию `scripts`/`dependencies`.
+- **Неполнота детерминированного слоя:** compose-файл может не содержать всех сервисов (часть поднимается вручную). Митигация: Слой 1 (LLM) дополняет недостающее.
+- **Конфликты приоритетов источников:** если Слой 0 и Слой 1 дают разные `kind` для одного контейнера. Митигация: жёсткое правило "Слой 0 побеждает" + запись в `uncertainties`.
+
+---
+
+## 7. План внедрения
+
+1. **Этап 1 (ARCH-35, текущая задача):** Финализация настоящего RFC, согласование архитектуры Слоя 0 и интерфейса каркаса.
+2. **Этап 2 (ARCH-53, следующая задача):** Практический PoC детерминированного экстрактора `scripts/spikes/manifest_extractor.py` на эталонном репозитории (тестируем на 2-3 реальных проектах разных стеков).
+3. **Этап 3 (ARCH-36):** Бенчмарк гибридного пайплайна: замер точности, времени и токеномики по сравнению с чистым LLM-подходом прототипа.
+4. **Этап 4:** Интеграция в модуль `extract` основной кодовой базы Archon (после подтверждения жизнеспособности подхода).
+
+---
+
+## 8. Зависимости Python для MVP Слоя 0
+
+Минималистичный стек без тяжёлых зависимостей:
+
+```txt
+pyyaml>=6.0         # Парсинг YAML (compose, openapi)
+pydantic>=2.0       # Валидация и типобезопасность
+tomli>=2.0          # TOML для Cargo.toml (Python <3.11)
+```
+
+**Намеренно НЕ включены:**
+- `prance` — слишком тяжёлый для простого парсинга OpenAPI
+- `docker-compose` (python) — заброшена
+- `tree-sitter` — отложен до AST-анализа кода
+- `lxml` — используем `xml.etree` из stdlib
+
+Общий размер зависимостей: ~5 МБ. Время установки: <10 секунд.
