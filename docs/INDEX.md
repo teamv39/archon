@@ -50,7 +50,8 @@
 - [Business Value Analysis](research/business-value-analysis.md) — оценка ценности функций, экономика, цены конкурентов, продуктовые дырки (черновик 2026-09-03)
 - [AI Context Layer Research](research/ai-context-layer-research.md) — Archon как context layer для AI-агентов: Port/OpsLevel/Swimm pivot, MCP, docs-as-code vs wiki (черновик 2026-09-03)
 - [Deep Research: AI-native Source of Truth](research/deep-research-ai-native.md) — вопросы для исследования генерации docs-as-code артефактов и список контекстных файлов (черновик 2026-09-03)
-- [IaaS → SaaS Migration](research/IaaS%20%E2%86%92%20SaaS.md) — эволюция модели поставки: от CLI/IaaS к SaaS и Context-as-a-Service (черновик 2026-09-03)
+- [IaaS → SaaS Migration](research/iaas-to-saas-migration.md) — эволюция модели поставки: от CLI/IaaS к SaaS и Context-as-a-Service (черновик 2026-09-03)
+- [Science Publication Ideas](research/science-publication-ideas.md) — направления для научных и отраслевых публикаций (экстракция, MCP, AGE multi-tenancy)
 
 ## Гайды
 
@@ -76,8 +77,8 @@
 - [../README.md](../README.md) — главная страница проекта
 - [../CONTRIBUTING.md](../CONTRIBUTING.md) — гайд для контрибьюторов
 - [../team_v39.md](../team_v39.md) — состав команды v.3.9 и компетенции
-- [../archon_pre-research.md](../archon_pre-research.md) — исторический черновик концепта и гипотез
 
 ---
 
-**Обновлено:** 2026-09-07
+**Обновлено:** 2026-10-11
+

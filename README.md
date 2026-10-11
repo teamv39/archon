@@ -63,10 +63,19 @@ flowchart TB
 
 ## Команда проекта (Team v.3.9)
 
-* **Денис (Lead / System Architect):** Метамодель графа знаний, алгоритмы дедупликации Landscape, продуктовый вижен.
-* **Миша (AI / R&D Scientist):** RAG-пайплайны для Confluence, интеграция локальных LLM, обработка естественного языка.
-* **Паша (Core Backend & Security):** AST-парсеры кода, движок поиска аномалий, безопасность и проксирование.
-* **Максим (DevOps / SRE):** Helm-чарты, K8s-оркестрация, CI/CD коннекторы, оптимизация производительности.
+### Инженерное ядро (Core & AI Backend)
+* **Денис (`@ischademadda`, Lead / Architect):** Метамодель графа знаний, алгоритмы дедупликации Landscape, продуктовый вижен.
+* **Миша (`@vocisy`, AI / R&D Scientist):** RAG-пайплайны для Confluence, интеграция локальных LLM, обработка естественного языка.
+* **Паша (`@Pavelgrr7`, Core Backend & Security):** AST-парсеры кода, движок поиска аномалий, безопасность и проксирование.
+* **Максим (`@lelouch-byte`, DevOps / SRE):** Helm-чарты, K8s-оркестрация, CI/CD коннекторы, оптимизация производительности.
+
+### Клиентская витрина ([archon-portal](https://github.com/teamv39/archon-portal))
+* **Артем (`@dusk190`, Tech Lead / Fullstack & BFF Lead):** Архитектура Fastify BFF, безопасность сессий, Mock API сервер.
+* **Кирилл (`@KiRyXaIvaNov`, Frontend Lead):** Клиентская архитектура SPA, дизайн-система `shadcn/ui`, LikeC4 диаграммы.
+* **Егор (`@Bruuhher`, DevOps / Infra Portal):** Контейнеризация витрины (SPA + BFF), локальное окружение, CI/CD.
+* **Екатерина (`@katyaand007`, UX/UI Designer):** CJM ключевых сценариев, UI-kit, вайрфреймы в Figma.
+
+Подробная информация о компетенциях команды: [`team_v39.md`](team_v39.md).
 
 ---
 
@@ -95,7 +104,7 @@ flowchart TB
 
 **Фаза 0: Product & Business Analysis** (текущая)
 - Бизнес-анализ ценности и экономики продукта ([business-value-analysis.md](docs/research/business-value-analysis.md))
-- Архитектурное позиционирование: переход к AI-native Source of Truth и Context Layer ([ai-context-layer-research.md](docs/research/ai-context-layer-research.md), [IaaS → SaaS.md](docs/research/IaaS%20%E2%86%92%20SaaS.md))
+- Архитектурное позиционирование: переход к AI-native Source of Truth и Context Layer ([ai-context-layer-research.md](docs/research/ai-context-layer-research.md), [iaas-to-saas-migration.md](docs/research/iaas-to-saas-migration.md))
 - Закрытие архитектурных блокеров (OQ-1, OQ-2, OQ-8) перед началом активной кодовой разработки
 
 Подробности в [ROADMAP.md](docs/ROADMAP.md)

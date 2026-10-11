@@ -191,8 +191,9 @@ flowchart LR
   это вообще что-то упрощает.
 - **Проектные решения — только в ADR.** Файл модуля описывает состояние, не
   споры.
-- **Логический модуль ≠ сервис.** Сколько процессов реально крутится — OQ-8;
-  MVP обязан собираться из 2-3 сборочных единиц.
+- **Логический модуль ≠ сервис.** Топология развёртывания зафиксирована в
+  [`deployment.md`](../deployment.md) и [`ADR-0007`](../../adr/0007-saas-process-topology-and-packaging.md):
+  все 17 логических модулей собираются в 3 сборочные единицы (`archon-core-service`, `archon-ai-service`, `archon-portal`).
 
 ## Чего в реестре нет (осознанно, пока)
 
@@ -210,7 +211,7 @@ flowchart LR
 
 ## С чего начать чтение
 
-1. [`model.md`](model.md) — ядро, и главный нерешённый вопрос продукта (OQ-2).
+1. [`model.md`](model.md) — ядро и единый источник правды (база графа выбрана в [ADR-0003](../../adr/0003-source-of-truth-and-tenant-isolation.md): PostgreSQL 16 + Apache AGE).
 2. [`reconcile.md`](reconcile.md) + [`assurance.md`](assurance.md) — то, что
    отличает Archon от генератора картинок.
 3. [`resolve.md`](resolve.md) — самый сложный алгоритм.

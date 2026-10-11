@@ -178,7 +178,7 @@ Archon становится AI-native Source of Truth и активно гене
 
 ## OQ-22. Формат и скоуп публичного API
 
-**Открыт из ADR-0006 и `IaaS → SaaS.md`.**
+**Открыт из ADR-0006 и [`iaas-to-saas-migration.md`](../research/iaas-to-saas-migration.md).**
 Пользователям и внешним системам требуется программный доступ к возможностям Archon.
 
 Нужно определить:

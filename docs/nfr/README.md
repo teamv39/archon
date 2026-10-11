@@ -39,12 +39,13 @@
 - Query API: stateless, масштабируется линейно
 - RAG pipeline: независимая масштабируемость векторной БД
 
-### Limits
+### Limits & Cost Governance
 
 - Максимум сервисов в одном графе: 10,000+
 - Максимум зависимостей на сервис: 500
 - Максимальный размер кодовой базы для анализа: 10M LOC
 - История изменений графа: 2 года (retention policy)
+- Бюджетные потолки LLM ([ADR-0004](../adr/0004-module-decomposition-revision-1.md), `runtime`): лимит стоимости на один прогон репозитория и месячная квота на арендатора с graceful degradation до чистого синтаксического разбора (`extract`) при исчерпании квоты
 
 ## Availability & Reliability
 
@@ -66,12 +67,14 @@
 
 ## Security
 
-### Data protection
+### Data protection & Privacy-by-default
 
 - Encryption at rest: AES-256
 - Encryption in transit: TLS 1.3
-- Secrets management: интеграция с Vault/AWS Secrets Manager
-- Zero external data transfer: код не покидает on-premise контур
+- Secrets management: интеграция с HashiCorp Vault / Cloud KMS
+- **Privacy-by-default ([ADR-0006](../adr/0006-saas-delivery-model-and-ai-native-source-of-truth.md)):** исходный код клиентов не хранится персистентно в SaaS. Клонирование выполняется в изолированные эфемерные воркеры только на время извлечения AST и метаданных. В персистентную БД попадают только архитектурный граф, метаданные и сниппеты верификации (`evidence_files`).
+- **Мультитенантная изоляция ([ADR-0003](../adr/0003-source-of-truth-and-tenant-isolation.md)):** модель Graph-per-Tenant (`tenant_<tenant_id>`), строгая изоляция данных между арендаторами на уровне графовых схем PostgreSQL/AGE и шлюза `platform`.
+- Опция Dedicated VPC / Dedicated Tenant для enterprise-клиентов со строгими регуляторными требованиями.
 
 ### Access control
 
@@ -143,9 +146,9 @@
 - Database migrations: backward compatible
 - Rollback capability: < 15 minutes
 
-## Resource requirements
+## Resource requirements (SaaS Backend & Cluster Infrastructure)
 
-### Minimum (dev/small team)
+### Minimum (dev / PoC cluster)
 
 - CPU: 4 cores
 - RAM: 16 GB

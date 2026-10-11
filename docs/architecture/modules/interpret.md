@@ -32,17 +32,21 @@
 
 ## Форма деплоя
 
-TBD (OQ-8). Вместе с `extract`/`reconcile` — естественная сборочная единица.
+Сборочная единица **`archon-ai-service`** (Python 3.11+, FastAPI) согласно [ADR-0007](../../adr/0007-saas-process-topology-and-packaging.md) и [`deployment.md`](../deployment.md). Выполняется как воркер Temporal (`SemanticExtraction`). Архитектура Слоя 1 (точечное обогащение LLM через Pydantic DTO `extraction_v1.py`) утверждена в [RFC гибридного анализа](../rfc-hybrid-repository-analysis.md).
 
 ## Открытые вопросы
 
-- OQ-1 (что переносить из прототипа), OQ-3 (контракт извлечения), OQ-4 (конфликты источников),
-  OQ-11 (нужно ли было разделять единый контур извлечения — закрыт в ADR-0004).
+- OQ-4 (модель приоритета и разрешения конфликтов источников в `reconcile`).
+- OQ-1 закрыт в [ADR-0002](../../adr/0002-archmap-fate.md).
+- OQ-3 закрыт спецификацией [Extraction Contract v1.0](../contracts/README.md).
+- OQ-8 закрыт в [ADR-0007](../../adr/0007-saas-process-topology-and-packaging.md).
+- OQ-11 закрыт в ADR-0004 (разделение контура извлечения).
 
 ## Решения
 
-- ADR-0004
-- ADR-0002
+- ADR-0002 (судьба прототипа archmap, перенос Extraction Contract и эвристик селектора).
+- ADR-0004 (выделение интерпретатора в отдельный модуль).
+- ADR-0007 (упаковка в отдельный Python-сервис `archon-ai-service` для изоляции LLM-стека).
 
 ## Заметки
 

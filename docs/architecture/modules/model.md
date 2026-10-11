@@ -33,16 +33,18 @@
 
 ## Форма деплоя
 
-TBD (OQ-8) — компонент Data Layer в составе Managed SaaS (ADR-0006).
+Сборочная единица **`archon-core-service`** (Kotlin / JVM) согласно [ADR-0007](../../adr/0007-saas-process-topology-and-packaging.md) и [`deployment.md`](../deployment.md). Модуль инкапсулирует слой доступа к данным (DAL) для PostgreSQL 16 + Apache AGE и исполняется внутри процессов бэкенда и воркера Temporal.
 
 ## Открытые вопросы
 
-- F2/F3 (постоянные ссылки и гарантия свежести графа), OQ-8 (физическая топология сервисов).
-- OQ-2 и OQ-5 закрыты в [ADR-0003](../../adr/0003-source-of-truth-and-tenant-isolation.md).
+- Детали постоянных ссылок и гарантия свежести графа (F2/F3).
+- Блокеры OQ-2, OQ-5 закрыты в [ADR-0003](../../adr/0003-source-of-truth-and-tenant-isolation.md).
+- Блокер OQ-8 закрыт в [ADR-0007](../../adr/0007-saas-process-topology-and-packaging.md).
 
 ## Решения
 
 - ADR-0003 (PostgreSQL 16 + Apache AGE, изоляция тенант = граф, openCypher, SoT в БД).
 - ADR-0004 (из бывшего общего модуля выделены `reconcile` и `resolve`).
 - ADR-0006 (Managed SaaS модель и AI-native Source of Truth).
+- ADR-0007 (упаковка в сборочную единицу `archon-core-service`).
 

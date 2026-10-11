@@ -11,19 +11,25 @@
 ### `/docs/adr/` — Architecture Decision Records
 Запись всех значимых архитектурных решений. Каждое решение = отдельный файл.
 
-Формат: `NNNN-title.md` (например, `0001-graphdb-choice.md`)
+Формат: `NNNN-title.md` (например, `0001-docs-as-code.md`)
 
-### `/docs/architecture/` — High-Level Design
-Общая архитектура системы, компонентная модель, интеграции.
+### `/docs/architecture/` — High-Level Design & Modules
+Общая архитектура системы, реестр 17 логических модулей фабрики, топология процессов, контракты и модель данных.
 
 ### `/docs/research/` — Research & Analysis
-Результаты исследований: competitive analysis, technology research, user interviews.
+Результаты исследований: анализ рынка, конкуренты, интервью, архитектурные слои.
+
+### `/docs/design/` — UI/UX & Product Design
+Дизайн-документы клиентской витрины: CJM, вайрфреймы, спецификации экранов.
+
+### `/docs/guides/` — Guides & Onboarding
+Практические руководства: шпаргалки для разработчиков, тимлидов и планы обучения витрине.
 
 ### `/docs/nfr/` — Non-Functional Requirements
 Требования к производительности, масштабируемости, безопасности, observability.
 
 ### `/docs/api/` — API Specifications
-OpenAPI/gRPC спецификации, контракты интеграций.
+Контуры взаимодействия, спецификации REST OpenAPI, MCP и контракты интеграций.
 
 ## Принципы работы с документацией
 

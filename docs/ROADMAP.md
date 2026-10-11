@@ -41,7 +41,7 @@ PoC/спайки разрешены, если привязаны к конкре
 - [x] Revalidation ревизии: подтверждение, F10-F12 ([decomposition-revalidation.md](research/decomposition-revalidation.md))
 - [x] Бизнес-анализ ценности и расчет ROI ([business-value-analysis.md](research/business-value-analysis.md))
 - [x] Исследование AI Context Layer: pivot Port/Swimm, MCP ([ai-context-layer-research.md](research/ai-context-layer-research.md))
-- [x] Анализ перехода от IaaS к Managed SaaS ([IaaS → SaaS.md](research/IaaS%20%E2%86%92%20SaaS.md))
+- [x] Анализ перехода от IaaS к Managed SaaS ([iaas-to-saas-migration.md](research/iaas-to-saas-migration.md))
 - [x] Документация прототипа archmap ([archmap.md](architecture/prototypes/archmap_dump/archmap.md))
 
 ### Что осталось
@@ -77,7 +77,7 @@ PoC/спайки разрешены, если привязаны к конкре
 | [#29](https://github.com/teamv39/archon/issues/29) | **ARCH-30: [Pricing]** Спецификация тарифов и токен-лимитов SaaS | Денис | `S` | Документ `docs/research/pricing.md` (Free/Team/Enterprise) |
 | [#30](https://github.com/teamv39/archon/issues/30) | **ARCH-31: [DevOps]** Docker Compose стек для локальной разработки | Максим | `S` | Единый `docker-compose.yml` (AGE, Redis, Qdrant) |
 | [#32](https://github.com/teamv39/archon/issues/32) | **ARCH-32: [DevOps]** Настройка CI workflow для валидации репозитория | Максим | `S` | GitHub Actions проверка CJK, битых ссылок и Mermaid |
-| [#34](https://github.com/teamv39/archon/issues/34) | **ARCH-33: [Spec-Contract]** Формализация Extraction Contract v1.0 (JSON Schema) | Денис | `S` | Спека `contracts/extraction-v1.json` валидирует sample-архитектуру |
+| [#34](https://github.com/teamv39/archon/issues/34) | ~~**ARCH-33: [Spec-Contract]** Формализация Extraction Contract v1.0 (JSON Schema)~~ | Денис | `S` | ✅ Done ([contracts/README.md](architecture/contracts/README.md)) |
 | [#35](https://github.com/teamv39/archon/issues/35) | **ARCH-34: [Model-Ingestion]** Ingestion DAL: загрузка контракта в Apache AGE | Паша | `M` | Парсинг JSON контракта и запись в граф тенанта через Cypher |
 | [#36](https://github.com/teamv39/archon/issues/36) | **ARCH-35: [Spike-LLM-1]** Тестовый harness двухфазного извлечения | Миша | `S` | Скрипт запускает селектор и экстрактор на коде, отдает JSON |
 | [#37](https://github.com/teamv39/archon/issues/37) | **ARCH-36: [Spike-LLM-2]** Бенчмарк качества: верификация evidence и токены | Миша | `S` | 100% точность evidence_files, замер стоимости (OQ-15) |
@@ -94,7 +94,7 @@ PoC/спайки разрешены, если привязаны к конкре
 - [x] Сформулировать: что делаем мы, что оставляем другим
 - [x] Анализ бизнес-ценности и экономики ([business-value-analysis.md](research/business-value-analysis.md))
 - [x] Исследование Context Layer и закрытие OQ-19 (Путь B) ([ai-context-layer-research.md](research/ai-context-layer-research.md))
-- [x] Миграция от CLI/IaaS к Managed SaaS-модели (OQ-18) ([IaaS → SaaS.md](research/IaaS%20%E2%86%92%20SaaS.md))
+- [x] Миграция от CLI/IaaS к Managed SaaS-модели (OQ-18) ([iaas-to-saas-migration.md](research/iaas-to-saas-migration.md))
 - [x] Оформление и принятие ADR-0006 ([ADR-0006](adr/0006-saas-delivery-model-and-ai-native-source-of-truth.md))
 
 **User research (двухдорожечная модель, решение лида 2026-09-09):**
@@ -130,7 +130,7 @@ desk-research отчёт с вердиктами по гипотезам (confir
 **Deliverables P1:**
 - ~~ADR по OQ-10 (граница скоупа)~~ — готово: [ADR-0005](adr/0005-product-scope-and-delivery-model.md)
 - ~~Бизнес-анализ ценности и расчет ROI~~ — готово: [business-value-analysis.md](research/business-value-analysis.md)
-- ~~Концепция SaaS и AI Context Layer~~ — готово: [ai-context-layer-research.md](research/ai-context-layer-research.md), [IaaS → SaaS.md](research/IaaS%20%E2%86%92%20SaaS.md)
+- ~~Концепция SaaS и AI Context Layer~~ — готово: [ai-context-layer-research.md](research/ai-context-layer-research.md), [iaas-to-saas-migration.md](research/iaas-to-saas-migration.md)
 - ~~ADR-0006 (AI-native Source of Truth & SaaS model)~~ — готово: [ADR-0006](adr/0006-saas-delivery-model-and-ai-native-source-of-truth.md)
 - Desk-research отчёт с вердиктами по гипотезам (дорожка A, замена CustDev-интервью)
 - Turnkey-кит для интервью (дорожка B): скрипт + анкета в `docs/research/custdev-script.md`
@@ -168,9 +168,9 @@ desk-research отчёт с вердиктами по гипотезам (confir
 Когда ключевые архитектурные блокеры решены, проектируем интерфейсы между модулями.
 
 **Веха Code-to-Architecture (OQ-3, контур извлечения и LikeC4):**
-- [ ] Финализация Extraction Contract v1.0 как JSON Schema (`evidence_files`, `flows`, `confidence`, `uncertainties`)
+- [x] Финализация Extraction Contract v1.0 как JSON Schema ([contracts/README.md](architecture/contracts/README.md))
 - [ ] LLM-пайплайн: бенчмарк селектора файлов и экстрактора на `sample-architecture.md` (точность evidence, расход токенов)
-- [ ] Спецификация детерминированного экстрактора `extract` (AST для Go/TS, OpenAPI, K8s)
+- [x] Спецификация детерминированного экстрактора `extract` (Слой 0 принят в [RFC гибридного анализа](architecture/rfc-hybrid-repository-analysis.md))
 - [ ] Проектирование модульного LikeC4-генератора для `export` и `portal` на базе модели графа
 
 **Модель данных (ревизия):**

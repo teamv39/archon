@@ -17,7 +17,7 @@
 
 ## Форма деплоя
 
-TBD (OQ-8): обработчик уведомлений от платформы, задача в CI или внешний сервис.
+Часть `archon-core-service` ([ADR-0007](../../adr/0007-saas-process-topology-and-packaging.md), [`deployment.md`](../deployment.md)). Принимает вебхуки Git-провайдеров через Ingress (`/api/v1/webhooks/*`), ставит задачи в очередь Redis, публикует комментарии и проверки (Checks API) через REST API GitHub/GitLab.
 
 ## Открытые вопросы
 
@@ -27,6 +27,7 @@ TBD (OQ-8): обработчик уведомлений от платформы,
 ## Решения
 
 - ADR-0004 (бывший канал доставки в PR).
+- ADR-0007 (в составе `archon-core-service`).
 
 ## Заметки
 

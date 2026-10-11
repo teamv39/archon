@@ -138,8 +138,9 @@ Port Context Lake / OpsLevel Context Layer / Swimm pivot (2026-09-10). Закр�
 
 **Delivery Model & AI Context Layer**
 - [`ai-context-layer-research.md`](ai-context-layer-research.md) — Archon как context layer для AI-агентов (MCP, pivot Swimm/Port)
-- [`IaaS → SaaS.md`](IaaS%20%E2%86%92%20SaaS.md) — миграция от CLI/IaaS к SaaS: Archon в нашей инфре, MCP, Web-UI, API
+- [`iaas-to-saas-migration.md`](iaas-to-saas-migration.md) — миграция от CLI/IaaS к SaaS: Archon в нашей инфре, MCP, Web-UI, API
 - [`deep-research-ai-native.md`](deep-research-ai-native.md) — план исследования генерации docs-as-code артефактов
+- [`science-publication-ideas.md`](science-publication-ideas.md) — направления для научных и отраслевых публикаций (Knowledge Graph, MCP, multi-tenancy AGE)
 
 **Pricing Research** — `/docs/research/pricing-models.md` (TBD)
 - Pricing конкурентов

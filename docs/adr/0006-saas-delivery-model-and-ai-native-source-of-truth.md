@@ -14,7 +14,7 @@ Accepted
 
 В [ADR-0005](0005-product-scope-and-delivery-model.md) было зафиксировано: Archon поставляется как all-in-one self-hosted CLI-first инструмент, а SaaS отложен на вторую фазу. Предполагалось, что локальный запуск снимет барьер безопасности, а CLI позволит быстро запускать анализ.
 
-Дальнейший анализ рынка и сценариев ([`ai-context-layer-research.md`](../research/ai-context-layer-research.md), [`business-value-analysis.md`](../research/business-value-analysis.md), [`IaaS → SaaS.md`](../research/IaaS%20%E2%86%92%20SaaS.md)) выявил фундаментальные противоречия:
+Дальнейший анализ рынка и сценариев ([`ai-context-layer-research.md`](../research/ai-context-layer-research.md), [`business-value-analysis.md`](../research/business-value-analysis.md), [`iaas-to-saas-migration.md`](../research/iaas-to-saas-migration.md)) выявил фундаментальные противоречия:
 
 1. **Неприемлемый Time-to-Value (TTV):**
    Для работы Archon требуется сложный инфраструктурный комплекс (PostgreSQL + Apache AGE, Qdrant, Temporal, NATS, инференс LLM). Развертывание в контуре клиента требует дней или недель согласований с DevOps и SecOps.
@@ -131,6 +131,6 @@ flowchart TB
 ## Ссылки
 
 - [ADR-0005](0005-product-scope-and-delivery-model.md) — частично заменен настоящим решением
-- [IaaS → SaaS.md](../research/IaaS%20%E2%86%92%20SaaS.md) — исследование предпосылок миграции
+- [iaas-to-saas-migration.md](../research/iaas-to-saas-migration.md) — исследование предпосылок миграции
 - [ai-context-layer-research.md](../research/ai-context-layer-research.md) — исследование рынка AI context layer
 - [open-questions.md](../architecture/open-questions.md) — открытые вопросы (OQ-22, OQ-23, OQ-24)

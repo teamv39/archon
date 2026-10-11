@@ -41,12 +41,16 @@
 
 ## Форма деплоя
 
-В соответствии с ADR-0006 — компонент управляемого облака Archon Managed Cloud (SaaS). Доступен клиентам по защищенному HTTPS/SSE эндпоинту с токеном авторизации организации.
+В соответствии с [ADR-0007](../../adr/0007-saas-process-topology-and-packaging.md) и [`deployment.md`](../deployment.md):
+- Для фазы MVP и R&D хостится как FastMCP-сервер в составе **`archon-ai-service`** (Python, SSE/JSON-RPC порт `:8000`, маршрут `/mcp/*` за Ingress).
+- Доступ защищен токенами авторизации организации (Scoped API Tokens по OQ-24).
 
 ## Открытые вопросы
 
-- [OQ-24](../open-questions.md#oq-24-авторизация-роли-и-аудит-запросов-к-mcp-server) — гранулярная авторизация агентов (read-only per repo vs org-wide) и аудит запросов.
+- [OQ-24](../open-questions.md#oq-24-модель-авторизации-прав-и-аудита-запросов-к-mcp-server) — гранулярная авторизация агентов (read-only per repo vs org-wide) и аудит запросов.
+- OQ-8 закрыт в [ADR-0007](../../adr/0007-saas-process-topology-and-packaging.md).
 
 ## Решения
 
 - [ADR-0006](../../adr/0006-saas-delivery-model-and-ai-native-source-of-truth.md) — введение MCP Server как ключевой точки взаимодействия продукта.
+- [ADR-0007](../../adr/0007-saas-process-topology-and-packaging.md) — физическое размещение FastMCP в `archon-ai-service` для MVP.

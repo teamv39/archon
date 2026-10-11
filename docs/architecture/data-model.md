@@ -1,9 +1,9 @@
 # Модель данных Knowledge Graph
 
-> [!WARNING]
-> **Статус: Концептуальный черновик (Draft / Outdated)**  
-> Этот документ — ранний эскиз сущностей до принятия решений [ADR-0004](../adr/0004-module-decomposition-revision-1.md) (где аномалии заменены на сущность `Finding`), [ADR-0006](../adr/0006-saas-delivery-model-and-ai-native-source-of-truth.md) (переход на Multi-tenant SaaS) и блокера [OQ-2](open-questions.md#oq-2-source-of-truth-модели-данных).  
-> Детальная модель данных не зафиксирована и не является блокирующей до решения OQ-2. Не использовать как контракт для кода.
+> **Статус:** Концептуальная спецификация (согласована с [ADR-0003](../adr/0003-source-of-truth-and-tenant-isolation.md) и [ADR-0004](../adr/0004-module-decomposition-revision-1.md))  
+> **Хранилище:** PostgreSQL 16 + Apache AGE (openCypher)  
+> **Мультитенантность:** Graph-per-Tenant (`tenant_<tenant_id>`)  
+> **Навигация:** [Архитектура](README.md) | [Модуль model](modules/model.md) | [ADR-0003](../adr/0003-source-of-truth-and-tenant-isolation.md) | [Полный индекс](../INDEX.md)
 
 Сущности и связи в архитектурном графе Archon.
 
@@ -29,7 +29,7 @@
 - `EXPOSES` → Contract (предоставляет API/топик)
 - `CONSUMES` → Contract (использует API/топик)
 - `STORED_IN` → Repository
-- `HAS_ANOMALY` → Anomaly
+- `HAS_FINDING` → Finding
 - `DOCUMENTED_BY` → Specification
 
 ### Contract
@@ -69,28 +69,30 @@ Git репозиторий с кодом.
 **Связи:**
 - `CONTAINS` → Service
 
-### Anomaly
-Обнаруженное нарушение архитектурных правил.
+### Finding
+Обнаруженное отклонение, управляемое через модуль `assurance` ([ADR-0004](../adr/0004-module-decomposition-revision-1.md)).
 
-**Типы:**
-- Shared Database (прямой доступ к чужой БД)
-- API Gateway Bypass (обход API Gateway)
-- Circular Dependency (циклическая зависимость)
-- Undocumented API (API без спецификации)
-- Deprecated Dependency (использование deprecated API)
+**Категории (`kind`):**
+- `policy_violation` (нарушение архитектурного правила: обход API Gateway, shared DB, циклические зависимости из `policies`)
+- `doc_drift` (расхождение между кодом и документацией из `drift`)
+- `reconciliation_conflict` (противоречие между AST-разбором и LLM-гипотезой из `reconcile`)
 
 **Атрибуты:**
 - `id`: уникальный идентификатор
-- `type`: тип аномалии
+- `kind`: категория находки
 - `severity`: `critical` | `high` | `medium` | `low`
 - `status`: `detected` | `accepted` | `fixed` | `false_positive`
 - `detected_at`: время обнаружения
 - `description`: описание проблемы
-- `risk_rationale`: обоснование принятия риска (если `status=accepted`)
+- `evidence`: сниппеты кода, ссылки на файлы (`evidence_files`) и цитаты
+- `resolution_rationale`: обоснование решения человека (при `accepted` или `false_positive`)
+- `resolved_by`: пользователь, принявший решение
+- `resolved_at`: время принятия решения
 
 **Связи:**
 - `FOUND_IN` → Service
 - `INVOLVES` → Contract (опционально)
+- `RELATES_TO` → Specification (опционально)
 
 ### Specification
 Документ с требованиями или архитектурным решением.
@@ -139,35 +141,33 @@ Git репозиторий с кодом.
 Для быстрых запросов:
 - Индекс по `service.name`
 - Индекс по `contract.type`
-- Индекс по `anomaly.severity` + `anomaly.status`
+- Индекс по `finding.severity` + `finding.status`
 - Индекс по `repository.url`
 
-## Примеры запросов
+## Примеры запросов (openCypher)
 
 **Impact Analysis:**
-```
+```cypher
 MATCH (s:Service {name: "payment-service"})-[:DEPENDS_ON*]->(dependent:Service)
 RETURN dependent
 ```
 
-**Найти все аномалии критичного уровня:**
-```
-MATCH (a:Anomaly {severity: "critical", status: "detected"})-[:FOUND_IN]->(s:Service)
-RETURN s.name, a.type, a.description
+**Найти все критические находки:**
+```cypher
+MATCH (f:Finding {severity: "critical", status: "detected"})-[:FOUND_IN]->(s:Service)
+RETURN s.name, f.kind, f.description
 ```
 
-**Все сервисы без документации:**
-```
+**Все сервисы без привязанной документации:**
+```cypher
 MATCH (s:Service)
 WHERE NOT (s)-[:DOCUMENTED_BY]->(:Specification)
 RETURN s.name
 ```
 
-## Эволюция модели
+## Архитектура хранения и мультитенантность (ADR-0003)
 
-Это начальная версия модели. По мере research и прототипирования будет дополняться:
-- Новые типы аномалий
-- Дополнительные атрибуты сущностей
-- Новые связи между сущностями
-
-Изменения в модели фиксируются через ADR.
+Хранение графа организовано в гибридном виде на базе **PostgreSQL 16 с расширением Apache AGE**:
+- **Изоляция арендаторов (Graph-per-Tenant):** каждый арендатор получает изолированный граф через `ag_catalog.create_graph('tenant_<tenant_id>')`. Графовые вершины и рёбра хранятся в отдельных системных таблицах схемы графа.
+- **Гибридный доступ:** платформенные метаданные (пользователи, роли, квоты, токены) хранятся в стандартных реляционных таблицах PostgreSQL, а архитектурные связи запрашиваются через openCypher-функцию `cypher('tenant_<tenant_id>', $$ MATCH ... $$)`.
+- **Эволюция схемы:** модель графа расширяется добавлением новых меток вершин и рёбер без блокирующих DDL-миграций реляционных таблиц. Любые архитектурные изменения модели фиксируются через ADR.

@@ -18,15 +18,20 @@
 
 ## Форма деплоя
 
-TBD (OQ-8). Практически всегда это будет общая библиотека плюс отдельный сервис аутентификации.
+Сборочная единица **`archon-core-service`** (Kotlin / JVM) согласно [ADR-0007](../../adr/0007-saas-process-topology-and-packaging.md) и [`deployment.md`](../deployment.md). Реализует аутентификацию (GitHub OAuth / Keycloak), multi-tenancy контекст (`tenant_id`), маршрутизацию схем `tenant_<id>` в Apache AGE и аудит-лог.
 
 ## Открытые вопросы
 
-- OQ-8 (физическая топология), OQ-2 (где источник правды — влияет на устройство журнала и изоляции клиентов).
+- [OQ-24](../open-questions.md#oq-24-модель-авторизации-прав-и-аудита-запросов-к-mcp-server) (ролевая модель для AI-агентов).
+- [OQ-23](../open-questions.md#oq-23-поддержка-закрытых-контуров-анализ-вариантов-air-gapped-strict-on-premise) (гибридный агент для закрытых контуров).
+- OQ-2 закрыт в [ADR-0003](../../adr/0003-source-of-truth-and-tenant-isolation.md).
+- OQ-8 закрыт в [ADR-0007](../../adr/0007-saas-process-topology-and-packaging.md).
 
 ## Решения
 
-- ADR-0004 (бывший модуль корпоративной обвязки).
+- ADR-0004 (выделение платформенной обвязки).
+- ADR-0006 (модель Managed SaaS и авторизация).
+- ADR-0007 (упаковка платформенного контура в `archon-core-service`).
 
 ## Заметки
 

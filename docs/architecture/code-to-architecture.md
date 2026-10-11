@@ -1,7 +1,7 @@
 # Проектирование контура автоматического извлечения и визуализации (Code-to-Architecture)
 
 > **Статус:** Архитектурная веха (Active Planning / Milestone)  
-> **Связанные решения:** [ADR-0002 (Наследие archmap)](../adr/0002-archmap-fate.md), [ADR-0003 (Граф Source of Truth)](../adr/0003-source-of-truth-and-tenant-isolation.md), [ADR-0004 (17 модулей)](../adr/0004-module-decomposition-revision-1.md), [ADR-0006 (Managed SaaS)](../adr/0006-saas-delivery-model-and-ai-native-source-of-truth.md), [OQ-3 (Extraction Contract)](open-questions.md#oq-3-контракт-извлечения).
+> **Связанные решения:** [ADR-0002 (Наследие archmap)](../adr/0002-archmap-fate.md), [ADR-0003 (Граф Source of Truth)](../adr/0003-source-of-truth-and-tenant-isolation.md), [ADR-0004 (17 модулей)](../adr/0004-module-decomposition-revision-1.md), [ADR-0006 (Managed SaaS)](../adr/0006-saas-delivery-model-and-ai-native-source-of-truth.md), [Extraction Contract v1.0](contracts/README.md), [RFC гибридного анализа](rfc-hybrid-repository-analysis.md).
 
 Данный документ определяет архитектуру сквозного контура **Code-to-Architecture** в платформе Archon: от чтения исходного кода репозиториев до формирования верифицированного графа знаний и генерации интерактивных C4-диаграмм.
 
@@ -163,17 +163,18 @@ quadrantChart
 
 ---
 
-## 5. План задач по вехе Code-to-Architecture
+## 5. Статус и артефакты вехи Code-to-Architecture
 
-1. **Спецификация Extraction Contract v1.0 (OQ-3):**
-   * Формализация JSON Schema в репозитории (`docs/architecture/contracts/extraction-v1.json`).
-   * Описание Pydantic/Kotlin моделей для строгой валидации.
-2. **Спайк качества семантического извлечения (`[Spike-LLM-Extraction]`):**
-   * Запуск промптов селектора и экстрактора на эталонном сервисе `sample-architecture.md`.
-   * Замер метрик: процент галлюцинаций по `evidence_files`, полнота извлечения связей, расход токенов и стоимость одного прогона (OQ-15).
-3. **Спецификация детерминированного экстрактора (`extract`):**
-   * Выбор базовых AST-библиотек для первого поддерживаемого языка (Go / TypeScript).
-   * Определение парсера OpenAPI и K8s манифестов.
-4. **Проектирование чистого транслятора LikeC4 DSL (`export` / `portal`):**
-   * Модульный генератор DSL LikeC4 на базе моделей графа `model`.
-   * Юнит-тесты на подъем связей, адресацию компонентов и динамические flows.
+1. **Extraction Contract v1.0 ([OQ-3](open-questions.md#oq-3-контракт-извлечения)) — Завершено:**
+   * JSON Schema (Draft 2020-12): [`contracts/extraction-v1.json`](contracts/extraction-v1.json).
+   * Pydantic v2 DTO: [`contracts/extraction_v1.py`](contracts/extraction_v1.py).
+   * Спецификация Kotlin DTO для `archon-core-service`: [`contracts/kotlin-dto-spec.md`](contracts/kotlin-dto-spec.md).
+   * Набор тестов и валидатор: [`contracts/validate_contract.py`](contracts/validate_contract.py).
+   * Документация и инварианты контракта: [`contracts/README.md`](contracts/README.md).
+2. **Архитектура конвейера (RFC) — Принято:**
+   * [RFC: Гибридный контур анализа репозиториев (Hybrid Analysis Pipeline)](rfc-hybrid-repository-analysis.md).
+3. **Реализация в коде (в работе):**
+   * Ingestion DAL в `model` (PostgreSQL 16 + AGE, Паша, ARCH-34).
+   * Семантический экстрактор и structured output в `interpret` (Миша, ARCH-35/36).
+   * Генератор LikeC4 DSL в `export` (ARCH-37).
+   * Детерминированный парсер манифестов и AST в `extract` (ARCH-38).
