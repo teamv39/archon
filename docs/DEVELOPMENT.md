@@ -6,15 +6,16 @@
 
 ### Branching Strategy
 
-> **Текущий режим (Фаза 0):** База проекта активно строится — пуш в `main` разрешен (решение лида). Ветка `develop` не используется. Ветки создаются как `feature/<id>-kebab` напрямую от `main`. Когда будет включен branch protection, процесс перейдет на строгий PR-flow.
+> **Текущий режим:** Основная работа ведётся в ветке `dev`. Ветки создаются как `feature/<id>-kebab` от `dev` и мержатся обратно в `dev` через Pull Request. `main` — стабильная ветка, обновляется только из `dev`. Прямой пуш в `main` и `dev` запрещён, включая агентов — агент пушит только в свою feature-ветку.
 
-**Основная ветка:**
-- `main` — единственная базовая ветка проекта (пока без `develop`).
+**Основные ветки:**
+- `dev` — основная рабочая ветка. Сюда идёт вся разработка.
+- `main` — стабильная ветка, обновляется только мержем из `dev`.
 
 **Тематические ветки:**
 - Формат: `feature/<id>-kebab` (например, `feature/arch-42-ast-parser` или `feature/iaas-to-saas`)
-- Создаются от `main`
-- Мержатся обратно в `main` напрямую или через Pull Request.
+- Создаются от `dev`
+- Мержатся обратно в `dev` через Pull Request
 
 **Коммиты:**
 - Формат: `ARCH-123: что сделано` или краткий функциональный префикс, если задача вне трекера:
@@ -67,6 +68,7 @@ ARCH-44: Fix query performance for impact analysis
 - Minimum 1 approval от team member
 - Все комментарии resolved перед мержем
 - CI/CD checks passed
+- **Агент перед мержем в `dev` или `main` запрашивает ревью у пользователя:** показывает `git diff --stat`, описание изменений и результат валидации, ждёт явного разрешения. Молчание — не аппрув. Мерж `dev` → `main` — только по явной команде пользователя.
 
 ## Documentation Updates
 
@@ -122,7 +124,7 @@ ARCH-44: Fix query performance for impact analysis
 
 ## CI/CD Pipeline
 
-**На каждый PR и push в main:**
+**На каждый PR и push в `dev` и `main`:**
 - **Docs & Repo Validation** (`.github/workflows/docs-validation.yml`):
   - Проверка отсутствия CJK-символов в markdown (`python scripts/validate_docs.py --check-cjk`)
   - Проверка валидности локальных ссылок между файлами (`python scripts/validate_docs.py --check-links`)
@@ -134,12 +136,12 @@ ARCH-44: Fix query performance for impact analysis
 - Security scan
 - Documentation build
 
-**На merge в develop:**
+**На merge в `dev`:**
 - Full test suite
 - Build artifacts
 - Deploy to staging
 
-**На merge в main:**
+**На merge в `main`:**
 - Deploy to production (когда появится)
 
 ## Code Style
