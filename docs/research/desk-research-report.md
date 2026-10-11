@@ -27,7 +27,7 @@
 ## 1. Карта гипотез (что проверяем)
 
 Извлечено из `competitive-analysis.md`, `business-value-analysis.md`,
-`ai-context-layer-research.md`, `deep-research-ai-native.md`, `user-journeys.md`.
+`ai-context-layer-research.md`, `user-journeys.md`.
 Полная карта — в приложении A; здесь — приоритетные кластеры для desk-research.
 
 ### Кластер A. Рыночная ниша и уникальность Archon
@@ -146,7 +146,7 @@
 | H-B1 | **confirmed** | Port Context Lake, OpsLevel Context Layer, Swimm ADLC — все три переформулировали позиционирование вокруг AI-context. Тренд реален. | Port, OpsLevel, Swimm (2026-09-10) |
 | H-B2 | **confirmed** | OpsLevel: «anything that speaks MCP, including Claude Code, Cursor, GitHub Copilot». Swimm: «MCP-queryable output». Port: «unify external MCPs». MCP — стандарт де-факто. | Port, OpsLevel, Swimm (2026-09-10) |
 | H-B3 | **confirmed** | Swimm явно заявляет «product-enabled service company», «delivered knowledge base, not a subscription», «not software you install». Pivot полный. | Swimm (2026-09-10) |
-| H-B4 | **adjusted** | Swimm подтверждает проблему («documentation drifts»), но решает её через services, не через Git/docs-as-code. Docs-as-code как решение для AI-агентов — пока только наша гипотеза + Cursor/Claude Code читают файлы в репо. Требуется проверка adoption .cursorrules / AGENTS.md паттерна. | Swimm (2026-09-10), deep-research-ai-native |
+| H-B4 | **adjusted** | Swimm подтверждает проблему («documentation drifts»), но решает её через services, не через Git/docs-as-code. Docs-as-code как решение для AI-агентов — пока только наша гипотеза + Cursor/Claude Code читают файлы в репо. Требуется проверка adoption .cursorrules / AGENTS.md паттерна. | Swimm (2026-09-10), ai-context-layer-research |
 | H-B5 | **pending** | Требует анализа buyer persona в маркетинге конкурентов и job postings. | TBD (Денис) |
 
 ### Кластер C

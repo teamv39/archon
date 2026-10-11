@@ -43,7 +43,7 @@ flowchart TD
 | **FastMCP Context Server** (Мок для IDE AI-агентов) | [`scripts/mock_mcp_data.json`](../../scripts/mock_mcp_data.json) | Встроенная JSON Schema (`draft-07`), разделы `contracts`, `rules`, `adrs` | [`scripts/mcp_server.py`](../../scripts/mcp_server.py), Cursor IDE, Copilot, Cline | `python3 scripts/mcp_server.py` |
 | **Графовая БД (Apache AGE)** (Сид тестового графа) | [`scripts/seed_sample_graph.sql`](../../scripts/seed_sample_graph.sql) | DDL графа `archon_graph`, openCypher узлы `:Service`, `:Contract`, `:Database`, `:Topic` | PostgreSQL 16 + AGE, [`benchmark_queries.sql`](../../scripts/benchmark_cypher_queries/benchmark_queries.sql) (ARCH-19), задачи #17-#20 | `psql -U postgres -d postgres -f scripts/seed_sample_graph.sql` |
 | **Канонический эталон** (Текстовая спецификация) | [`docs/architecture/sample-architecture.md`](sample-architecture.md) | Markdown-спецификация Golden Dataset | Документация, разработчики, архитекторы, промпты LLM | Просмотр документации |
-| **Архив прототипа archmap** (Reference Examples) | [`docs/architecture/prototypes/archmap_dump/`](prototypes/README.md) | [`json_contract.md`](prototypes/archmap_dump/json_contract.md) | Исторический PoC LikeC4 ([`json_to_likec4.py`](prototypes/archmap_dump/json_to_likec4.py)) | Не запускается (архив по ADR-0002) |
+| **Архив прототипа archmap** (Reference Examples) | [`docs/architecture/prototypes/archmap_dump/`](prototypes/README.md) | Промпты селектора и экстрактора | Исторический PoC LikeC4 ([`json_to_likec4.py`](prototypes/archmap_dump/json_to_likec4.py)) | Не запускается (архив по ADR-0002) |
 | **Веб-портал Mock API** (Витрина `archon-portal`) | Репозиторий `teamv39/archon-portal` | MSW / Fastify Mock API | Фронтенд-разработка портала (Mock-First, задача A2) | В репозитории `archon-portal` |
 
 ---
@@ -154,7 +154,6 @@ docker exec -i archon-age-db psql -U postgres -d postgres -f scripts/benchmark_c
 ## 5. Архивные материалы и ранние прототипы
 
 - **Каталог:** [`docs/architecture/prototypes/archmap_dump/`](prototypes/README.md)
-  - [`json_contract.md`](prototypes/archmap_dump/json_contract.md) — спецификация контракта раннего PoC archmap;
   - [`json_to_likec4.py`](prototypes/archmap_dump/json_to_likec4.py) — детерминированный компилятор JSON в LikeC4 DSL;
   - [`selector_prompt.md`](prototypes/archmap_dump/selector_prompt.md) и [`extractor_prompt.md`](prototypes/archmap_dump/extractor_prompt.md) — системные промпты агентов выбора и извлечения.
 

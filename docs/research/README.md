@@ -25,54 +25,14 @@ Compass (Atlassian), плюс Cortex, Swimm, LeanIX кратко.
 - свежие релиз-ноуты 2025-2026 (не появились ли у них LLM-дрейф фичи)
 - hands-on тест: их scorecards против нашего `policies`
 
-### 2. Technology Research
+### 2. Technology Choices & Architecture Decisions
 
-**Graph Databases** — `/docs/research/graphdb-comparison.md` (TBD)
-- Neo4j
-- JanusGraph
-- Amazon Neptune
-- TigerGraph
+Ключевые технологические развилки исследованы и формализованы в архитектурных решениях:
 
-Критерии:
-- Query performance на больших графах
-- Версионирование данных
-- Масштабируемость
-- On-premise deployment
-- Стоимость
-
-**AST Parsers** — `/docs/research/ast-parsers.md` (TBD)
-- Tree-sitter
-- ANTLR
-- Language-specific парсеры (JavaParser, go/parser, etc)
-
-Критерии:
-- Поддерживаемые языки
-- Скорость парсинга
-- Полнота AST
-- Поддержка incremental parsing
-
-**Vector Databases для RAG** — `/docs/research/vector-db-comparison.md` (TBD)
-- Qdrant
-- Weaviate
-- Pinecone
-- pgvector
-
-Критерии:
-- Query latency
-- Масштабируемость
-- On-premise support
-- Integration с LLM
-
-**LLM Options** — `/docs/research/llm-options.md` (TBD)
-- Локальные модели (Llama, Mistral)
-- Cloud API (Claude, GPT)
-- Hybrid approach
-
-Критерии:
-- Качество для кода и документации
-- Latency
-- Privacy (on-premise requirement)
-- Стоимость
+- **Графовая база данных:** Выбрана связка PostgreSQL 16 + Apache AGE ([ADR-0003](../adr/0003-source-of-truth-and-tenant-isolation.md)). Реализует изоляцию Graph-per-Tenant (`tenant_<id>`) и стандартизированные openCypher-запросы.
+- **Векторное хранилище и оркестрация:** Векторный поиск RAG на базе Qdrant / pgvector; распределенные конвейеры под управлением Temporal Polyglot Workflows ([ADR-0007](../adr/0007-saas-process-topology-and-packaging.md)).
+- **AST-парсеры и детерминированное извлечение:** Двухконтурный конвейер со статическим анализом манифестов и AST (Tree-sitter) зафиксирован в [RFC: Гибридный контур анализа репозиториев](../architecture/rfc-hybrid-repository-analysis.md).
+- **Стек реализации:** Ядро платформы — Kotlin/JVM (`archon-core-service`), AI/LLM контур — Python (`archon-ai-service`), клиентский интерфейс — TypeScript/React (`archon-portal`). Детали — в [tech-stack.md](../architecture/tech-stack.md).
 
 ### 3. User Research
 
@@ -103,50 +63,21 @@ Port Context Lake / OpsLevel Context Layer / Swimm pivot (2026-09-10). Закр�
 что подтвердилось, что осталось открытым осознанно (модель данных, не
 декомпозиция) и новые находки F10-F12 — все про контракты между модулями.
 
-**Target Segments** — `/docs/research/user-segments.md` (TBD)
-- Архитекторы
-- Tech Leads
-- DevOps/SRE
-- Новые инженеры (onboarding)
-- CISO/Security teams
-- Product owners
+**Целевые сегменты и роли:** зафиксированы в [`user-journeys.md`](user-journeys.md) и [`business-value-analysis.md`](business-value-analysis.md) (архитекторы, тимлиды, DevOps/SRE, онбординг, CISO).
 
-Для каждого сегмента:
-- Jobs-to-be-done
-- Pain points
-- Success metrics
-- Adoption barriers
+**Интервью (CustDev дорожка B):** качественные интервью с архитекторами и тимлидами для калибровки болей на этапе пилотов (не блокируют Фазу 0, валидированную через desk-research).
 
-**User Interviews** — `/docs/research/interviews/` (TBD)
+### 4. Market & Business Model
 
-План:
-- 5-7 интервью с архитекторами/тимлидами
-- Фокус: как сейчас поддерживают документацию, где болит
-- Валидация гипотез из pre-research
-
-### 4. Use Cases & Scenarios
-
-**Critical User Journeys** — перенесено в [`user-journeys.md`](user-journeys.md)
-(см. раздел 3): онбординг, impact analysis, incident response, релизный гейт,
-дрейф документации, аудит для CISO.
-
-### 5. Market & Business Model
-
-**Business Value & Economics** — [`business-value-analysis.md`](business-value-analysis.md) (черновик 2026-09-03)
+**Business Value & Economics** — [`business-value-analysis.md`](business-value-analysis.md)
 - Оценка ценности функций, расчет ROI для 50 инженеров ($100K-200K/год)
 - Сравнение себестоимости и маржинальности Self-hosted vs SaaS
+- Модели монетизации и ценообразование
 
 **Delivery Model & AI Context Layer**
 - [`ai-context-layer-research.md`](ai-context-layer-research.md) — Archon как context layer для AI-агентов (MCP, pivot Swimm/Port)
 - [`iaas-to-saas-migration.md`](iaas-to-saas-migration.md) — миграция от CLI/IaaS к SaaS: Archon в нашей инфре, MCP, Web-UI, API
-- [`deep-research-ai-native.md`](deep-research-ai-native.md) — план исследования генерации docs-as-code артефактов
 - [`science-publication-ideas.md`](science-publication-ideas.md) — направления для научных и отраслевых публикаций (Knowledge Graph, MCP, multi-tenancy AGE)
-
-**Pricing Research** — `/docs/research/pricing-models.md` (TBD)
-- Pricing конкурентов
-- ROI калькулятор для клиентов
-- Модели монетизации (per-user, per-service, flat license)
-- Open-core стратегия
 
 ## Методология исследований
 
@@ -178,10 +109,6 @@ Port Context Lake / OpsLevel Context Layer / Swimm pivot (2026-09-10). Закр�
 3. Выводы влияют на ADR или архитектурные документы
 4. Обновляется этот индекс со ссылками
 
-## Timeline
+## Статус исследований
 
-Исследования идут параллельно с началом разработки. Приоритет:
-1. Competitive analysis (неделя 1)
-2. Graph DB + AST parsers (неделя 1-2)
-3. User interviews (неделя 2-3)
-4. Vector DB + LLM (неделя 3-4)
+Исследования Фазы 0 (Product & Technical Pre-research) завершены: ключевые развилки зафиксированы в архитектурных решениях (ADR-0001..0007) и отчете [`desk-research-report.md`](desk-research-report.md). Дальнейшие исследования проводятся в рамках задач Фазы 1 через issues с меткой `research`.
