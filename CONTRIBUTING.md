@@ -21,7 +21,7 @@
 ### 2. Создание ветки
 
 ```bash
-git checkout main
+git checkout dev
 git pull
 git checkout -b feature/ARCH-123-short-description
 ```
@@ -35,7 +35,7 @@ git checkout -b feature/ARCH-123-short-description
 
 ### 4. Pull Request
 
-Создай PR в `main`:
+Создай PR в `dev`:
 - Используй шаблон описания из `/docs/DEVELOPMENT.md`
 - Проставь reviewers
 - Убедись что CI checks passed
@@ -48,7 +48,9 @@ git checkout -b feature/ARCH-123-short-description
 
 ### 6. Merge
 
-После approval и прохождения всех checks — мерж в `main`.
+После approval и прохождения всех checks — мерж в `dev`. В `main` изменения попадают только мержем из `dev`.
+
+**Прямой пуш в `dev` и `main` запрещён** — только через Pull Request из ветки `feature/<id>-kebab`. Мерж `dev` → `main` — по явной команде тимлида.
 
 ## Документация
 
