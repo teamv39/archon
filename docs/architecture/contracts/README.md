@@ -13,6 +13,7 @@
 | [`kotlin-dto-spec.md`](kotlin-dto-spec.md) | Маппинг полей на Kotlin DTO для `archon-core-service` (ARCH-34). |
 | [`fixtures/sample-ecommerce.json`](fixtures/sample-ecommerce.json) | Эталонная фикстура из `sample-architecture.md` (6 сервисов, 3 дефекта). |
 | [`validate_contract.py`](validate_contract.py) | Валидация: метасхема, фикстура, round-trip, негативные кейсы. |
+| [`../mocks-and-fixtures.md`](../mocks-and-fixtures.md) | Единый реестр моков и фикстур проекта (Contract, FastMCP, AGE seed). |
 
 ## Модель контракта
 

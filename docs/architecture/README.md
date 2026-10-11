@@ -85,9 +85,10 @@ flowchart TB
 
 - [Архитектурная веха Code-to-Architecture](code-to-architecture.md) — проектирование сквозного контура автоматического извлечения и LikeC4-визуализации (на базе бизнес-ценности прототипа archmap по [ADR-0002](../adr/0002-archmap-fate.md)).
 
-## Модель данных и хранилище
+## Модель данных, хранилище и фикстуры
 
-Хранилище Source of Truth и изоляция тенантов приняты в [ADR-0003](../adr/0003-source-of-truth-and-tenant-isolation.md) (PostgreSQL 16 + Apache AGE, граф на тенанта, openCypher). Черновая модель данных описана в [`data-model.md`](data-model.md).
+Хранилище Source of Truth и изоляция тенантов приняты в [ADR-0003](../adr/0003-source-of-truth-and-tenant-isolation.md) (PostgreSQL 16 + Apache AGE, граф на тенанта, openCypher). Черновая модель данных описана в [`data-model.md`](data-model.md).  
+Эталонная тестовая модель зафиксирована в [`sample-architecture.md`](sample-architecture.md) (Golden Dataset), а единый каталог всех тестовых наборов данных, фикстур и моков — в [`mocks-and-fixtures.md`](mocks-and-fixtures.md).
 
 ## Интеграции
 

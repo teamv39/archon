@@ -3,6 +3,11 @@
 Документ описывает стандартный тестовый ландшафт сервисов и связей, используемый
 для PoC графовой базы (Apache AGE, Паша) и PoC Model Context Protocol сервера (Cursor/Copilot, Миша).
 
+> **Каталог реализаций:** Полный перечень физических файлов, схем и команд запуска собран в едином [Реестре моков и фикстур](mocks-and-fixtures.md):
+> - Extraction Contract v1.0 JSON: [`contracts/fixtures/sample-ecommerce.json`](contracts/fixtures/sample-ecommerce.json)
+> - FastMCP Server Mock JSON: [`../../scripts/mock_mcp_data.json`](../../scripts/mock_mcp_data.json)
+> - Apache AGE Graph Seed SQL: [`../../scripts/seed_sample_graph.sql`](../../scripts/seed_sample_graph.sql)
+
 ---
 
 ## 1. Сценарий: E-Commerce Checkout & Billing

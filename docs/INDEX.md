@@ -35,6 +35,7 @@
 - [Open Questions](architecture/open-questions.md) — открытые проектные вопросы (кандидаты в ADR)
 - [Prototypes & Dumps](architecture/prototypes/README.md) — прототипы и дампы: разбор archmap, Extraction Contract v1.0, промпты и генератор LikeC4
 - [Sample Architecture](architecture/sample-architecture.md) — эталонная тестовая архитектура (Golden Dataset для PoC и тестов)
+- [Mocks & Fixtures Registry](architecture/mocks-and-fixtures.md) — единый реестр моков, фикстур и тестовых данных (Extraction Contract, FastMCP, Apache AGE, Golden Dataset)
 
 ## Research & Analysis
 
