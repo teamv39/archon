@@ -14,7 +14,7 @@
 Репозитории и треки:
 - **Инженерное ядро (`teamv39/archon`):** Core & AI сервисы, Source of Truth документации, доска [GitHub Projects: archon-core (#2)](https://github.com/orgs/teamv39/projects/2).
 - **Клиентская витрина (`teamv39/archon-portal`):** SPA + Fastify BFF, доска [GitHub Projects: archon-portal (#3)](https://github.com/orgs/teamv39/projects/3).
-Команда: Core (Денис — lead/architect, Миша — AI/R&D, Паша — core backend, Максим — DevOps/SRE) + Portal (Артем — tech lead/BFF, Кирилл — frontend lead, Егор — DevOps, Катя — UI/UX).
+Команда: Core (Денис — lead/architect/SRE, Миша — AI/R&D, Паша — core backend, Максим — QA) + Portal (Артем — tech lead/BFF, Кирилл — frontend lead, Егор — DevOps, Катя — UI/UX).
 
 ---
 
@@ -265,10 +265,10 @@ desk-research отчёт с вердиктами по гипотезам (confir
 
 | Кто | Роль | Зона ответственности |
 | :--- | :--- | :--- |
-| Денис (`@ischademadda`) | Lead / Architect | Общая архитектура, контракты, спеки, Scrum Master, Product Vision |
+| Денис (`@ischademadda`) | Lead / Architect & SRE | Общая архитектура, контракты, спеки, Scrum Master, Product Vision, SRE/платформа, K8s, Temporal, юнит-экономика |
 | Паша (`@Pavelgrr7`) | Core Backend | Ingestion DAL, extract, reconcile, model, policies, API layer (Kotlin) |
 | Миша (`@vocisy`) | AI / R&D | interpret, drift, RAG-пайплайн, Production MCP-сервер (Python/FastMCP) |
-| Максим (`@lelouch-byte`) | DevOps / SRE | runtime, platform, Docker Compose, CI/CD, облачная инфра SaaS |
+| Максим (`@lelouch-byte`) | QA / Test Engineer | Интеграционное и E2E тестирование ядра, верификация Golden Dataset, регрессионный CI-контур |
 | Артем (`@dusk190`) | Portal Tech Lead | Fastify BFF, Token Handler, Mock API, proxy ядра (`archon-portal`) |
 | Кирилл (`@KiRyXaIvaNov`) | Frontend Lead | SPA архитектура, React, Tailwind, shadcn/ui, LikeC4 (`archon-portal`) |
 | Егор (`@Bruuhher`) | Portal DevOps | Docker (SPA + BFF), локальный compose, CI витрины (`archon-portal`) |
