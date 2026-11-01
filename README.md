@@ -2,6 +2,8 @@
 # archon
 **Living Architecture, Zero Drift & AI-Native Context Layer**
 
+[![License](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](LICENSE)
+
 `archon` — платформа для автоматической сборки архитектурной документации, контроля дрифта и управления контекстом для инженерных команд и AI-агентов (Cursor, Copilot, Claude Code) на основе анализа исходного кода, манифестов и спецификаций.
 
 ---
@@ -108,4 +110,10 @@ flowchart TB
 - Закрытие архитектурных блокеров (OQ-1, OQ-2, OQ-8) перед началом активной кодовой разработки
 
 Подробности в [ROADMAP.md](docs/ROADMAP.md)
+
+---
+
+## Лицензия
+
+Проект распространяется под лицензией [Apache License 2.0](LICENSE).
 

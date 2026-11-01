@@ -8,6 +8,7 @@
 - [ROADMAP.md](ROADMAP.md) — план развития проекта по фазам
 - [DEVELOPMENT.md](DEVELOPMENT.md) — процессы разработки и workflow
 - [../AGENTS.md](../AGENTS.md) — инструкция для агентных LLM, работающих с репозиторием
+- [../LICENSE](../LICENSE) — открытая лицензия проекта (Apache License 2.0)
 
 ## Architecture Decision Records
 
