@@ -82,7 +82,7 @@ PoC/спайки разрешены, если привязаны к конкре
 | [#32](https://github.com/teamv39/archon/issues/32) | ~~**ARCH-32: [DevOps]** Настройка CI workflow для валидации репозитория~~ | Максим | `S` | ✅ Done (GitHub Actions проверка CJK, ссылок и Mermaid) |
 | [#34](https://github.com/teamv39/archon/issues/34) | ~~**ARCH-33: [Spec-Contract]** Формализация Extraction Contract v1.0 (JSON Schema)~~ | Денис | `S` | ✅ Done ([contracts/README.md](architecture/contracts/README.md)) |
 | [#35](https://github.com/teamv39/archon/issues/35) | **ARCH-34: [Model-Ingestion]** Ingestion DAL: загрузка контракта в Apache AGE | Паша | `M` | 🔄 In progress (парсинг Extraction Contract и запись в AGE) |
-| [#36](https://github.com/teamv39/archon/issues/36) | ~~**ARCH-35: [Pipeline-RFC]** Архитектурный RFC гибридного пайплайна (extract + interpret)~~ | Миша, Денис | `S` | ✅ Done / In review ([rfc-hybrid-repository-analysis.md](architecture/rfc-hybrid-repository-analysis.md)) |
+| [#36](https://github.com/teamv39/archon/issues/36) | ~~**ARCH-35: [Pipeline-RFC]** Архитектурный RFC гибридного пайплайна (extract + interpret)~~ | Миша, Денис | `S` | ✅ Done ([rfc-hybrid-repository-analysis.md](architecture/rfc-hybrid-repository-analysis.md)) |
 | [#63](https://github.com/teamv39/archon/issues/63) | **ARCH-53: [Extract-PoC]** PoC детерминированного парсера манифестов и конфигураций | Миша | `S` | Парсер манифестов и конфигов (Слой 0 по RFC ARCH-35, Ready) |
 | [#38](https://github.com/teamv39/archon/issues/38) | **ARCH-37: [Export-LikeC4]** Транслятор графа модели в LikeC4 DSL | Денис | `S` | Спека и прототип компилятора LikeC4 без легаси-кода (Ready) |
 
@@ -242,19 +242,25 @@ desk-research отчёт с вердиктами по гипотезам (confir
 - [ ] `portal`: веб-витрина (SPA React 18+ / Vite / Tailwind / shadcn/ui + Fastify BFF):
   - [x] App Shell и базовая структура (`ARCH-38` — Done)
   - [x] Fastify BFF каркас + Security Baseline (Helmet, CORS, Rate-limit) (`ARCH-43` — Done)
-  - [ ] Mock API сервер с синтетическими фикстурами (`ARCH-44` — In progress)
-  - [ ] CJM, дизайн-система и вайрфреймы в Figma (`ARCH-48`, `ARCH-49` — In progress)
-  - [ ] Docker-окружение (SPA + BFF) и CI workflow (`ARCH-50`, `ARCH-51` — In progress)
-  - [ ] Каталог сервисов на TanStack Table (`ARCH-39` — Ready, по [дизайн-спеке 01](design/01-service-catalog.md))
-  - [ ] Паспорт сервиса (`ARCH-40` — Ready, по [дизайн-спеке 02](design/02-service-passport.md))
-  - [ ] Инбокс находок и верификация расхождений (`ARCH-41` — Ready, по [дизайн-спеке 03](design/03-assurance-inbox.md))
+  - [x] Mock API сервер с синтетическими фикстурами (`ARCH-44` — Done)
+  - [x] Безопасные сессии (Token Handler) (`ARCH-45` — Done)
+  - [x] Каталог сервисов на TanStack Table (`ARCH-39` — Done, по [дизайн-спеке 01](design/01-service-catalog.md))
+  - [x] Паспорт сервиса (`ARCH-40` — Done, по [дизайн-спеке 02](design/02-service-passport.md))
+  - [x] CJM предметной области и мудборд в Figma (`ARCH-48` — Done)
+  - [x] Docker-окружение (SPA + BFF) и CI workflow (`ARCH-50`, `ARCH-51` — Done)
+  - [ ] Инбокс находок и верификация расхождений (`ARCH-41` — In progress, по [дизайн-спеке 03](design/03-assurance-inbox.md))
+  - [ ] Черновой UI-kit и вайрфреймы каталога и паспорта (`ARCH-49` — In progress)
   - [ ] Интерактивная архитектурная карта LikeC4 (`@likec4/diagrams`, `ARCH-42` — Ready, по [дизайн-спеке 04](design/04-architecture-map.md))
-  - [ ] Безопасные сессии (Token Handler) и прокси ядра (`ARCH-45`, `ARCH-46` — Ready)
+  - [ ] Проксирование и агрегация данных ядра (`ARCH-46` — Ready)
 - [ ] `pr-bot`: GitHub App PR-бот с комментариями архитектурного диффа (`ARCH-47` / `ARCH-13`)
 - [ ] `mcp`: Production-ready MCP Server для Cursor/Copilot (`ARCH-14`)
 
+**Тестирование и контроль качества (QA):**
+- [ ] Интеграционное тестирование контрактов ядра (`ARCH-54` [#70](https://github.com/teamv39/archon/issues/70) — Ready, Максим)
+- [ ] Сквозное E2E тестирование и регрессионный CI тестовый контур (`ARCH-55` [#71](https://github.com/teamv39/archon/issues/71) — Backlog, Максим)
+
 **Фундамент:**
-- [ ] `runtime`: очередь задач (Temporal / lightweight runner), воркеры
+- [ ] `runtime`: очередь задач (Temporal / lightweight runner), воркеры (`ARCH-16`, Денис)
 - [ ] `platform`: базовая мультитенантность (`tenant_id`) и авторизация по API токенам
 
 **Не делаем в фазе 1:**
