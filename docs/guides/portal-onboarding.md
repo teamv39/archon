@@ -221,3 +221,4 @@ Archon — enterprise-платформа docs-as-code и AI-native Source of Tru
 
 * **Денис (`@ischademadda`)** — Lead / Architect & SRE: спецификации API, контракты данных, бизнес-логика интерфейсов, инфраструктура ядра и SRE.
 * **Паша (`@Pavelgrr7`)** — Core Backend Lead: реальные эндпоинты `archon-core-service`, контрактное взаимодействие.
+* **Максим (`@lelouch-byte`)** — QA / Test Engineer: интеграционное тестирование витрины с ядром, тест-планы и приемочные сценарии.
