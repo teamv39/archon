@@ -1,17 +1,20 @@
 # Roadmap
 
 Планы развития проекта Archon по фазам.  
-Актуализировано: 2026-10-06.
+Актуализировано: 2026-10-11.
 
 Декомпозиция: 17 модулей фабрики ([ADR-0004](adr/0004-module-decomposition-revision-1.md) + [ADR-0006](adr/0006-saas-delivery-model-and-ai-native-source-of-truth.md)).  
 Модель поставки: Managed SaaS (Context-as-a-Service) + Git Sync ([ADR-0006](adr/0006-saas-delivery-model-and-ai-native-source-of-truth.md)).  
 Стек: Kotlin/JVM + Python для LLM-модулей ([tech-stack.md](architecture/tech-stack.md)).  
 Блокеры для кода: **сняты** (все ключевые архитектурные развилки OQ-1, OQ-2, OQ-5, OQ-8 закрыты через ADR).  
-Закрытые эпики: ARCH-1 (OQ-1, ADR-0002), ARCH-2 (OQ-2, ADR-0003), ARCH-3 (OQ-8, ADR-0007).  
+Закрытые эпики: ARCH-1 (OQ-1, ADR-0002), ARCH-2 (OQ-2, ADR-0003), ARCH-3 (OQ-8, ADR-0007), ARCH-4 (PoC-AGE: ARCH-17..ARCH-21, PR #44, #45), ARCH-5 (PoC-MCP: ARCH-22..ARCH-25).  
 Закрытые архитектурные развилки: OQ-1 ([ADR-0002](adr/0002-archmap-fate.md)), OQ-2 и OQ-5 ([ADR-0003](adr/0003-source-of-truth-and-tenant-isolation.md)), OQ-8 ([ADR-0007](adr/0007-saas-process-topology-and-packaging.md)), OQ-10 ([ADR-0005](adr/0005-product-scope-and-delivery-model.md)), OQ-18 и OQ-19 ([ADR-0006](adr/0006-saas-delivery-model-and-ai-native-source-of-truth.md)).  
 Физическая топология: [deployment.md](architecture/deployment.md) (3 сборочные единицы, оркестрация Temporal).  
 Ключевые вехи проектирования: [Code-to-Architecture](architecture/code-to-architecture.md) (контур извлечения и LikeC4-визуализации).  
-Команда: Core (Денис — lead/architect, Миша — AI/R&D, Паша — core backend, Максим — DevOps/SRE) + Portal (Артем — tech lead/BFF, Кирилл — frontend, Егор — DevOps, Катя — UI/UX).
+Репозитории и треки:
+- **Инженерное ядро (`teamv39/archon`):** Core & AI сервисы, Source of Truth документации, доска [GitHub Projects: archon-core (#2)](https://github.com/orgs/teamv39/projects/2).
+- **Клиентская витрина (`teamv39/archon-portal`):** SPA + Fastify BFF, доска [GitHub Projects: archon-portal (#3)](https://github.com/orgs/teamv39/projects/3).
+Команда: Core (Денис — lead/architect, Миша — AI/R&D, Паша — core backend, Максим — DevOps/SRE) + Portal (Артем — tech lead/BFF, Кирилл — frontend lead, Егор — DevOps, Катя — UI/UX).
 
 ---
 
@@ -54,34 +57,34 @@ PoC/спайки разрешены, если привязаны к конкре
 
 ### Оперативный бэклог Фазы 0 (Kanban)
 
-Команда работает по чистой Kanban-модели (потоковая разработка без фиксированных спринтов): задачи вытягиваются исполнителями из пула `Ready` по мере готовности.
+Команда инженерного ядра работает по чистой Kanban-модели (потоковая вытяжка задач из `Ready` по мере готовности). Задачи клиентской витрины ведутся параллельно спринтами на доске витрины.
 
-Все задачи отслеживаются на доске **[GitHub Projects: archon-core](https://github.com/orgs/teamv39/projects/2)**.
+Все задачи ядра отслеживаются на доске **[GitHub Projects: archon-core](https://github.com/orgs/teamv39/projects/2)**.  
 Крупные эпики Фазы 0 декомпозированы на атомарные задачи (0.5–1.5 дня работы, размер XS-M) с четкими критериями готовности (DoD):
 
 | Issue | Задача | Кто | Размер | DoD / Результат |
 | :--- | :--- | :---: | :---: | :--- |
 | [#17](https://github.com/teamv39/archon/issues/17) | ~~**ARCH-17: [PoC-AGE-1]** Docker Compose PostgreSQL 16 + AGE~~ | Паша | `XS` | ✅ Done |
-| [#18](https://github.com/teamv39/archon/issues/18) | **ARCH-18: [PoC-AGE-2]** DDL и генератор графа микросервисов | Паша | `S` | Синтетический граф (15 сервисов, 25 контрактов) |
-| [#19](https://github.com/teamv39/archon/issues/19) | **ARCH-19: [PoC-AGE-3]** Бенчмарк Cypher-запросов (Impact и циклы) | Паша | `S` | Запросы blast radius и циклов < 100ms |
+| [#18](https://github.com/teamv39/archon/issues/18) | ~~**ARCH-18: [PoC-AGE-2]** DDL и генератор графа микросервисов~~ | Паша | `S` | ✅ Done (синтетический граф, PR #44) |
+| [#19](https://github.com/teamv39/archon/issues/19) | ~~**ARCH-19: [PoC-AGE-3]** Бенчмарк Cypher-запросов (Impact и циклы)~~ | Паша | `S` | ✅ Done (запросы < 100ms, PR #45, `RESULT.md`) |
 | [#20](https://github.com/teamv39/archon/issues/20) | ~~**ARCH-20: [PoC-AGE-4]** Исследование изоляции тенантов в AGE~~ | Паша | `S` | ✅ Done (Graph per Tenant) |
 | [#21](https://github.com/teamv39/archon/issues/21) | ~~**ARCH-21: [ADR-0003]** Проект решения: Source of Truth графа~~ | Паша | `S` | ✅ Done (ADR-0003 принят) |
-| [#31](https://github.com/teamv39/archon/issues/31) | **ARCH-22: [PoC-MCP-1]** Базовый сервер Model Context Protocol | Миша | `S` | Сервер стартует, проходит handshake по stdio |
-| [#22](https://github.com/teamv39/archon/issues/22) | **ARCH-23: [PoC-MCP-2]** MCP Resources: топология сервиса | Миша | `S` | URI `archon://services/{id}/overview` отдает схему |
-| [#23](https://github.com/teamv39/archon/issues/23) | **ARCH-24: [PoC-MCP-3]** MCP Tools: контракт API и правила | Миша | `S` | Инструмент `get_service_contract` отдает точные DTO |
-| [#24](https://github.com/teamv39/archon/issues/24) | **ARCH-25: [PoC-MCP-4]** E2E тест интеграции с Cursor IDE | Миша | `S` | Агент в Cursor генерирует клиент без галлюцинаций |
+| [#31](https://github.com/teamv39/archon/issues/31) | ~~**ARCH-22: [PoC-MCP-1]** Базовый сервер Model Context Protocol~~ | Миша | `S` | ✅ Done (FastMCP сервер, handshake по stdio) |
+| [#22](https://github.com/teamv39/archon/issues/22) | ~~**ARCH-23: [PoC-MCP-2]** MCP Resources: топология сервиса~~ | Миша | `S` | ✅ Done (URI `archon://services/{id}/overview`) |
+| [#23](https://github.com/teamv39/archon/issues/23) | ~~**ARCH-24: [PoC-MCP-3]** MCP Tools: контракт API и правила~~ | Миша | `S` | ✅ Done (инструмент `get_service_contract`) |
+| [#24](https://github.com/teamv39/archon/issues/24) | ~~**ARCH-25: [PoC-MCP-4]** E2E тест интеграции с Cursor IDE~~ | Миша | `S` | ✅ Done (генерация в Cursor без галлюцинаций) |
 | [#25](https://github.com/teamv39/archon/issues/25) | ~~**ARCH-26: [ADR-0002]** Анализ прототипа archmap (закрытие OQ-1)~~ | Денис | `S` | ✅ Done ([ADR-0002](adr/0002-archmap-fate.md)) |
 | [#26](https://github.com/teamv39/archon/issues/26) | ~~**ARCH-27: [ADR-0007]** Физическая топология SaaS (закрытие OQ-8)~~ | Денис | `M` | ✅ Done ([ADR-0007](adr/0007-saas-process-topology-and-packaging.md), [deployment.md](architecture/deployment.md)) |
-| [#27](https://github.com/teamv39/archon/issues/27) | **ARCH-28: [CustDev-1]** Гайд и скрипт интервью для тимлидов | Денис | `XS` | Turnkey-кит в `docs/research/custdev-script.md`: скрипт, анкета, скрининг — проводить может любой член команды |
-| [#28](https://github.com/teamv39/archon/issues/28) | **ARCH-29: [CustDev-2]** Валидация гипотез: desk-research + интервью (если есть контакты) | Денис | `M` | Отчет `docs/research/user-interviews.md` с вердиктами по гипотезам; живые интервью — усиление, не блокер |
+| [#27](https://github.com/teamv39/archon/issues/27) | **ARCH-28: [CustDev-1]** Гайд и скрипт интервью для тимлидов | Денис | `XS` | Turnkey-кит в `docs/research/custdev-script.md`: скрипт, анкета, скрининг |
+| [#28](https://github.com/teamv39/archon/issues/28) | **ARCH-29: [CustDev-2]** Валидация гипотез: desk-research + интервью | Денис | `M` | Отчет `docs/research/desk-research-report.md` с вердиктами (черновик в работе) |
 | [#29](https://github.com/teamv39/archon/issues/29) | **ARCH-30: [Pricing]** Спецификация тарифов и токен-лимитов SaaS | Денис | `S` | Документ `docs/research/pricing.md` (Free/Team/Enterprise) |
-| [#30](https://github.com/teamv39/archon/issues/30) | **ARCH-31: [DevOps]** Docker Compose стек для локальной разработки | Максим | `S` | Единый `docker-compose.yml` (AGE, Redis, Qdrant) |
-| [#32](https://github.com/teamv39/archon/issues/32) | **ARCH-32: [DevOps]** Настройка CI workflow для валидации репозитория | Максим | `S` | GitHub Actions проверка CJK, битых ссылок и Mermaid |
+| [#30](https://github.com/teamv39/archon/issues/30) | ~~**ARCH-31: [DevOps]** Docker Compose стек для локальной разработки~~ | Максим | `S` | ✅ Done (единый `docker-compose.yml`: AGE, Redis, Qdrant) |
+| [#32](https://github.com/teamv39/archon/issues/32) | ~~**ARCH-32: [DevOps]** Настройка CI workflow для валидации репозитория~~ | Максим | `S` | ✅ Done (GitHub Actions проверка CJK, ссылок и Mermaid) |
 | [#34](https://github.com/teamv39/archon/issues/34) | ~~**ARCH-33: [Spec-Contract]** Формализация Extraction Contract v1.0 (JSON Schema)~~ | Денис | `S` | ✅ Done ([contracts/README.md](architecture/contracts/README.md)) |
-| [#35](https://github.com/teamv39/archon/issues/35) | **ARCH-34: [Model-Ingestion]** Ingestion DAL: загрузка контракта в Apache AGE | Паша | `M` | Парсинг JSON контракта и запись в граф тенанта через Cypher |
-| [#36](https://github.com/teamv39/archon/issues/36) | **ARCH-35: [Spike-LLM-1]** Тестовый harness двухфазного извлечения | Миша | `S` | Скрипт запускает селектор и экстрактор на коде, отдает JSON |
-| [#37](https://github.com/teamv39/archon/issues/37) | **ARCH-36: [Spike-LLM-2]** Бенчмарк качества: верификация evidence и токены | Миша | `S` | 100% точность evidence_files, замер стоимости (OQ-15) |
-| [#38](https://github.com/teamv39/archon/issues/38) | **ARCH-37: [Export-LikeC4]** Транслятор графа модели в LikeC4 DSL | Денис | `S` | Спека и прототип компилятора LikeC4 без легаси-кода |
+| [#35](https://github.com/teamv39/archon/issues/35) | **ARCH-34: [Model-Ingestion]** Ingestion DAL: загрузка контракта в Apache AGE | Паша | `M` | 🔄 In progress (парсинг Extraction Contract и запись в AGE) |
+| [#36](https://github.com/teamv39/archon/issues/36) | ~~**ARCH-35: [Pipeline-RFC]** Архитектурный RFC гибридного пайплайна (extract + interpret)~~ | Миша, Денис | `S` | ✅ Done / In review ([rfc-hybrid-repository-analysis.md](architecture/rfc-hybrid-repository-analysis.md)) |
+| [#63](https://github.com/teamv39/archon/issues/63) | **ARCH-53: [Extract-PoC]** PoC детерминированного парсера манифестов и конфигураций | Миша | `S` | Парсер манифестов и конфигов (Слой 0 по RFC ARCH-35, Ready) |
+| [#38](https://github.com/teamv39/archon/issues/38) | **ARCH-37: [Export-LikeC4]** Транслятор графа модели в LikeC4 DSL | Денис | `S` | Спека и прототип компилятора LikeC4 без легаси-кода (Ready) |
 
 ---
 
@@ -101,18 +104,18 @@ PoC/спайки разрешены, если привязаны к конкре
 - [ ] Дорожка A (основная): desk-research — deep research публичных болей
   (HN, Reddit, dev.to, тикеты/форумы конкурентов), где болит drift доков
   и нехватка контекста для AI-агентов; fresh-срез конкурентов (Port, OpsLevel,
-  Compass, Swimm, Backstage) — не закрыли ли drift/context кейсы
+  Compass, Swimm, Backstage) — начат в [desk-research-report.md](research/desk-research-report.md)
 - [ ] Дорожка A: обновить user journeys — статус гипотез → confirmed / adjusted / dropped
 - [ ] Дорожка A: user segments: Jobs-to-be-done, pain points, success metrics для каждой роли
   (архитектор, тимлид, AI-инженер, новичок, SRE, CISO, PM)
 - [ ] Дорожка B (усиление, опционально): интервью 5-7 архитекторов/тимлидов.
-  Проводит любой участник команды по своим контактам — собран turnkey-кит
-  (скрипт, анкета, скрининг) в `docs/research/custdev-script.md`.
+  Проводит любой участник команды по своим контактам — готовится turnkey-кит
+  (скрипт, анкета, скрининг) в `docs/research/custdev-script.md` (DoD задачи ARCH-28).
   Каждое интервью добавляет уверенности, но не блокирует переход в Фазу 1
 
 **Гейт перехода в Фазу 1 (переформулирован):** вместо обязательных 5 интервью —
-desk-research отчёт с вердиктами по гипотезам (confirmed/adjusted/dropped)
-+ черновик pricing. Если дорожка B даст хотя бы 2-3 интервью — гейт
+desk-research отчёт с вердиктами по гипотезам (confirmed/adjusted/dropped, [desk-research-report.md](research/desk-research-report.md))
++ черновик pricing (`docs/research/pricing.md`, ARCH-30). Если дорожка B даст хотя бы 2-3 интервью — гейт
 усиливается, но отсутствие интервью не блокирует.
 
 **Бизнес-модель:**
@@ -125,17 +128,17 @@ desk-research отчёт с вердиктами по гипотезам (confir
 - [ ] Ручная верификация цен/лицензий конкурентов
 - [ ] Свежие релиз-ноуты Port/OpsLevel/Compass: не закрыли ли drift кейсы
 - [ ] Hands-on тест: Backstage TechInsights и Port scorecards на реальном репо
-- [ ] Детальный разбор Swimm (pivot в "Agentic Context Layer as a Service")
+- [x] Детальный разбор Swimm, Port Context Lake и OpsLevel (свежий срез в [desk-research-report.md](research/desk-research-report.md))
 
 **Deliverables P1:**
 - ~~ADR по OQ-10 (граница скоупа)~~ — готово: [ADR-0005](adr/0005-product-scope-and-delivery-model.md)
 - ~~Бизнес-анализ ценности и расчет ROI~~ — готово: [business-value-analysis.md](research/business-value-analysis.md)
 - ~~Концепция SaaS и AI Context Layer~~ — готово: [ai-context-layer-research.md](research/ai-context-layer-research.md), [iaas-to-saas-migration.md](research/iaas-to-saas-migration.md)
 - ~~ADR-0006 (AI-native Source of Truth & SaaS model)~~ — готово: [ADR-0006](adr/0006-saas-delivery-model-and-ai-native-source-of-truth.md)
-- Desk-research отчёт с вердиктами по гипотезам (дорожка A, замена CustDev-интервью)
-- Turnkey-кит для интервью (дорожка B): скрипт + анкета в `docs/research/custdev-script.md`
-- Pricing model (черновик)
-- Обновлённый competitive analysis
+- Desk-research отчёт с вердиктами по гипотезам (дорожка A, черновик: [desk-research-report.md](research/desk-research-report.md), ARCH-29)
+- Turnkey-кит для интервью (дорожка B): скрипт + анкета в `docs/research/custdev-script.md` (DoD ARCH-28)
+- Pricing model (черновик в `docs/research/pricing.md`, DoD ARCH-30)
+- Обновлённый competitive analysis (срез 2026 в отчете desk-research)
 
 ---
 
@@ -169,9 +172,12 @@ desk-research отчёт с вердиктами по гипотезам (confir
 
 **Веха Code-to-Architecture (OQ-3, контур извлечения и LikeC4):**
 - [x] Финализация Extraction Contract v1.0 как JSON Schema ([contracts/README.md](architecture/contracts/README.md))
+- [x] Архитектурный RFC гибридного анализа репозитория ([rfc-hybrid-repository-analysis.md](architecture/rfc-hybrid-repository-analysis.md))
+- [x] Спецификация детерминированного экстрактора `extract` (Слой 0 принят в RFC гибридного анализа, задача ARCH-53)
+- [x] ТЗ на дизайн экранов витрины ([docs/design/](design/README.md) — экраны 01–04: каталог, паспорт, инбокс, LikeC4-карта)
+- [x] Единый реестр моков и фикстур ядра и витрины ([mocks-and-fixtures.md](architecture/mocks-and-fixtures.md))
 - [ ] LLM-пайплайн: бенчмарк селектора файлов и экстрактора на `sample-architecture.md` (точность evidence, расход токенов)
-- [x] Спецификация детерминированного экстрактора `extract` (Слой 0 принят в [RFC гибридного анализа](architecture/rfc-hybrid-repository-analysis.md))
-- [ ] Проектирование модульного LikeC4-генератора для `export` и `portal` на базе модели графа
+- [ ] Проектирование модульного LikeC4-генератора для `export` и `portal` на базе модели графа (ARCH-37)
 
 **Модель данных (ревизия):**
 - [ ] Проход "сущность → модуль-владелец" (атака A12)
@@ -193,19 +199,18 @@ desk-research отчёт с вердиктами по гипотезам (confir
 
 ---
 
-### P4. Технологический ресерч и PoC (по необходимости)
+### P4. Технологический ресерч и PoC
 
-Запускается параллельно с P2-P3, когда конкретный OQ требует
-технической проверки. Не делаем "просто так" — каждый PoC привязан
-к конкретному решению.
+Все критические PoC Фазы 0 успешно **завершены**, подтвердили гипотезы архитектуры и позволили снять блокеры для разработки MVP.
 
-| PoC | Зачем | Кто | Триггер |
+| PoC | Зачем | Кто | Статус / Результат |
 | :--- | :--- | :--- | :--- |
-| PostgreSQL + Apache AGE | Проверка гибридной модели (OQ-2) | Паша | Решение OQ-2 в пользу гибрида |
-| AST-парсинг Java/Kotlin | Валидация подхода extract | Паша | После OQ-1 |
-| LLM-пайплайн извлечения | Валидация подхода interpret | Миша | После OQ-1 |
-| MCP-сервер + Cursor/Copilot | Валидация отдачи контекста по JSON-RPC | Миша / Паша | После ADR-0006 |
-| Docker Compose dev-env | Минимальная инфраструктура | Максим | Перед фазой 1 |
+| PostgreSQL + Apache AGE | Проверка гибридной модели и изоляции (OQ-2, OQ-5) | Паша | ✅ **Done** (Эпик ARCH-4: DDL схемы, граф микросервисов, Cypher-бенчмарки < 100ms, tenant per graph) |
+| MCP-сервер + Cursor IDE | Валидация протокола JSON-RPC и контекста IDE | Миша | ✅ **Done** (Эпик ARCH-5: FastMCP сервер, Resources, Tools, E2E тест генерации в Cursor) |
+| Docker Compose dev-env | Минимальная инфраструктура команды | Максим | ✅ **Done** (ARCH-31: единый `docker-compose.yml` с AGE, Redis, Qdrant) |
+| CI репозитория | Валидация документации, ссылок и схем | Максим | ✅ **Done** (ARCH-32: GitHub Actions workflow) |
+| Детерминированный парсер конфигов | Слой 0 гибридного анализа (OQ-3) | Миша | 🔄 **Ready** (ARCH-53: PoC парсера манифестов) |
+| LLM-пайплайн извлечения | Валидация селектора и экстрактора | Миша | 🔄 **Backlog** (ARCH-36: бенчмарк качества и токеномика) |
 
 ---
 
@@ -233,10 +238,20 @@ desk-research отчёт с вердиктами по гипотезам (confir
 **Решение:**
 - [ ] `assurance`: lifecycle находки (обнаружена → исправлена / risk accepted / false positive)
 
-**Витрина:**
-- [ ] `portal`: интерактивная карта, каталог сервисов (секция), инбокс находок
-- [ ] `pr-bot`: комментарий + quality gate в PR при расхождении
-- [ ] `mcp`: базовый MCP-сервер (топология, контракты) для передачи контекста в Cursor/Copilot
+**Витрина (клиентский контур archon-portal, репозиторий [teamv39/archon-portal](https://github.com/teamv39/archon-portal), доска [Project #3](https://github.com/orgs/teamv39/projects/3)):**
+- [ ] `portal`: веб-витрина (SPA React 18+ / Vite / Tailwind / shadcn/ui + Fastify BFF):
+  - [x] App Shell и базовая структура (`ARCH-38` — Done)
+  - [x] Fastify BFF каркас + Security Baseline (Helmet, CORS, Rate-limit) (`ARCH-43` — Done)
+  - [ ] Mock API сервер с синтетическими фикстурами (`ARCH-44` — In progress)
+  - [ ] CJM, дизайн-система и вайрфреймы в Figma (`ARCH-48`, `ARCH-49` — In progress)
+  - [ ] Docker-окружение (SPA + BFF) и CI workflow (`ARCH-50`, `ARCH-51` — In progress)
+  - [ ] Каталог сервисов на TanStack Table (`ARCH-39` — Ready, по [дизайн-спеке 01](design/01-service-catalog.md))
+  - [ ] Паспорт сервиса (`ARCH-40` — Ready, по [дизайн-спеке 02](design/02-service-passport.md))
+  - [ ] Инбокс находок и верификация расхождений (`ARCH-41` — Ready, по [дизайн-спеке 03](design/03-assurance-inbox.md))
+  - [ ] Интерактивная архитектурная карта LikeC4 (`@likec4/diagrams`, `ARCH-42` — Ready, по [дизайн-спеке 04](design/04-architecture-map.md))
+  - [ ] Безопасные сессии (Token Handler) и прокси ядра (`ARCH-45`, `ARCH-46` — Ready)
+- [ ] `pr-bot`: GitHub App PR-бот с комментариями архитектурного диффа (`ARCH-47` / `ARCH-13`)
+- [ ] `mcp`: Production-ready MCP Server для Cursor/Copilot (`ARCH-14`)
 
 **Фундамент:**
 - [ ] `runtime`: очередь задач (Temporal / lightweight runner), воркеры
@@ -248,13 +263,16 @@ desk-research отчёт с вердиктами по гипотезам (confir
 
 **Распределение по команде:**
 
-| Кто | Зона ответственности |
-| :--- | :--- |
-| Денис | Архитектура, контракты, спеки модулей, product decisions |
-| Паша | extract, reconcile, model, policies, API layer, tenant isolation (Kotlin) |
-| Миша | interpret, drift, RAG-пайплайн, MCP-сервер (Python/Kotlin) |
-| Максим | runtime, platform, CI/CD, облачная инфра (SaaS) |
-| vibecode / пул | portal, pr-bot (TypeScript/React) |
+| Кто | Роль | Зона ответственности |
+| :--- | :--- | :--- |
+| Денис (`@ischademadda`) | Lead / Architect | Общая архитектура, контракты, спеки, Scrum Master, Product Vision |
+| Паша (`@Pavelgrr7`) | Core Backend | Ingestion DAL, extract, reconcile, model, policies, API layer (Kotlin) |
+| Миша (`@vocisy`) | AI / R&D | interpret, drift, RAG-пайплайн, Production MCP-сервер (Python/FastMCP) |
+| Максим (`@lelouch-byte`) | DevOps / SRE | runtime, platform, Docker Compose, CI/CD, облачная инфра SaaS |
+| Артем (`@dusk190`) | Portal Tech Lead | Fastify BFF, Token Handler, Mock API, proxy ядра (`archon-portal`) |
+| Кирилл (`@KiRyXaIvaNov`) | Frontend Lead | SPA архитектура, React, Tailwind, shadcn/ui, LikeC4 (`archon-portal`) |
+| Егор (`@Bruuhher`) | Portal DevOps | Docker (SPA + BFF), локальный compose, CI витрины (`archon-portal`) |
+| Катя (`@katyaand007`) | UI/UX Designer | CJM, Figma, UI-kit, макеты каталога, паспорта и инбокса (`archon-portal`) |
 
 **Deliverables:**
 - Репозиторий подключен → построен граф → drift обнаружен → находки в портале и PR-боте
@@ -359,4 +377,4 @@ desk-research отчёт с вердиктами по гипотезам (confir
 Фаза 3: TBD                  [Scale & Intelligence]
 ```
 
-Управление разработкой строится по модели чистого Kanban (потоковая вытяжка задач из `Ready` по готовности без искусственных дат на уровне микротикетов). Контрольные сроки фиксируются на уровне ключевых майлстоунов фаз.
+Управление разработкой строится по гибридной модели: инженерное ядро (`archon-core`) работает по чистому Kanban (потоковая вытяжка задач из `Ready` по мере готовности); клиентская витрина (`archon-portal`) работает по 2-недельным спринтам (Спринт 1 запущен). Контрольные сроки фиксируются на уровне ключевых майлстоунов фаз.
