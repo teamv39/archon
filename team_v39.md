@@ -4,13 +4,18 @@
 
 ## Ядро команды
 
-### Денис (`@ischademadda`) — Lead / Architect
-Проектирование систем, NFR, интеграционная логика и Product Vision.
+### Денис (`@ischademadda`) — Lead / Architect & SRE
+Проектирование систем, NFR, интеграционная логика, Product Vision, SRE-контур и надежность платформы, продуктовая аналитика и юнит-экономика.
 
 **Ключевые компетенции:**
 - Полный скоуп SA и System Design
 - System & Data Architecture
-- Интеграционная логика
+- SRE, SLO, Multi-burn-rate алертинг (Sloth) и Chaos Engineering
+- K8s (k3s), Helm, Temporal Orchestration (Durable Execution)
+- Наблюдаемость: Prometheus, Grafana, OpenTelemetry (Golden Signals)
+- Продуктовая аналитика, когортный анализ и юнит-экономика токенов
+- Экспериментальная оценка надежности (исследовательский стенд [archon-reliability-lab](https://github.com/ischademadda/archon-reliability-lab))
+- Интеграционная логика и межсервисные контракты
 - Product Vision
 
 ---
@@ -41,17 +46,15 @@ Real-time системы, высоконагруженные API, ML-WAF и се
 
 ---
 
-### Максим (`@lelouch-byte`) — DevOps / SRE
-Infrastructure as Code, CI/CD, K8s, масштабируемость и мониторинг.
+### Максим (`@lelouch-byte`) — QA / Test Engineer
+Обеспечение качества платформы, автоматизация тестирования, E2E и контрактные проверки.
 
 **Ключевые компетенции:**
-- Infrastructure as Code
-- CI/CD
-- Kubernetes (K8s)
-- Cloud Orchestration
-- Масштабируемость и мониторинг
-
----
+- E2E и интеграционное тестирование
+- Тестирование API и валидация контрактов данных (Extraction Contract v1.0)
+- Подготовка и верификация тестовых датасетов (Golden Dataset)
+- Автоматизация регрессионного тестирования в CI/CD
+- Тест-планы и сценарии приемочного тестирования
 
 ---
 

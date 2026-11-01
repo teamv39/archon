@@ -52,7 +52,7 @@ Archon — enterprise-платформа docs-as-code и AI-native Source of Tru
      ```
    - Задачи конкретного человека (фильтр по имени или логину):
      ```bash
-     python3 scripts/tasks.py --assignee паша   # или денис, миша, макс
+     python3 scripts/tasks.py --assignee денис   # или паша, миша, макс, артем
      ```
    - Доска портала (`archon-portal`, Project #3): добавь `--portal`.
    - Прямой вызов через GitHub CLI:
