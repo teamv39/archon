@@ -219,6 +219,5 @@ Archon — enterprise-платформа docs-as-code и AI-native Source of Tru
 
 ## 10. Контакты команды ядра
 
-* **Денис (`@ischademadda`)** — Lead / Architect: спецификации API, контракты данных, бизнес-логика интерфейсов.
+* **Денис (`@ischademadda`)** — Lead / Architect & SRE: спецификации API, контракты данных, бизнес-логика интерфейсов, инфраструктура ядра и SRE.
 * **Паша (`@Pavelgrr7`)** — Core Backend Lead: реальные эндпоинты `archon-core-service`, контрактное взаимодействие.
-* **Максим (`@lelouch-byte`)** — DevOps / SRE: развертывание контейнера, интеграция в Ingress, CI/CD.

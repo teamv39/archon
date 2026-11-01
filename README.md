@@ -66,10 +66,9 @@ flowchart TB
 ## Команда проекта (Team v.3.9)
 
 ### Инженерное ядро (Core & AI Backend)
-* **Денис (`@ischademadda`, Lead / Architect):** Метамодель графа знаний, алгоритмы дедупликации Landscape, продуктовый вижен.
+* **Денис (`@ischademadda`, Lead / Architect & SRE):** Метамодель графа знаний, системная архитектура, SRE-контур (K8s, Temporal, SLO/chaos) и юнит-экономика платформы ([archon-reliability-lab](https://github.com/ischademadda/archon-reliability-lab)).
 * **Миша (`@vocisy`, AI / R&D Scientist):** RAG-пайплайны для Confluence, интеграция локальных LLM, обработка естественного языка.
 * **Паша (`@Pavelgrr7`, Core Backend & Security):** AST-парсеры кода, движок поиска аномалий, безопасность и проксирование.
-* **Максим (`@lelouch-byte`, DevOps / SRE):** Helm-чарты, K8s-оркестрация, CI/CD коннекторы, оптимизация производительности.
 
 ### Клиентская витрина ([archon-portal](https://github.com/teamv39/archon-portal))
 * **Артем (`@dusk190`, Tech Lead / Fullstack & BFF Lead):** Архитектура Fastify BFF, безопасность сессий, Mock API сервер.
