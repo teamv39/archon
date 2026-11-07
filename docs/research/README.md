@@ -74,7 +74,7 @@ Port Context Lake / OpsLevel Context Layer / Swimm pivot (2026-09-10). Закр�
 - Сравнение себестоимости и маржинальности Self-hosted vs SaaS
 - Модели монетизации и ценообразование
 
-**Pricing** — [`pricing.md`](pricing.md) (черновик, ARCH-30): тарифы Free/Team/Enterprise и логика токен-лимитов.
+**Pricing** — [`pricing.md`](pricing.md) (черновик, ARCH-30): тарифы Free/Team/Enterprise, решения лида от 2026-11-07, логика токен-лимитов.
 
 **Delivery Model & AI Context Layer**
 - [`ai-context-layer-research.md`](ai-context-layer-research.md) — Archon как context layer для AI-агентов (MCP, pivot Swimm/Port)
