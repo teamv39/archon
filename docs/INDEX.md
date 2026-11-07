@@ -49,6 +49,7 @@
 - [Decomposition Revalidation](research/decomposition-revalidation.md) — повторный прогон шести сценариев по ревизии 1 (подтверждения, новые находки F10-F12)
 - [Desk-research Report](research/desk-research-report.md) — вердикты по гипотезам ценности: карта 18 гипотез, свежий срез Port/OpsLevel/Swimm, распределение по команде (in progress, ARCH-29)
 - [Business Value Analysis](research/business-value-analysis.md) — оценка ценности функций, экономика, цены конкурентов, продуктовые дырки (черновик 2026-09-03)
+- [Pricing](research/pricing.md) — тарифы Free/Team/Enterprise и логика токен-лимитов Managed SaaS (черновик, ARCH-30)
 - [AI Context Layer Research](research/ai-context-layer-research.md) — Archon как context layer для AI-агентов: Port/OpsLevel/Swimm pivot, MCP, docs-as-code vs wiki (черновик 2026-09-03)
 - [IaaS → SaaS Migration](research/iaas-to-saas-migration.md) — эволюция модели поставки: от CLI/IaaS к SaaS и Context-as-a-Service (черновик 2026-09-03)
 - [Science Publication Ideas](research/science-publication-ideas.md) — направления для научных и отраслевых публикаций (экстракция, MCP, AGE multi-tenancy)
