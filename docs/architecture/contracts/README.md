@@ -2,7 +2,7 @@
 
 Канонический контракт передачи фактов архитектуры из контура извлечения
 (`extract`, `interpret`) в модуль `model` (граф) и модуль `export`
-(LikeC4 / docs-as-code). Закрывает [OQ-3](../open-questions.md#oq-3-контракт-извлечения).
+(граф для xyflow / docs-as-code). Закрывает [OQ-3](../open-questions.md#oq-3-контракт-извлечения).
 
 ## Состав
 
@@ -22,7 +22,7 @@ flowchart LR
     extract["extract<br/>AST, манифесты"] -->|"детерминированные факты"| rc["reconcile"]
     interpret["interpret<br/>LLM-семантика"] -->|"гипотезы + confidence"| rc
     rc -->|"Extraction Contract v1.0"| model["model<br/>PostgreSQL 16 + AGE"]
-    rc --> export["export<br/>LikeC4 DSL"]
+    rc --> export["export<br/>JSON-граф"]
     rc -. "uncertainties" .-> assurance
 ```
 
@@ -96,5 +96,5 @@ python docs/architecture/contracts/validate_contract.py --schema-only
 | :--- | :--- | :--- |
 | `interpret` (structured output) | Миша, ARCH-35/36 | Pydantic DTO как schema constrained decoding; невалидный вывод = ретрай |
 | `model` (Ingestion DAL) | Паша, ARCH-34 | Kotlin DTO, запись в граф тенанта через Cypher, минуя `k8s_hints` |
-| `export` | ARCH-37 | Генерация LikeC4 DSL из связей и flows |
+| `export` | ARCH-37 | Экспорт JSON-графа из связей и flows |
 | `policies` | Фаза 1 | Циклы/shared DB ищутся в графе, не в контракте |

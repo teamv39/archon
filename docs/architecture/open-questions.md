@@ -195,7 +195,7 @@
 
 | ID | Вопрос | Принятое решение | Где зафиксировано |
 | :--- | :--- | :--- | :--- |
-| **OQ-1** | Судьба и место archmap в Archon | Рантайм n8n списан; идеи Extraction Contract, LikeC4 и File Selector портированы в ядро | [ADR-0002](../adr/0002-archmap-fate.md) |
+| **OQ-1** | Судьба и место archmap в Archon | Рантайм n8n списан; идеи Extraction Contract и File Selector портированы в ядро (LikeC4 заменён на xyflow, ADR-0008) | [ADR-0002](../adr/0002-archmap-fate.md) |
 | **OQ-2** | Где хранить Source of Truth модели | Канонический агрегированный граф хранится в СУБД; Git — источник сырого кода | [ADR-0003](../adr/0003-source-of-truth-and-tenant-isolation.md) |
 | **OQ-3** | Границы и версионирование Extraction Contract | Принята спецификация Extraction Contract v1.0 (JSON Schema, DTO, proof-of-truth) | [contracts/README.md](contracts/README.md) |
 | **OQ-5** | Хранилище графа и модель запросов | Выбрана связка PostgreSQL 16 + Apache AGE; запросы на openCypher; Graph-per-Tenant | [ADR-0003](../adr/0003-source-of-truth-and-tenant-isolation.md) |
@@ -207,7 +207,7 @@
 | **OQ-14** | Модуль человеческого контура | Выделен модуль `assurance` (статусы доверия, ревью человеком, принятие рисков) | [ADR-0004](../adr/0004-module-decomposition-revision-1.md) |
 | **OQ-16** | Реестр корпуса и конфигурация клиента | Выделен модуль `registry` (хранение привязок репозиториев к продуктам и командам) | [ADR-0004](../adr/0004-module-decomposition-revision-1.md) |
 | **OQ-18** | Модель поставки: переход к Managed SaaS | Отказ от CLI-first; переход к Managed SaaS (Context-as-a-Service, Privacy-by-default) | [ADR-0006](../adr/0006-saas-delivery-model-and-ai-native-source-of-truth.md) |
-| **OQ-19** | Генерация docs-as-code артефактов | Двусторонний Git Sync: генерация и актуализация `AGENTS.md`, `.archon/`, LikeC4 | [ADR-0006](../adr/0006-saas-delivery-model-and-ai-native-source-of-truth.md) |
+| **OQ-19** | Генерация docs-as-code артефактов | Двусторонний Git Sync: генерация и актуализация `AGENTS.md`, `.archon/`, JSON-граф | [ADR-0006](../adr/0006-saas-delivery-model-and-ai-native-source-of-truth.md) |
 
 ---
 
@@ -216,7 +216,7 @@
 #### OQ-1. Судьба прототипа archmap
 <a id="oq-1-судьба-прототипа-archmap"></a>
 **Закрыт [ADR-0002](../adr/0002-archmap-fate.md) (2026-09-04).**  
-Рантайм и процедурные скрипты PoC (n8n, TiMe-бот, ручные таблицы) списаны и архивированы. В ядро Archon портированы: концепция Extraction Contract с обязательными `evidence_files` (OQ-3), двухфазный отбор файлов для LLM (`interpret`) и транслятор в LikeC4 DSL (`export`, `portal`).
+Рантайм и процедурные скрипты PoC (n8n, TiMe-бот, ручные таблицы) списаны и архивированы. В ядро Archon портированы: концепция Extraction Contract с обязательными `evidence_files` (OQ-3), двухфазный отбор файлов для LLM (`interpret`) и экспорт графа в JSON (`export`, `portal`; LikeC4 DSL заменён на xyflow, ADR-0008).
 
 #### OQ-2. Где хранить модель данных
 <a id="oq-2-source-of-truth-модели-данных"></a>
@@ -242,7 +242,7 @@
 Все 17 логических модулей фабрики собираются в 3 сборочные единицы:
 1. `archon-core-service` (Kotlin / JVM) — ядро, REST API, вебхуки, детерминированный разбор, reconcile, DAL к AGE.
 2. `archon-ai-service` (Python) — LLM-семантика (`interpret`), векторный поиск, FastMCP сервер.
-3. `archon-portal` (TypeScript / React) — веб-витрина с LikeC4 viewer.  
+3. `archon-portal` (TypeScript / React) — веб-витрина с xyflow-холстом.  
 Код клиентов клонируется исключительно во временный RAM-диск (`/dev/shm`) и удаляется после извлечения (Privacy-by-default).
 
 #### OQ-10. Граница скоупа продукта

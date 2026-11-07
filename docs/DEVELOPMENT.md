@@ -159,7 +159,7 @@ ARCH-44: Fix query performance for impact analysis
 **Labels (3-уровневая таксономия, 2–4 тега на задачу):**
 
 *Архитектурный блок (Product Block):*
-- `showcase` — Витрина: веб-портал, SPA, Fastify BFF, боты, экспорт, LikeC4
+- `showcase` — Витрина: веб-портал, SPA, Fastify BFF, боты, экспорт, xyflow
 - `core-backend` — Ядро платформы: Kotlin, PostgreSQL + Apache AGE, Temporal, парсеры
 - `ai-research` — AI-пайплайн: LLM-экстракция, RAG, эмбеддинги, MCP-сервер
 - `devops` — Инфраструктура: Docker, docker-compose, CI/CD GitHub Actions, SaaS runtime

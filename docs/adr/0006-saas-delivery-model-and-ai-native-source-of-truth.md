@@ -6,6 +6,8 @@
 
 Accepted
 
+> Примечание (2026-11-07): упоминания LikeC4 в этом ADR заменены решением [ADR-0008](0008-xyflow-replaces-likec4.md) (визуализация на `@xyflow/react` + `elkjs`).
+
 Частично заменяет [ADR-0005](0005-product-scope-and-delivery-model.md) в части модели поставки (отказ от CLI-first self-hosted в пользу Managed SaaS) и позиционирования (переход от пассивного наблюдателя к AI-native Source of Truth).
 Закрывает [OQ-18](../architecture/open-questions.md#oq-18-saascloud-как-первичная-модель-поставки) и [OQ-19](../architecture/open-questions.md#oq-19-генерация-docs-as-code-артефактов).
 Открывает [OQ-22](../architecture/open-questions.md#oq-22-формат-и-скоуп-публичного-api), [OQ-23](../architecture/open-questions.md#oq-23-поддержка-закрытых-контуров-hybrid--local-agent) и [OQ-24](../architecture/open-questions.md#oq-24-авторизация-роли-и-аудит-запросов-к-mcp-server).

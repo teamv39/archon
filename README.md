@@ -73,7 +73,7 @@ flowchart TB
 
 ### Клиентская витрина ([archon-portal](https://github.com/teamv39/archon-portal))
 * **Артем (`@dusk190`, Tech Lead / Fullstack & BFF Lead):** Архитектура Fastify BFF, безопасность сессий, Mock API сервер.
-* **Кирилл (`@KiRyXaIvaNov`, Frontend Lead):** Клиентская архитектура SPA, дизайн-система `shadcn/ui`, LikeC4 диаграммы.
+* **Кирилл (`@KiRyXaIvaNov`, Frontend Lead):** Клиентская архитектура SPA, дизайн-система `shadcn/ui`, xyflow-диаграммы.
 * **Егор (`@Bruuhher`, DevOps / Infra Portal):** Контейнеризация витрины (SPA + BFF), локальное окружение, CI/CD.
 * **Екатерина (`@katyaand007`, UX/UI Designer):** CJM ключевых сценариев, UI-kit, вайрфреймы в Figma.
 

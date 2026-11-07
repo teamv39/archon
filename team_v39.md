@@ -77,13 +77,13 @@ Real-time системы, высоконагруженные API, ML-WAF и се
 ---
 
 ### Кирилл (`@KiRyXaIvaNov`) — Frontend Lead
-Клиентская архитектура SPA, дизайн-система `shadcn/ui`, верстка экранов и интерактивные диаграммы LikeC4.
+Клиентская архитектура SPA, дизайн-система `shadcn/ui`, верстка экранов и интерактивные диаграммы на xyflow.
 
 **Ключевые компетенции:**
 - React 18+ / TypeScript / Vite
 - Tailwind CSS & `shadcn/ui`
 - TanStack Table & TanStack Query
-- Интеграция `@likec4/diagrams`
+- Интеграция `@xyflow/react` и `elkjs`
 
 ---
 

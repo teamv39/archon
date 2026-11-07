@@ -10,7 +10,7 @@
 Закрытые эпики: ARCH-1 (OQ-1, ADR-0002), ARCH-2 (OQ-2, ADR-0003), ARCH-3 (OQ-8, ADR-0007), ARCH-4 (PoC-AGE: ARCH-17..ARCH-21, PR #44, #45), ARCH-5 (PoC-MCP: ARCH-22..ARCH-25).  
 Закрытые архитектурные развилки: OQ-1 ([ADR-0002](adr/0002-archmap-fate.md)), OQ-2 и OQ-5 ([ADR-0003](adr/0003-source-of-truth-and-tenant-isolation.md)), OQ-8 ([ADR-0007](adr/0007-saas-process-topology-and-packaging.md)), OQ-10 ([ADR-0005](adr/0005-product-scope-and-delivery-model.md)), OQ-18 и OQ-19 ([ADR-0006](adr/0006-saas-delivery-model-and-ai-native-source-of-truth.md)).  
 Физическая топология: [deployment.md](architecture/deployment.md) (3 сборочные единицы, оркестрация Temporal).  
-Ключевые вехи проектирования: [Code-to-Architecture](architecture/code-to-architecture.md) (контур извлечения и LikeC4-визуализации).  
+Ключевые вехи проектирования: [Code-to-Architecture](architecture/code-to-architecture.md) (контур извлечения и xyflow-визуализации).  
 Репозитории и треки:
 - **Инженерное ядро (`teamv39/archon`):** Core & AI сервисы, Source of Truth документации, доска [GitHub Projects: archon-core (#2)](https://github.com/orgs/teamv39/projects/2).
 - **Клиентская витрина (`teamv39/archon-portal`):** SPA + Fastify BFF, доска [GitHub Projects: archon-portal (#3)](https://github.com/orgs/teamv39/projects/3).
@@ -84,7 +84,7 @@ PoC/спайки разрешены, если привязаны к конкре
 | [#35](https://github.com/teamv39/archon/issues/35) | **ARCH-34: [Model-Ingestion]** Ingestion DAL: загрузка контракта в Apache AGE | Паша | `M` | 🔄 In progress (парсинг Extraction Contract и запись в AGE) |
 | [#36](https://github.com/teamv39/archon/issues/36) | ~~**ARCH-35: [Pipeline-RFC]** Архитектурный RFC гибридного пайплайна (extract + interpret)~~ | Миша, Денис | `S` | ✅ Done ([rfc-hybrid-repository-analysis.md](architecture/rfc-hybrid-repository-analysis.md)) |
 | [#63](https://github.com/teamv39/archon/issues/63) | **ARCH-53: [Extract-PoC]** PoC детерминированного парсера манифестов и конфигураций | Миша | `S` | Парсер манифестов и конфигов (Слой 0 по RFC ARCH-35, Ready) |
-| [#38](https://github.com/teamv39/archon/issues/38) | **ARCH-37: [Export-LikeC4]** Транслятор графа модели в LikeC4 DSL | Денис | `S` | Спека и прототип компилятора LikeC4 без легаси-кода (Ready) |
+| [#38](https://github.com/teamv39/archon/issues/38) | **ARCH-37: [Export-Graph]** Транслятор графа модели в JSON-граф для xyflow и экспорта | Денис | `S` | Спека и прототип транслятора JSON-графа ([ADR-0008](adr/0008-xyflow-replaces-likec4.md), Ready) |
 
 ---
 
@@ -164,14 +164,14 @@ desk-research отчёт с вердиктами по гипотезам (confir
 
 Когда ключевые архитектурные блокеры решены, проектируем интерфейсы между модулями.
 
-**Веха Code-to-Architecture (OQ-3, контур извлечения и LikeC4):**
+**Веха Code-to-Architecture (OQ-3, контур извлечения и визуализации на xyflow):**
 - [x] Финализация Extraction Contract v1.0 как JSON Schema ([contracts/README.md](architecture/contracts/README.md))
 - [x] Архитектурный RFC гибридного анализа репозитория ([rfc-hybrid-repository-analysis.md](architecture/rfc-hybrid-repository-analysis.md))
 - [x] Спецификация детерминированного экстрактора `extract` (Слой 0 принят в RFC гибридного анализа, задача ARCH-53)
-- [x] ТЗ на дизайн экранов витрины ([docs/design/](design/README.md) — экраны 01–04: каталог, паспорт, инбокс, LikeC4-карта)
+- [x] ТЗ на дизайн экранов витрины ([docs/design/](design/README.md) — экраны 01–04: каталог, паспорт, инбокс, xyflow-карта)
 - [x] Единый реестр моков и фикстур ядра и витрины ([mocks-and-fixtures.md](architecture/mocks-and-fixtures.md))
 - [ ] LLM-пайплайн: бенчмарк селектора файлов и экстрактора на `sample-architecture.md` (точность evidence, расход токенов)
-- [ ] Проектирование модульного LikeC4-генератора для `export` и `portal` на базе модели графа (ARCH-37)
+- [ ] Проектирование транслятора JSON-графа для `export` и `portal` на базе модели графа (ARCH-37)
 
 **Модель данных (ревизия):**
 - [ ] Проход "сущность → модуль-владелец" (атака A12)
@@ -242,10 +242,10 @@ desk-research отчёт с вердиктами по гипотезам (confir
   - [x] Паспорт сервиса (`ARCH-40` — Done, по [дизайн-спеке 02](design/02-service-passport.md))
   - [x] CJM предметной области и мудборд в Figma (`ARCH-48` — Done)
   - [x] Docker-окружение (SPA + BFF) и CI workflow (`ARCH-50`, `ARCH-51` — Done)
-  - [ ] Инбокс находок и верификация расхождений (`ARCH-41` — In progress, по [дизайн-спеке 03](design/03-assurance-inbox.md))
-  - [ ] Черновой UI-kit и вайрфреймы каталога и паспорта (`ARCH-49` — In progress)
-  - [ ] Интерактивная архитектурная карта LikeC4 (`@likec4/diagrams`, `ARCH-42` — Ready, по [дизайн-спеке 04](design/04-architecture-map.md))
-  - [ ] Проксирование и агрегация данных ядра (`ARCH-46` — Ready)
+  - [x] Инбокс находок и верификация расхождений (`ARCH-41` — Done, по [дизайн-спеке 03](design/03-assurance-inbox.md))
+  - [x] Черновой UI-kit и вайрфреймы каталога и паспорта (`ARCH-49` — Done)
+  - [ ] Интерактивная архитектурная карта на xyflow (`@xyflow/react` + `elkjs`, `ARCH-42` — In review, по [дизайн-спеке 04](design/04-architecture-map.md))
+  - [ ] Проксирование и агрегация данных ядра (`ARCH-46` — In progress)
 - [ ] `pr-bot`: GitHub App PR-бот с комментариями архитектурного диффа (`ARCH-47` / `ARCH-13`)
 - [ ] `mcp`: Production-ready MCP Server для Cursor/Copilot (`ARCH-14`)
 
@@ -270,7 +270,7 @@ desk-research отчёт с вердиктами по гипотезам (confir
 | Миша (`@vocisy`) | AI / R&D | interpret, drift, RAG-пайплайн, Production MCP-сервер (Python/FastMCP) |
 | Максим (`@lelouch-byte`) | QA / Test Engineer | Интеграционное и E2E тестирование ядра, верификация Golden Dataset, регрессионный CI-контур |
 | Артем (`@dusk190`) | Portal Tech Lead | Fastify BFF, Token Handler, Mock API, proxy ядра (`archon-portal`) |
-| Кирилл (`@KiRyXaIvaNov`) | Frontend Lead | SPA архитектура, React, Tailwind, shadcn/ui, LikeC4 (`archon-portal`) |
+| Кирилл (`@KiRyXaIvaNov`) | Frontend Lead | SPA архитектура, React, Tailwind, shadcn/ui, xyflow (`archon-portal`) |
 | Егор (`@Bruuhher`) | Portal DevOps | Docker (SPA + BFF), локальный compose, CI витрины (`archon-portal`) |
 | Катя (`@katyaand007`) | UI/UX Designer | CJM, Figma, UI-kit, макеты каталога, паспорта и инбокса (`archon-portal`) |
 

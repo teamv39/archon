@@ -16,7 +16,7 @@
 | **01** | [01-service-catalog.md](01-service-catalog.md) | Каталог сервисов (`/services`) | Реестр микросервисов, переключатель Таблица / Карточки, Tier-критичность, статусы дрейфа. |
 | **02** | [02-service-passport.md](02-service-passport.md) | Паспорт сервиса (`/services/:id`) | Детальная карточка: метаданные, локальный C4-граф зависимостей, реестр API-контрактов. |
 | **03** | [03-assurance-inbox.md](03-assurance-inbox.md) | Инбокс находок (`/findings`) | Очередь расхождений, Evidence Review (сверка доки и кода), принятие решений (Human-in-the-Loop). |
-| **04** | [04-architecture-map.md](04-architecture-map.md) | Архитектурная карта (`/architecture`) | Полноэкранный холст LikeC4, навигация по уровням C4, живая подсветка сервисов с дрейфом. |
+| **04** | [04-architecture-map.md](04-architecture-map.md) | Архитектурная карта (`/architecture`) | Полноэкранный холст xyflow (`@xyflow/react` + `elkjs`), навигация по уровням C4, живая подсветка сервисов с дрейфом. |
 
 ---
 

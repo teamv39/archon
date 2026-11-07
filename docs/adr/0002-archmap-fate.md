@@ -4,7 +4,7 @@
 
 ## Статус
 
-Accepted
+Partially Superseded ([ADR-0008](0008-xyflow-replaces-likec4.md)): в части LikeC4 (визуализация и генерация DSL); решение по судьбе прототипа и переносу Extraction Contract остаётся в силе.
 
 Закрывает [OQ-1](../architecture/open-questions.md#oq-1-судьба-прототипа-archmap).  
 Связан с [ADR-0003](0003-source-of-truth-and-tenant-isolation.md), [ADR-0004](0004-module-decomposition-revision-1.md), [ADR-0006](0006-saas-delivery-model-and-ai-native-source-of-truth.md), [вехой Code-to-Architecture](../architecture/code-to-architecture.md) и [OQ-3](../architecture/open-questions.md#oq-3-границы-и-версионирование-extraction-contract).

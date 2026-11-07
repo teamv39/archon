@@ -24,7 +24,7 @@ flowchart TD
 
     FIXTURE --> C_VAL["validate_contract.py<br/>(Pydantic / Schema)"]
     FIXTURE --> C_DAL["Ingestion DAL (ARCH-34)<br/>Kotlin DTO -> AGE"]
-    FIXTURE --> C_EXP["LikeC4 Export (ARCH-37)<br/>DSL визуализация"]
+    FIXTURE --> C_EXP["Graph Export (ARCH-37)<br/>JSON-граф для xyflow"]
 
     MCP --> M_SRV["mcp_server.py<br/>FastMCP Context Server"]
     M_SRV --> M_IDE["Cursor / Copilot / Cline<br/>Tools & Resources"]

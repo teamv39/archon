@@ -6,6 +6,8 @@
 
 Accepted (закрывает блокер OQ-8)
 
+> Примечание (2026-11-07): упоминания LikeC4 в этом ADR заменены решением [ADR-0008](0008-xyflow-replaces-likec4.md) (визуализация на `@xyflow/react` + `elkjs`).
+
 ## Контекст
 
 После принятия [ADR-0004](0004-module-decomposition-revision-1.md) (17 логических модулей) и перехода к облачной модели Managed SaaS в [ADR-0006](0006-saas-delivery-model-and-ai-native-source-of-truth.md) встал вопрос о физической топологии системы. 

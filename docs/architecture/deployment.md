@@ -14,7 +14,7 @@
 2. **Языковое разделение команд (tech-stack.md):** 
    - `archon-core-service` на **Kotlin / JVM** (Паша) объединяет всё инженерное ядро, API, работу с БД и детерминированный парсинг.
    - `archon-ai-service` на **Python** (Миша) изолирует взаимодействие с LLM, RAG и промпт-инжиниринг.
-   - `archon-portal` на **TypeScript / React** (Фронтенд / пул) отвечает за витрину и LikeC4.
+   - `archon-portal` на **TypeScript / React** (Фронтенд / пул) отвечает за витрину и интерактивную карту архитектуры (xyflow).
 3. **Оркестрация через Temporal Polyglot Workflows:** Долгие распределенные пайплайны связывают Kotlin и Python воркеры через задачи Temporal без прямого синхронного HTTP-сопряжения.
 4. **Privacy-by-default:** Исходный код клиентов обрабатывается исключительно в эфемерных RAM-дисках воркера и гарантированно удаляется после синтаксического разбора. В БД сохраняются только архитектурные метаданные и цитаты `evidence_files`.
 5. **Минимализм сетевого периметра:** В MVP используется стандартный Ingress-контроллер без раздувания отдельного кластера API Gateway.
@@ -27,7 +27,7 @@
 | :--- | :--- | :--- | :--- |
 | **`archon-core-service`** | Kotlin / JVM (Spring Boot 3 / Micronaut) | `model`, `resolve`, `policies`, `drift` (синтакс), `assurance`, `export`, `registry`, `sources`, `extract`, `reconcile`, `platform` | Основной бэкенд, REST API, Webhooks, Ingestion Workflow, взаимодействие с Apache AGE и OPA. |
 | **`archon-ai-service`** | Python 3.11+ (FastAPI, LangChain / DSPy, FastMCP) | `interpret`, `drift` (семантика), RAG-компоненты | Воркер семантического извлечения архитектуры через LLM, валидатор доказательств, векторный поиск. В MVP также хостит исследовательский FastMCP. |
-| **`archon-portal`** | TypeScript, React, Vite / Nginx | `portal` | Статическое SPA-приложение: LikeC4 интерактивный просмотрщик, каталог сервисов, инбокс находок. |
+| **`archon-portal`** | TypeScript, React, Vite / Nginx | `portal` | Статическое SPA-приложение: интерактивный холст архитектуры (xyflow), каталог сервисов, инбокс находок. |
 
 ---
 
@@ -57,7 +57,7 @@ flowchart TB
     end
 
     subgraph UNIT_PORTAL ["Сборочная единица 3: archon-portal"]
-        PortalStatic["Nginx + React SPA<br/>(@likec4/diagrams)"]
+        PortalStatic["Nginx + React SPA<br/>(@xyflow/react + elkjs)"]
     end
 
     subgraph UNIT_CORE ["Сборочная единица 1: archon-core-service (Kotlin / JVM)"]
@@ -65,7 +65,7 @@ flowchart TB
         TemporalCoreWorker["Temporal Ingestion Worker<br/>(Activity: AST Extract, Reconcile)"]
         ModelEngine["Model Engine (Apache AGE Client)"]
         PolicyEngine["Policies (OPA) & Assurance"]
-        ExportEngine["Export Engine (LikeC4 DSL)"]
+        ExportEngine["Export Engine (JSON-граф)"]
     end
 
     subgraph UNIT_AI ["Сборочная единица 2: archon-ai-service (Python)"]

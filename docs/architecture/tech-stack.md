@@ -31,7 +31,7 @@
 | **Протокол для AI-агентов** | **MCP (Model Context Protocol)** | JSON-RPC 2.0 поверх SSE / HTTP для прямой интеграции с Cursor, Copilot Workspace, Claude Desktop. |
 | **Песочницы для анализа кода** | **Эфемерные контейнеры (gVisor / K8s)** | Изолированное клонирование и парсинг кода клиентов с гарантированным удалением после извлечения фактов. |
 | **Политики архитектуры** | **Open Policy Agent (OPA / Rego)** | Индустриальный стандарт декларативных архитектурных инвариантов и проверок. |
-| **Рендеринг C4-диаграмм** | **LikeC4 / React Flow** | Декларативное описание C4-архитектуры и рендеринг интерактивных масштабируемых схем в портале. |
+| **Рендеринг C4-диаграмм** | **@xyflow/react (React Flow v12) + elkjs** | Интерактивный холст C4-схем в портале: авто-раскладка, кастомные узлы и индикаторы дрейфа ([ADR-0008](../adr/0008-xyflow-replaces-likec4.md)). |
 | **SSO / Управление доступом** | **Keycloak / SaaS Auth Gateway** | GitHub/GitLab OAuth для привязки репо, корпоративный SSO (OIDC/SAML) и генерация scoped токенов для MCP. |
 | **Хранилище секретов** | **HashiCorp Vault / Cloud KMS** | Безопасное хранение токенов интеграций GitHub App и ключей клиентов. |
 
@@ -72,7 +72,7 @@ Go из основного стека убираем. Допуск только 
 ### Блок «Витрина» (Showcase)
 * **`portal` (Веб-портал):**
   * **Стек:** TypeScript, React, Next.js / Vite, Tailwind CSS, shadcn/ui.
-  * **Библиотеки:** `@likec4/core` / `@likec4/diagrams` (интерактивные графы C4), TanStack Query (кэш данных), TanStack Table.
+  * **Библиотеки:** `@xyflow/react` + `elkjs` (интерактивные графы C4), TanStack Query (кэш данных), TanStack Table.
   * **Функционал:** Интерактивные C4-диаграммы, Spec-Drift Monitor, Knowledge Graph Explorer, Assurance Inbox.
 * **`mcp-server` (Шлюз контекста для AI-агентов):**
   * **Стек:** Kotlin (или TypeScript / Python с официальным MCP SDK).
