@@ -36,12 +36,12 @@ Compass (Atlassian), плюс Cortex, Swimm, LeanIX кратко.
 
 ### 3. User Research
 
-**Desk-research Report** — [`desk-research-report.md`](desk-research-report.md) (in progress, ARCH-29 дорожка A)
+**Desk-research Report** — [`desk-research-report.md`](desk-research-report.md) (in progress, ARCH-29)
 
 Вердикты `confirmed / adjusted / dropped` по 18 гипотезам из competitive-analysis,
 business-value-analysis, ai-context-layer-research и user-journeys. Свежий срез
 Port Context Lake / OpsLevel Context Layer / Swimm pivot (2026-09-10). Закрывает
-гейт Фазы 0 без интервью; живые интервью (дорожка B) — усиление, не блокер.
+гейт Фазы 0 без интервью; живые интервью в скоуп не входят.
 
 **User Journeys** — [`user-journeys.md`](user-journeys.md) (готово, статус: гипотезы)
 
@@ -64,8 +64,6 @@ Port Context Lake / OpsLevel Context Layer / Swimm pivot (2026-09-10). Закр�
 декомпозиция) и новые находки F10-F12 — все про контракты между модулями.
 
 **Целевые сегменты и роли:** зафиксированы в [`user-journeys.md`](user-journeys.md) и [`business-value-analysis.md`](business-value-analysis.md) (архитекторы, тимлиды, DevOps/SRE, онбординг, CISO).
-
-**Интервью (CustDev дорожка B):** качественные интервью с архитекторами и тимлидами для калибровки болей на этапе пилотов (не блокируют Фазу 0, валидированную через desk-research).
 
 ### 4. Market & Business Model
 
