@@ -2,7 +2,7 @@
 
 Документ содержит персональные программы обучения, технические спецификации задач и ссылки на учебные материалы для команды разработки клиентской витрины:
 * **Артем ([`@dusk190`](https://github.com/dusk190))** — Tech Lead / Fullstack & BFF Lead (Fastify, безопасность, Mock API, сессии).
-* **Кирилл ([`@KiRyXaIvaNov`](https://github.com/KiRyXaIvaNov)) — Frontend Lead (React SPA, Vite, Tailwind CSS, shadcn/ui, LikeC4, TanStack).
+* **Кирилл ([`@KiRyXaIvaNov`](https://github.com/KiRyXaIvaNov)) — Frontend Lead (React SPA, Vite, Tailwind CSS, shadcn/ui, xyflow, TanStack).
 * **Егор ([`@Bruuhher`](https://github.com/Bruuhher)) — DevOps / Infra (Portal Docker, docker-compose, GitHub Actions CI).
 * **Екатерина ([`@katyaand007`](https://github.com/katyaand007)) — UX/UI Designer (CJM, Figma UI-kit, вайрфреймы).
 * **Денис ([`@ischademadda`](https://github.com/ischademadda)) — Scrum Master & System Architect.
@@ -77,7 +77,7 @@
     * `GET /api/services` (каталог сервисов с пагинацией и фильтрами);
     * `GET /api/services/:id` (паспорт сервиса: зависимости, БД, контракты);
     * `GET /api/findings` (инбокс находок дрейфа с цитатами evidence);
-    * `GET /api/diagrams/c4` (структура графа LikeC4).
+    * `GET /api/diagrams/c4` (JSON-граф `{ nodes, edges }`).
 * **Задача A3: Слой аутентификации и сессий**
   * Реализовать эндпоинты входа/выхода (`POST /api/auth/login`, `POST /api/auth/logout`, `GET /api/auth/me`).
   * Настроить выдачу защищенной `HttpOnly; Secure; SameSite=Lax` сессионной cookie.
@@ -115,7 +115,7 @@
 1. Разработка SPA `archon-portal` на React 18+, TypeScript и Vite.
 2. Реализация дизайн-системы в темном инженерном стиле на базе Tailwind CSS и `shadcn/ui`.
 3. Верстка экранов: Каталог сервисов, Паспорт сервиса, Инбокс находок.
-4. Интеграция интерактивного графа C4 на базе библиотеки `@likec4/diagrams`.
+4. Интеграция интерактивного графа C4 на базе `@xyflow/react` + `elkjs`.
 5. Управление серверным состоянием и кэшированием через TanStack Query v5.
 
 ---
@@ -160,9 +160,9 @@
 * Headless-подход: библиотека дает логику сортировки, фильтрации и пагинации, а разметку вы пишите на Tailwind.
 * Создание колонок через `createColumnHelper`.
 
-#### Тема 5: Архитектурные графы LikeC4
+#### Тема 5: Архитектурные графы на xyflow
 * Изучение базовой концепции C4: System Context, Containers, Components.
-* Подключение React-компонента `<LikeC4Diagram viewId="..." />` из `@likec4/diagrams`.
+* Подключение `<ReactFlow />` из `@xyflow/react`, кастомные `nodeTypes` и `edgeTypes`, раскладка через `elkjs`.
 * Обработка событий клика по узлу графа для открытия сайдбара с паспортом сервиса.
 
 ---
@@ -187,8 +187,8 @@
   * Страница `/findings`: список выявленных расхождений с фильтром по статусу (`New`, `Confirmed`, `Risk Accepted`).
   * Модальное окно «Evidence Review»: отображение цитаты из доки рядом с цитатой кода (`src/auth.py#L20-L35`).
   * Кнопки действий с вызовом мутаций: «Подтвердить», «Принять риск», «Ложная тревога».
-* **Задача K5: Интеграция LikeC4**
-  * Страница `/architecture`: встраивание интерактивного холста LikeC4.
+* **Задача K5: Интеграция xyflow**
+  * Страница `/architecture`: интерактивный холст на xyflow.
   * Настройка зума и перехода в Паспорт сервиса при клике на узел диаграммы.
 
 ---
@@ -207,8 +207,8 @@
    * Блог TkDodo (лучший ресурс по React Query в мире): [Practical React Query](https://tkdodo.eu/blog/practical-react-query)
    * Руководство TanStack Table: [TanStack Table v8 Quick Start](https://tanstack.com/table/latest/docs/introduction)
 4. **Архитектурные диаграммы:**
-   * Официальный сайт LikeC4: [LikeC4 Documentation & Tutorial](https://likec4.dev/tutorial/)
-   * LikeC4 React integration: [LikeC4 React Components Overview](https://likec4.dev/tooling/react/)
+   * Документация React Flow: [React Flow Learn](https://reactflow.dev/learn)
+   * Раскладка графов: [elkjs](https://github.com/kieler/elkjs)
 5. **Видео:**
    * YouTube: *Build a Modern Dashboard with React, Tailwind, and shadcn/ui*
    * YouTube: *TanStack Query in 100 Seconds & Full Tutorial*

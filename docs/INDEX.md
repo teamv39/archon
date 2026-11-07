@@ -20,6 +20,7 @@
 - [ADR-0005: Граница скоупа и модель поставки](adr/0005-product-scope-and-delivery-model.md) — слой знаний, адаптеры (модель поставки заменена в ADR-0006)
 - [ADR-0006: Модель поставки Managed SaaS и AI-native Source of Truth](adr/0006-saas-delivery-model-and-ai-native-source-of-truth.md) — переход к Context-as-a-Service, MCP-сервер, Web-портал, API и Git Sync
 - [ADR-0007: Физическая топология процессов SaaS и упаковка модулей](adr/0007-saas-process-topology-and-packaging.md) — 3 сборочные единицы (Core, AI, Portal), оркестрация Temporal, Privacy-by-default
+- [ADR-0008: @xyflow/react и elkjs заменяют LikeC4](adr/0008-xyflow-replaces-likec4.md) — полный отказ от LikeC4, JSON-граф от BFF, холст на React Flow
 - [ADR Template](adr/TEMPLATE.md) — шаблон для новых ADR
 
 ## Архитектура системы
@@ -28,7 +29,7 @@
 - [Physical Deployment & Topology](architecture/deployment.md) — физическая топология процессов, сетевой периметр, конвейер Temporal и изоляция данных
 - [Tech Stack Proposal](architecture/tech-stack.md) — предлагаемый технологический стек (Go vs Kotlin, библиотеки, инфраструктура)
 - [Architecture Overview](architecture/README.md) — высокоуровневая архитектура
-- [Code-to-Architecture Milestone](architecture/code-to-architecture.md) — веха проектирования контура автоматического извлечения и LikeC4-визуализации
+- [Code-to-Architecture Milestone](architecture/code-to-architecture.md) — веха проектирования контура автоматического извлечения и xyflow-визуализации
 - [RFC: Hybrid Repository Analysis Pipeline](architecture/rfc-hybrid-repository-analysis.md) — концепция и пайплайн гибридного анализа кода (детерминированный + LLM)
 - [RFC: Architecture Canvas on React Flow](architecture/rfc-architecture-canvas-react-flow.md) — замена LikeC4 на @xyflow/react + elkjs: архитектура холста, кастомные узлы дрейфа и JSON API
 - [Data Model](architecture/data-model.md) — модель данных Knowledge Graph
@@ -38,7 +39,7 @@
 - [Prototypes & Dumps](architecture/prototypes/README.md) — прототипы и дампы: разбор archmap, Extraction Contract v1.0, промпты и генератор LikeC4
 - [Sample Architecture](architecture/sample-architecture.md) — эталонная тестовая архитектура (Golden Dataset для PoC и тестов)
 - [Mocks & Fixtures Registry](architecture/mocks-and-fixtures.md) — единый реестр моков, фикстур и тестовых данных (Extraction Contract, FastMCP, Apache AGE, Golden Dataset)
-- [Design Specifications](design/README.md) — реестр технических заданий на дизайн витрины (каталог, паспорт, инбокс, LikeC4)
+- [Design Specifications](design/README.md) — реестр технических заданий на дизайн витрины (каталог, паспорт, инбокс, карта архитектуры)
 
 ## Research & Analysis
 

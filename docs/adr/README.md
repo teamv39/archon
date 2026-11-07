@@ -1,7 +1,7 @@
 # Architecture Decision Records
 
 > **Раздел:** `docs/adr/` (Архитектурные решения)  
-> **Статус:** Актуально (ADR-0001 .. ADR-0006)  
+> **Статус:** Актуально (ADR-0001 .. ADR-0008)  
 > **Навигация:** [Корень проекта](../../README.md) | [Документация](../README.md) | [Полный индекс](../INDEX.md) | [Шаблон ADR](TEMPLATE.md)
 
 История всех значимых архитектурных решений в проекте.
@@ -17,6 +17,7 @@
 | [0005](0005-product-scope-and-delivery-model.md) | Граница скоупа и модель поставки | Partially Superseded (ADR-0006) | 2026-09-02 |
 | [0006](0006-saas-delivery-model-and-ai-native-source-of-truth.md) | Модель поставки Managed SaaS и AI-native Source of Truth | Accepted | 2026-09-03 |
 | [0007](0007-saas-process-topology-and-packaging.md) | Физическая топология процессов SaaS и упаковка модулей | Accepted | 2026-09-07 |
+| [0008](0008-xyflow-replaces-likec4.md) | @xyflow/react и elkjs заменяют LikeC4 | Accepted | 2026-11-07 |
 
 ## Что фиксировать в ADR
 

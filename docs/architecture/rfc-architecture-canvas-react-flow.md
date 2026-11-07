@@ -1,6 +1,6 @@
 # RFC: Интерактивный архитектурный холст на базе React Flow (Architecture Canvas on React Flow)
 
-> **Статус:** Proposed (На обсуждении)  
+> **Статус:** Accepted (принято на созвоне 2026-11-07, см. [ADR-0008](../adr/0008-xyflow-replaces-likec4.md))  
 > **Инициаторы:** Команда разработки веб-витрины (Portal UI & BFF)  
 > **Дата:** 2026-11-01  
 > **Целевые задачи:** [ARCH-42: Интерактивная архитектурная карта](https://github.com/teamv39/archon/issues/8), [ARCH-40: Паспорт сервиса](https://github.com/teamv39/archon/issues/6), [ARCH-46: BFF агрегация данных](https://github.com/teamv39/archon/issues/12)  

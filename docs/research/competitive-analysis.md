@@ -138,7 +138,7 @@ on-prem/cloud; с упором на "architecture as code".
   (`extract` + `reconcile` + `model → portal`).
 
 Урок для Archon: Structurizr — формат/нотация, а не конкурент.
-`model` Archon должен уметь экспортировать в Structurizr DSL / LikeC4
+`model` Archon должен уметь экспортировать в Structurizr DSL / JSON-граф
 (как уже делает прототип `archmap`), а не спорить с ним.
 
 ### IcePanel
@@ -215,7 +215,7 @@ on-prem/cloud; с упором на "architecture as code".
 - `registry` + `sources` — делать совместимыми с Backstage
   catalog-info и Port blueprints на входе (миграция без переписывания
   YAML). Это снижает барьер внедрения.
-- `model` — внешний контракт: экспорт в Structurizr DSL / LikeC4
+- `model` — внешний контракт: экспорт в Structurizr DSL / JSON-граф
   обязателен с MVP (прототип `archmap` уже это делает).
 - `policies` — не повторять TechInsights/scorecards 1:1, а бить в
   структурные аномалии графа (циклы, shared DB, нарушение слоёв),
