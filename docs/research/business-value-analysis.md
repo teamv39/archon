@@ -127,14 +127,14 @@
 
 | Продукт | Модель | Цена | Что получаешь |
 | :--- | :--- | :--- | :--- |
-| **Port** | Per-seat/month, SaaS | Free (до 15 чел), $30 (Basic, до 50), $40 (Standard, до 200), Custom (Enterprise) | Каталог + scorecards + AI agents, NO drift |
+| **Port** | Per-seat/month, SaaS | Free (до 5 мест), $30 (Basic, до 50), $48 (Standard, до 50), Custom (Enterprise); проверено 2026-11-07 | Каталог + scorecards + AI agents, NO drift |
 | **OpsLevel** | Per-developer, SaaS | Custom pricing (не публичная), контакт sales | Каталог + checks + campaigns, NO drift |
 | **Swimm** | Custom (services) | Не публикуется, "Book a call" | Docs drift на уровне сниппетов, NO архитектурный граф |
 | **Backstage** | OSS (бесплатно) | $0 + команда на поддержку (1-3 FTE) | Каталог-фреймворк, NO drift |
 | **Structurizr** | Flat license | ~$200/мес (cloud), $3,000/год (on-prem) | C4-диаграммы, NO drift, NO каталог |
 
 **Вывод по ценообразованию:**
-- $30-40/seat/month — нижняя граница рынка IDP (Port)
+- $30-48/seat/month — нижняя граница рынка IDP (Port)
 - Enterprise custom pricing скрывает реальные цифры ($50-100/seat/month — типичный диапазон для OpsLevel/Cortex)
 - Backstage "бесплатен", но стоит 1-3 FTE ($150K-450K/год) на поддержку
 
@@ -279,7 +279,7 @@ Swimm переключился на "Agentic Development Context Layer".
 
 ### Ценовой потолок
 
-Port Free (15 seats) + Backstage (OSS) создают ценовой пол. Enterprise-клиенты платят $50-100/seat, но ожидают зрелый продукт с SSO, RBAC, SLA.
+Port Free (5 seats) + Backstage (OSS) создают ценовой пол. Enterprise-клиенты платят $50-100/seat, но ожидают зрелый продукт с SSO, RBAC, SLA.
 
 Archon на старте не может конкурировать по полноте с Port/OpsLevel. Но может побить их в нише: **"мы находим то, что они не видят" (drift) + "мы работаем в вашем контуре" (self-hosted)**.
 
